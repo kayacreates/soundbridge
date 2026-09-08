@@ -1,0 +1,54 @@
+# WordPress core
+/wp-admin/
+/wp-includes/
+/wp-*.php
+/index.php
+/license.txt
+/readme.html
+/xmlrpc.php
+
+# Generated/user content
+/wp-content/uploads/
+/wp-content/cache/
+/wp-content/upgrade/
+/wp-content/backups/
+
+# Secrets and local configuration
+/wp-config.php
+/.htaccess
+
+# Dependencies and system files
+/vendor/
+/node_modules/
+.DS_Store
+
+# Environment and credentials
+.env
+.env.*
+!.env.example
+auth.json
+
+# Logs and debugging
+*.log
+/wp-content/debug.log
+/error_log
+/php_error.log
+
+# Database dumps and archives
+*.sql
+*.sql.gz
+*.zip
+*.tar
+*.tar.gz
+
+# Common WordPress-generated directories
+/wp-content/ai1wm-backups/
+/wp-content/updraft/
+/wp-content/wflogs/
+/wp-content/litespeed/
+/wp-content/et-cache/
+
+# IDE files
+.idea/
+.vscode/
+*.swp
