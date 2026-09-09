@@ -13,6 +13,15 @@
     "html": false
   },
   "attributes": {
+    "textAlignment": {
+      "type": "string",
+      "enum": [
+        "left",
+        "center",
+        "right"
+      ],
+      "default": "left"
+    },
     "eyebrow": {
       "type": "string",
       "default": ""

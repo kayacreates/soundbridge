@@ -16,7 +16,7 @@ require_once get_template_directory() . '/inc/setup.php';
  * Display a dashboard notice when the companion plugin is not active.
  */
 function soundbridge_core_companion_notice() {
-    if (!current_user_can('activate_plugins') || class_exists('SoundBridge_Blocks')) {
+    if (!current_user_can('activate_plugins') || defined('SOUNDBRIDGE_BLOCKS_DIR')) {
         return;
     }
 

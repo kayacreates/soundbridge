@@ -13,6 +13,15 @@
     "html": false
   },
   "attributes": {
+    "background": {
+      "type": "string",
+      "enum": [
+        "white",
+        "pale-blue",
+        "deep-blue"
+      ],
+      "default": "white"
+    },
     "eyebrow": {
       "type": "string",
       "default": "Music belongs to everyone."
@@ -25,6 +34,27 @@
       "type": "string",
       "default": "Accessible music education for young people across the Saginaw Bay region."
     },
+    "showStats": {
+      "type": "boolean",
+      "default": true
+    },
+    "stats": {
+      "type": "array",
+      "default": [
+        {
+          "value": "99%",
+          "label": "Student Satisfaction"
+        },
+        {
+          "value": "1,000+",
+          "label": "Community Members"
+        },
+        {
+          "value": "30+",
+          "label": "Active Students"
+        }
+      ]
+    },
     "imageId": {
       "type": "number",
       "default": 0
@@ -36,6 +66,30 @@
     "imageAlt": {
       "type": "string",
       "default": ""
+    },
+    "showRegistration": {
+      "type": "boolean",
+      "default": false
+    },
+    "registrationStatus": {
+      "type": "string",
+      "default": "Registration Open"
+    },
+    "registrationTitle": {
+      "type": "string",
+      "default": "Chamber Music Camp 2026"
+    },
+    "registrationDetails": {
+      "type": "string",
+      "default": "June 22–26 · Saginaw, MI"
+    },
+    "registrationButtonLabel": {
+      "type": "string",
+      "default": "Register Now"
+    },
+    "registrationButtonUrl": {
+      "type": "string",
+      "default": "/programs/chamber-music-camp"
     },
     "showPrimaryButton": {
       "type": "boolean",

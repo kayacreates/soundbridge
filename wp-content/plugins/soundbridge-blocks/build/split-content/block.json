@@ -1,10 +1,10 @@
 {
   "apiVersion": 3,
   "name": "soundbridge/split-content",
-  "title": "Split Content",
+  "title": "Intro / About",
   "category": "soundbridge",
   "icon": "layout",
-  "description": "Two-column text and image section",
+  "description": "Homepage introduction with overlapping images, impact metrics, and an optional story link",
   "supports": {
     "align": [
       "wide",
@@ -15,15 +15,15 @@
   "attributes": {
     "eyebrow": {
       "type": "string",
-      "default": ""
+      "default": "Since 1999"
     },
     "heading": {
       "type": "string",
-      "default": "A place to grow through music."
+      "default": "The right opportunity can turn dreams into limitless potential."
     },
     "text": {
       "type": "string",
-      "default": ""
+      "default": "Founded to make music accessible for every student in the Saginaw Bay community, SoundBridge pairs students with professional educators and real performance opportunities from day one."
     },
     "imageId": {
       "type": "number",
@@ -37,13 +37,54 @@
       "type": "string",
       "default": ""
     },
+    "secondaryImageId": {
+      "type": "number",
+      "default": 0
+    },
+    "secondaryImageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "secondaryImageAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "metrics": {
+      "type": "array",
+      "default": [
+        {
+          "value": "30%",
+          "label": "Growing Students",
+          "detail": "year over year",
+          "progress": 30
+        },
+        {
+          "value": "95%",
+          "label": "Career Connections",
+          "detail": "related to field of study",
+          "progress": 95
+        }
+      ]
+    },
+    "showButton": {
+      "type": "boolean",
+      "default": true
+    },
+    "buttonLabel": {
+      "type": "string",
+      "default": "Our Full Story →"
+    },
+    "buttonUrl": {
+      "type": "string",
+      "default": "/about"
+    },
     "reverse": {
       "type": "boolean",
       "default": false
     },
     "background": {
       "type": "string",
-      "default": "white"
+      "default": "blue"
     }
   },
   "editorScript": "file:./index.js",
