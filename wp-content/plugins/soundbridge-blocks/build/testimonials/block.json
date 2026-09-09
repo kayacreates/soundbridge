@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "soundbridge/testimonials",
+  "title": "Testimonials",
+  "category": "soundbridge",
+  "icon": "format-quote",
+  "description": "Display editable community testimonials in a card grid.",
+  "keywords": [
+    "testimonial",
+    "quote",
+    "review"
+  ],
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ],
+    "html": false
+  },
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Testimonials"
+    },
+    "heading": {
+      "type": "string",
+      "default": "Voices From Our Community"
+    },
+    "items": {
+      "type": "array",
+      "default": [
+        {
+          "name": "Leslie Alexander",
+          "role": "Parent, Violin Club",
+          "body": "My daughter has grown so much — not just musically, but in confidence and community spirit. SoundBridge is unlike anything we've found locally.",
+          "stars": 5
+        },
+        {
+          "name": "Maria Sanchez",
+          "role": "Parent, Chamber Camp",
+          "body": "The teachers genuinely care about every student. Watching my son perform in his first concert was one of the best experiences of our family's year.",
+          "stars": 5
+        },
+        {
+          "name": "Ralph Edwards",
+          "role": "Community Partner",
+          "body": "It's truly community-driven. Teachers know every student by name and bring out the best in each child they work with.",
+          "stars": 5
+        }
+      ]
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css"
+}

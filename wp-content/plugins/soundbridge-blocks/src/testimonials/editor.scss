@@ -1,0 +1,19 @@
+.sb-testimonial {
+  position: relative;
+
+  &__controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: 4px;
+  }
+
+  &__rating-control {
+    margin-bottom: 0;
+
+    .components-base-control__field { margin-bottom: 0; }
+  }
+
+  .dashicons { width: 20px; height: 20px; font-size: 20px; line-height: 1; }
+}
+
+.sb-testimonials__add { margin-top: 20px; }
