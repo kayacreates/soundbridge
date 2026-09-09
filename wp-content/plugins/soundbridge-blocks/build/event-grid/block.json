@@ -1,10 +1,10 @@
 {
   "apiVersion": 3,
   "name": "soundbridge/event-grid",
-  "title": "Event Grid",
+  "title": "Events",
   "category": "soundbridge",
   "icon": "layout",
-  "description": "Dynamic grid of Event posts",
+  "description": "Display upcoming Event posts in a compact news-style list.",
   "supports": {
     "align": [
       "wide",
@@ -13,13 +13,29 @@
     "html": false
   },
   "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "News & Events"
+    },
     "heading": {
       "type": "string",
-      "default": "Upcoming events"
+      "default": "News about SoundBridge"
     },
     "count": {
       "type": "number",
-      "default": 6
+      "default": 3
+    },
+    "showButton": {
+      "type": "boolean",
+      "default": true
+    },
+    "buttonLabel": {
+      "type": "string",
+      "default": "See All Events →"
+    },
+    "buttonUrl": {
+      "type": "string",
+      "default": "/events"
     }
   },
   "editorScript": "file:./index.js",
