@@ -1,0 +1,23 @@
+.sb-program-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px;
+  margin-top: 34px;
+}
+
+.sb-program-card {
+  overflow: hidden;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 1px 0 rgba(14, 38, 80, 0.02);
+
+  img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+  > div { padding: 28px; }
+  h2 a,
+  h3 a { color: var(--ink); text-decoration: none; }
+}
+
+@media (max-width: 800px) {
+  .sb-program-grid { grid-template-columns: 1fr; }
+}

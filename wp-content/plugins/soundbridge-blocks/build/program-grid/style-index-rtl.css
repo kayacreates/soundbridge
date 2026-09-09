@@ -1,1 +1,1 @@
-
+.sb-program-grid{display:grid;gap:28px;grid-template-columns:repeat(2,1fr);margin-top:34px}.sb-program-card{background:var(--white);border:1px solid var(--border);border-radius:var(--radius);box-shadow:0 1px 0 rgba(14,38,80,.02);overflow:hidden}.sb-program-card img{aspect-ratio:16/10;object-fit:cover;width:100%}.sb-program-card>div{padding:28px}.sb-program-card h2 a,.sb-program-card h3 a{color:var(--ink);text-decoration:none}@media(max-width:800px){.sb-program-grid{grid-template-columns:1fr}}

@@ -7,9 +7,9 @@ export default function save({ attributes }) {
         <section className="sb-stats alignfull">
             <div className="sb-container sb-stats__grid">
                 {items.map((item, index) => (
-                    <div key={index}>
-                        <RichText.Content tagName="strong" value={item.value || ''} />
-                        <RichText.Content tagName="span" value={item.label || ''} />
+                    <div className="sb-stats__item" key={index}>
+                        <RichText.Content tagName="p" className="sb-stats__stat" value={item.value || ''} />
+                        <RichText.Content tagName="p" className="sb-stats__label" value={item.label || ''} />
                     </div>
                 ))}
             </div>

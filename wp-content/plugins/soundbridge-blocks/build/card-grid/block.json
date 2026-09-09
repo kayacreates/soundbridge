@@ -38,14 +38,23 @@
       "type": "array",
       "default": [
         {
+          "iconId": 0,
+          "iconUrl": "",
+          "iconAlt": "",
           "title": "Accessible Programs",
           "text": "Welcoming music education for students at every stage."
         },
         {
+          "iconId": 0,
+          "iconUrl": "",
+          "iconAlt": "",
           "title": "Community Connection",
           "text": "Creating relationships through shared music-making."
         },
         {
+          "iconId": 0,
+          "iconUrl": "",
+          "iconAlt": "",
           "title": "Student Growth",
           "text": "Building confidence, musicianship, and belonging."
         }

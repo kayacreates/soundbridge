@@ -1,1 +1,1 @@
-
+.sb-stats{background:var(--blue);color:var(--white);padding:52px 0}.sb-stats__grid{display:grid;grid-template-columns:repeat(4,1fr);text-align:center}.sb-stats__item{min-width:0;padding:24px 16px}.sb-stats__stat{display:block;font-family:Fraunces,serif;font-size:2.6rem;margin:0}.sb-stats__label{margin:8px 0 0;opacity:.82}@media(max-width:800px){.sb-stats__grid{gap:28px;grid-template-columns:1fr}}

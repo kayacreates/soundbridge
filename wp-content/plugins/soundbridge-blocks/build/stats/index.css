@@ -1,1 +1,1 @@
-.sb-editor-placeholder{background:#f0f4fa;border:1px dashed #b8c8de;border-radius:12px;padding:24px}.sb-editor-placeholder h2{font-family:Georgia,serif;font-size:28px}.sb-editor-placeholder p{max-width:760px}
+.sb-stats__controls{display:flex;gap:4px;justify-content:center;margin-bottom:16px}.sb-stats__control{min-width:32px;padding:0 6px}.sb-stats .dashicons{flex:0 0 20px;font-size:20px;height:20px;line-height:1;width:20px}.sb-stats__label,.sb-stats__stat{cursor:text}

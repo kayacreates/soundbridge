@@ -36,6 +36,13 @@ function soundbridge_blocks_register_blocks(): void
 }
 add_action('init', 'soundbridge_blocks_register_blocks');
 
+/** Load WordPress Dashicons wherever block assets are rendered, including the editor iframe. */
+function soundbridge_blocks_enqueue_dashicons(): void
+{
+    wp_enqueue_style('dashicons');
+}
+add_action('enqueue_block_assets', 'soundbridge_blocks_enqueue_dashicons');
+
 /** Add a dedicated block-inserter category. */
 function soundbridge_blocks_category(array $categories): array
 {

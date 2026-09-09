@@ -15,6 +15,17 @@ export default function save({ attributes }) {
                 <div className="sb-card-grid">
                     {cards.map((card, index) => (
                         <article className="sb-card" key={index}>
+                            {card.iconUrl && (
+                                <div className="sb-card__icon">
+                                    <span
+                                        className="sb-card__svg"
+                                        role={card.iconAlt ? 'img' : undefined}
+                                        aria-label={card.iconAlt || undefined}
+                                        aria-hidden={card.iconAlt ? undefined : true}
+                                        style={{ '--sb-card-svg': `url("${card.iconUrl}")` }}
+                                    />
+                                </div>
+                            )}
                             <RichText.Content tagName="h3" value={card.title || ''} />
                             <RichText.Content tagName="p" value={card.text || ''} />
                         </article>
