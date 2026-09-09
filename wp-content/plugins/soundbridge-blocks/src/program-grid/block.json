@@ -1,0 +1,29 @@
+{
+  "apiVersion": 3,
+  "name": "soundbridge/program-grid",
+  "title": "Program Grid",
+  "category": "soundbridge",
+  "icon": "layout",
+  "description": "Dynamic grid of Program posts",
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ],
+    "html": false
+  },
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": "Programs"
+    },
+    "count": {
+      "type": "number",
+      "default": 6
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css",
+  "render": "file:./render.php"
+}

@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "start": "wp-scripts start",
+    "build": "wp-scripts build"
+  },
+  "devDependencies": {
+    "@wordpress/scripts": "^30.25.0",
+    "@wordpress/server-side-render": "^6.28.0"
+  }
+}

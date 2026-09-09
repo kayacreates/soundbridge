@@ -1,0 +1,29 @@
+{
+  "apiVersion": 3,
+  "name": "soundbridge/event-grid",
+  "title": "Event Grid",
+  "category": "soundbridge",
+  "icon": "layout",
+  "description": "Dynamic grid of Event posts",
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ],
+    "html": false
+  },
+  "attributes": {
+    "heading": {
+      "type": "string",
+      "default": "Upcoming events"
+    },
+    "count": {
+      "type": "number",
+      "default": 6
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css",
+  "render": "file:./render.php"
+}

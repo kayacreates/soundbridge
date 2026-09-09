@@ -1,3 +1,7 @@
+# Do not ignore
+!.gitignore
+!readme.md
+
 # WordPress core
 /wp-admin/
 /wp-includes/
@@ -17,10 +21,34 @@
 /wp-config.php
 /.htaccess
 
-# Dependencies and system files
-/vendor/
-/node_modules/
-.DS_Store
+# Ignore Directories
+node_modules/
+.sass_cache/
+/wp-content/cache/
+/wp-content/themes/twenty*
+/wp-content/uploads
+
+# OS or IDE folders/files to ignore
+*~
+._*
+*.lock
+*.DS_Store
+*.swp
+*.out
+*.log
+.cache
+.idea
+.project
+.settings
+.ftpquota
+.sass_cache
+error_log
+nbproject
+thumb.db
+Thumbs.db
+desktop.ini
+folder.jpg
+.code-workspace
 
 # Environment and credentials
 .env

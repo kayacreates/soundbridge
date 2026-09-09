@@ -1,0 +1,68 @@
+{
+  "apiVersion": 3,
+  "name": "soundbridge/hero",
+  "title": "Hero",
+  "category": "soundbridge",
+  "icon": "layout",
+  "description": "Large page or homepage hero with image and CTAs",
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ],
+    "html": false
+  },
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Music belongs to everyone."
+    },
+    "heading": {
+      "type": "string",
+      "default": "Building community through music."
+    },
+    "text": {
+      "type": "string",
+      "default": "Accessible music education for young people across the Saginaw Bay region."
+    },
+    "imageId": {
+      "type": "number",
+      "default": 0
+    },
+    "imageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "imageAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "showPrimaryButton": {
+      "type": "boolean",
+      "default": true
+    },
+    "primaryLabel": {
+      "type": "string",
+      "default": "Explore Programs"
+    },
+    "primaryUrl": {
+      "type": "string",
+      "default": "/programs"
+    },
+    "showSecondaryButton": {
+      "type": "boolean",
+      "default": true
+    },
+    "secondaryLabel": {
+      "type": "string",
+      "default": "Get Involved"
+    },
+    "secondaryUrl": {
+      "type": "string",
+      "default": "/get-involved"
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css"
+}

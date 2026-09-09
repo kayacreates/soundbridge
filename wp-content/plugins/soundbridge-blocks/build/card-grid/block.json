@@ -1,0 +1,49 @@
+{
+  "apiVersion": 3,
+  "name": "soundbridge/card-grid",
+  "title": "Card Grid",
+  "category": "soundbridge",
+  "icon": "layout",
+  "description": "Editable feature card grid",
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ],
+    "html": false
+  },
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": ""
+    },
+    "heading": {
+      "type": "string",
+      "default": "How we help"
+    },
+    "intro": {
+      "type": "string",
+      "default": ""
+    },
+    "cards": {
+      "type": "array",
+      "default": [
+        {
+          "title": "Accessible Programs",
+          "text": "Welcoming music education for students at every stage."
+        },
+        {
+          "title": "Community Connection",
+          "text": "Creating relationships through shared music-making."
+        },
+        {
+          "title": "Student Growth",
+          "text": "Building confidence, musicianship, and belonging."
+        }
+      ]
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css"
+}

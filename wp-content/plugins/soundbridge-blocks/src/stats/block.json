@@ -1,0 +1,37 @@
+{
+  "apiVersion": 3,
+  "name": "soundbridge/stats",
+  "title": "Stats",
+  "category": "soundbridge",
+  "icon": "layout",
+  "description": "Impact statistics row",
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ],
+    "html": false
+  },
+  "attributes": {
+    "items": {
+      "type": "array",
+      "default": [
+        {
+          "value": "5+",
+          "label": "Years of summer camp"
+        },
+        {
+          "value": "100+",
+          "label": "Young musicians served"
+        },
+        {
+          "value": "100%",
+          "label": "Community supported"
+        }
+      ]
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css"
+}

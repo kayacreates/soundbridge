@@ -1,0 +1,41 @@
+{
+  "apiVersion": 3,
+  "name": "soundbridge/faq",
+  "title": "FAQ",
+  "category": "soundbridge",
+  "icon": "layout",
+  "description": "Accordion FAQ section",
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ],
+    "html": false
+  },
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": "Questions"
+    },
+    "heading": {
+      "type": "string",
+      "default": "Frequently asked questions"
+    },
+    "items": {
+      "type": "array",
+      "default": [
+        {
+          "q": "Who can participate?",
+          "a": "SoundBridge programs serve young musicians across a range of ages and experience levels."
+        },
+        {
+          "q": "Are scholarships available?",
+          "a": "Yes. Need-based support is available for eligible programs."
+        }
+      ]
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css"
+}

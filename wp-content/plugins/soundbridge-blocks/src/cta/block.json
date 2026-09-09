@@ -1,0 +1,40 @@
+{
+  "apiVersion": 3,
+  "name": "soundbridge/cta",
+  "title": "Call to Action",
+  "category": "soundbridge",
+  "icon": "layout",
+  "description": "Full-width CTA section",
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ],
+    "html": false
+  },
+  "attributes": {
+    "showButton": {
+      "type": "boolean",
+      "default": true
+    },
+    "heading": {
+      "type": "string",
+      "default": "Ready to make music with us?"
+    },
+    "text": {
+      "type": "string",
+      "default": "Find a program, volunteer, donate, or simply come to a concert."
+    },
+    "buttonLabel": {
+      "type": "string",
+      "default": "Get Involved"
+    },
+    "buttonUrl": {
+      "type": "string",
+      "default": "/get-involved"
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css"
+}

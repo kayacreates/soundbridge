@@ -1,0 +1,92 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
+  "settings": {
+    "appearanceTools": true,
+    "layout": {
+      "contentSize": "760px",
+      "wideSize": "1200px"
+    },
+    "color": {
+      "palette": [
+        {
+          "slug": "blue",
+          "color": "#1d4080",
+          "name": "SoundBridge Blue"
+        },
+        {
+          "slug": "blue-dark",
+          "color": "#0e2650",
+          "name": "Deep Blue"
+        },
+        {
+          "slug": "blue-pale",
+          "color": "#e8eef8",
+          "name": "Pale Blue"
+        },
+        {
+          "slug": "blue-section",
+          "color": "#f0f4fa",
+          "name": "Section Blue"
+        },
+        {
+          "slug": "ink",
+          "color": "#0f1923",
+          "name": "Ink"
+        },
+        {
+          "slug": "ink-mid",
+          "color": "#374855",
+          "name": "Ink Mid"
+        },
+        {
+          "slug": "border",
+          "color": "#dce4ed",
+          "name": "Border"
+        },
+        {
+          "slug": "white",
+          "color": "#ffffff",
+          "name": "White"
+        },
+        {
+          "slug": "amber",
+          "color": "#b06c00",
+          "name": "Amber"
+        }
+      ]
+    },
+    "typography": {
+      "fontFamilies": [
+        {
+          "fontFamily": "Inter, system-ui, sans-serif",
+          "slug": "sans",
+          "name": "Inter"
+        },
+        {
+          "fontFamily": "Fraunces, Georgia, serif",
+          "slug": "display",
+          "name": "Fraunces"
+        }
+      ]
+    },
+    "spacing": {
+      "units": [
+        "px",
+        "rem",
+        "%",
+        "vw",
+        "vh"
+      ]
+    }
+  },
+  "styles": {
+    "typography": {
+      "fontFamily": "var(--wp--preset--font-family--sans)"
+    },
+    "color": {
+      "text": "#0f1923",
+      "background": "#ffffff"
+    }
+  }
+}

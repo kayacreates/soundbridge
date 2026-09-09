@@ -1,0 +1,52 @@
+{
+  "apiVersion": 3,
+  "name": "soundbridge/split-content",
+  "title": "Split Content",
+  "category": "soundbridge",
+  "icon": "layout",
+  "description": "Two-column text and image section",
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ],
+    "html": false
+  },
+  "attributes": {
+    "eyebrow": {
+      "type": "string",
+      "default": ""
+    },
+    "heading": {
+      "type": "string",
+      "default": "A place to grow through music."
+    },
+    "text": {
+      "type": "string",
+      "default": ""
+    },
+    "imageId": {
+      "type": "number",
+      "default": 0
+    },
+    "imageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "imageAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "reverse": {
+      "type": "boolean",
+      "default": false
+    },
+    "background": {
+      "type": "string",
+      "default": "white"
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css"
+}
