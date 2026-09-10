@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "soundbridge/timeline",
+  "title": "History Timeline",
+  "category": "soundbridge",
+  "icon": "backup",
+  "description": "An editable history timeline for milestones.",
+  "supports": { "align": ["wide", "full"], "html": false, "anchor": true },
+  "attributes": {
+    "eyebrow": { "type": "string", "default": "Our History" },
+    "heading": { "type": "string", "default": "Growing with our community." },
+    "items": {
+      "type": "array",
+      "default": [
+        { "year": "1999", "title": "Founded", "body": "SoundBridge is established with a mission to make music accessible to every student in the Saginaw Bay community." },
+        { "year": "2005", "title": "Community Roots Deepen", "body": "Partnerships with local schools and community centers expand the reach of SoundBridge programs across the region." },
+        { "year": "2018", "title": "The Violin Club Launches", "body": "Our signature ongoing ensemble program opens its doors and quickly becomes a community favorite." },
+        { "year": "2022", "title": "Summer Workshops Begin", "body": "The first summer intensive brings professional coaching to young musicians." },
+        { "year": "2026", "title": "5th Annual Chamber Music Camp", "body": "The expanded SoundBridge Chamber Music Camp enters its fifth year with growing enrollment and faculty." }
+      ]
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css"
+}

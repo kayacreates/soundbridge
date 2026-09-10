@@ -1,10 +1,10 @@
 {
   "apiVersion": 3,
   "name": "soundbridge/split-content",
-  "title": "Intro / About",
+  "title": "Split Content",
   "category": "soundbridge",
   "icon": "layout",
-  "description": "Homepage introduction with overlapping images, impact metrics, and an optional story link",
+  "description": "Flexible image and text section with an optional secondary image or impact stat, metrics, and buttons",
   "supports": {
     "align": [
       "wide",
@@ -49,6 +49,19 @@
       "type": "string",
       "default": ""
     },
+    "mediaOverlayType": {
+      "type": "string",
+      "enum": ["image", "stat", "none"],
+      "default": "image"
+    },
+    "overlayStatValue": {
+      "type": "string",
+      "default": "1,000+"
+    },
+    "overlayStatLabel": {
+      "type": "string",
+      "default": "Students & community members impacted"
+    },
     "metrics": {
       "type": "array",
       "default": [
@@ -77,6 +90,18 @@
     "buttonUrl": {
       "type": "string",
       "default": "/about"
+    },
+    "showSecondaryButton": {
+      "type": "boolean",
+      "default": false
+    },
+    "secondaryButtonLabel": {
+      "type": "string",
+      "default": "Explore Programs"
+    },
+    "secondaryButtonUrl": {
+      "type": "string",
+      "default": "/programs"
     },
     "reverse": {
       "type": "boolean",

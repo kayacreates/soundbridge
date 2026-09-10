@@ -1,3 +1,5 @@
+@use "../shared/heading-highlight";
+
 .sb-card-content {
   &.has-text-align-left { text-align: left; }
   &.has-text-align-center { text-align: center; }

@@ -1,1 +1,14 @@
-.sb-editor-placeholder{padding:24px;border:1px dashed #b8c8de;background:#f0f4fa;border-radius:12px}.sb-editor-placeholder h2{font-family:Georgia,serif;font-size:28px}.sb-editor-placeholder p{max-width:760px}
+.sb-editor-field-label {
+  margin: 16px 0 8px;
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: uppercase;
+}
+
+.sb-editor-rich-heading {
+  min-height: 40px;
+  padding: 8px 12px;
+  background: #fff;
+  border: 1px solid #949494;
+  border-radius: 2px;
+}

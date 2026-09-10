@@ -1,0 +1,35 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "soundbridge/community",
+  "title": "People & Partners",
+  "category": "soundbridge",
+  "icon": "groups",
+  "description": "Editable people cards and community partner list.",
+  "supports": { "align": ["wide", "full"], "html": false, "anchor": true },
+  "attributes": {
+    "peopleEyebrow": { "type": "string", "default": "Our People" },
+    "peopleHeading": { "type": "string", "default": "The people behind SoundBridge" },
+    "people": {
+      "type": "array",
+      "default": [
+        { "name": "SoundBridge Leadership", "role": "Executive Director", "bio": "Our leadership team is passionate about community music education and committed to making SoundBridge accessible to every family." },
+        { "name": "Faculty & Educators", "role": "Teaching Artists", "bio": "SoundBridge instructors are professional musicians and dedicated educators who bring conservatory-level expertise to every student." },
+        { "name": "Community Partners", "role": "Volunteers & Supporters", "bio": "Our supporters, volunteers, and partner organizations make everything possible." }
+      ]
+    },
+    "partnersEyebrow": { "type": "string", "default": "Community Partners" },
+    "partnersHeading": { "type": "string", "default": "Built together with our community." },
+    "partners": {
+      "type": "array",
+      "default": ["Countryside Trinity Church", "Bay City Symphony Orchestra", "Great Lakes String Studio", "Midland Center for the Arts", "Local Schools & Community Centers"]
+    },
+    "showPartnerLink": { "type": "boolean", "default": true },
+    "partnerLinkIntro": { "type": "string", "default": "Interested in partnering with SoundBridge?" },
+    "partnerLinkLabel": { "type": "string", "default": "Learn how →" },
+    "partnerLinkUrl": { "type": "string", "default": "/get-involved" }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css"
+}

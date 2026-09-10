@@ -1,3 +1,5 @@
+@use "../shared/heading-highlight";
+
 .sb-cta {
   padding: 88px 0;
   color: var(--white);
@@ -6,4 +8,6 @@
 
   h2 { color: var(--white); }
   p { max-width: 650px; margin: 0 auto 24px; opacity: 0.85; }
+
+  .sb-highlight-pale-blue { color: #a8c4f0; }
 }

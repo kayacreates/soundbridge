@@ -12,10 +12,16 @@ export default function Edit({ attributes, setAttributes }) {
         secondaryImageId,
         secondaryImageUrl,
         secondaryImageAlt,
+        mediaOverlayType = 'image',
+        overlayStatValue,
+        overlayStatLabel,
         metrics = [],
         showButton,
         buttonLabel,
         buttonUrl,
+        showSecondaryButton,
+        secondaryButtonLabel,
+        secondaryButtonUrl,
         reverse,
         background,
     } = attributes;
@@ -62,19 +68,49 @@ export default function Edit({ attributes, setAttributes }) {
         <>
             <InspectorControls>
                 <PanelBody title="About section settings">
-                    <ToggleControl label="Images first" checked={!reverse} onChange={(value) => setAttributes({ reverse: !value })} />
+                    <SelectControl
+                        label="Image position"
+                        value={reverse ? 'right' : 'left'}
+                        options={[
+                            { label: 'Left — content on right', value: 'left' },
+                            { label: 'Right — content on left', value: 'right' },
+                        ]}
+                        onChange={(value) => setAttributes({ reverse: value === 'right' })}
+                    />
                     <SelectControl label="Background" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Pale blue', value: 'blue' }]} onChange={(value) => setAttributes({ background: value })} />
+                    <SelectControl
+                        label="Image overlay"
+                        value={mediaOverlayType}
+                        options={[
+                            { label: 'Second image', value: 'image' },
+                            { label: 'Impact stat', value: 'stat' },
+                            { label: 'None', value: 'none' },
+                        ]}
+                        onChange={(value) => setAttributes({ mediaOverlayType: value })}
+                    />
                     <TextControl label="Main image alt text" value={imageAlt} onChange={(value) => setAttributes({ imageAlt: value })} />
-                    <TextControl label="Secondary image alt text" value={secondaryImageAlt} onChange={(value) => setAttributes({ secondaryImageAlt: value })} />
-                    <ToggleControl label="Show story button" checked={showButton} onChange={(value) => setAttributes({ showButton: value })} />
-                    {showButton && <TextControl label="Button URL" value={buttonUrl} onChange={(value) => setAttributes({ buttonUrl: value })} />}
+                    {mediaOverlayType === 'image' && <TextControl label="Secondary image alt text" value={secondaryImageAlt} onChange={(value) => setAttributes({ secondaryImageAlt: value })} />}
+                    <ToggleControl label="Show buttons" checked={showButton} onChange={(value) => setAttributes({ showButton: value })} />
+                    {showButton && (
+                        <>
+                            <TextControl label="Primary button URL" value={buttonUrl} onChange={(value) => setAttributes({ buttonUrl: value })} />
+                            <ToggleControl label="Show secondary button" checked={showSecondaryButton} onChange={(value) => setAttributes({ showSecondaryButton: value })} />
+                            {showSecondaryButton && <TextControl label="Secondary button URL" value={secondaryButtonUrl} onChange={(value) => setAttributes({ secondaryButtonUrl: value })} />}
+                        </>
+                    )}
                 </PanelBody>
             </InspectorControls>
             <section className={sectionClass}>
                 <div className={gridClass}>
                     <div className="sb-about__media">
                         {imageEditor(imageUrl, imageAlt, imageId, selectPrimaryImage, () => setAttributes({ imageId: 0, imageUrl: '', imageAlt: '' }), 'sb-about__image--primary', 'Choose main image')}
-                        {imageEditor(secondaryImageUrl, secondaryImageAlt, secondaryImageId, selectSecondaryImage, () => setAttributes({ secondaryImageId: 0, secondaryImageUrl: '', secondaryImageAlt: '' }), 'sb-about__image--secondary', 'Choose secondary image')}
+                        {mediaOverlayType === 'image' && imageEditor(secondaryImageUrl, secondaryImageAlt, secondaryImageId, selectSecondaryImage, () => setAttributes({ secondaryImageId: 0, secondaryImageUrl: '', secondaryImageAlt: '' }), 'sb-about__image--secondary', 'Choose secondary image')}
+                        {mediaOverlayType === 'stat' && (
+                            <div className="sb-about__overlay-stat">
+                                <RichText tagName="strong" value={overlayStatValue} placeholder="1,000+" onChange={(value) => setAttributes({ overlayStatValue: value })} />
+                                <RichText tagName="span" value={overlayStatLabel} placeholder="Students & community members impacted" onChange={(value) => setAttributes({ overlayStatLabel: value })} />
+                            </div>
+                        )}
                     </div>
                     <div className="sb-about__content">
                         <RichText tagName="p" className="sb-about__badge" value={eyebrow} placeholder="Since 1999" onChange={(value) => setAttributes({ eyebrow: value })} />
@@ -95,7 +131,12 @@ export default function Edit({ attributes, setAttributes }) {
                         <div className="sb-about__editor-actions">
                             <Button variant="secondary" onClick={() => setAttributes({ metrics: [...metrics, { value: '', label: '', detail: '', progress: 0 }] })}>Add metric</Button>
                         </div>
-                        {showButton && <RichText tagName="span" className="sb-btn sb-btn--outline sb-about__button" value={buttonLabel} placeholder="Button label" onChange={(value) => setAttributes({ buttonLabel: value })} />}
+                        {showButton && (
+                            <div className="sb-about__buttons">
+                                <RichText tagName="span" className="sb-btn sb-btn--outline sb-about__button" value={buttonLabel} placeholder="Primary button label" onChange={(value) => setAttributes({ buttonLabel: value })} />
+                                {showSecondaryButton && <RichText tagName="span" className="sb-btn sb-about__button" value={secondaryButtonLabel} placeholder="Secondary button label" onChange={(value) => setAttributes({ secondaryButtonLabel: value })} />}
+                            </div>
+                        )}
                     </div>
                 </div>
             </section>

@@ -13,6 +13,27 @@
     "html": false
   },
   "attributes": {
+    "heroStyle": {
+      "type": "string",
+      "enum": ["home", "inner"],
+      "default": "home"
+    },
+    "showBreadcrumbs": {
+      "type": "boolean",
+      "default": false
+    },
+    "breadcrumbHomeLabel": {
+      "type": "string",
+      "default": "Home"
+    },
+    "breadcrumbHomeUrl": {
+      "type": "string",
+      "default": "/"
+    },
+    "breadcrumbCurrentLabel": {
+      "type": "string",
+      "default": "Current page"
+    },
     "background": {
       "type": "string",
       "enum": [

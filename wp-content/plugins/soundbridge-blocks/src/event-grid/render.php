@@ -36,7 +36,7 @@ $button_url  = $attributes['buttonUrl'] ?? '/events';
                 <?php if ($eyebrow) : ?>
                     <p class="sb-events__eyebrow"><?php echo esc_html($eyebrow); ?></p>
                 <?php endif; ?>
-                <h2><?php echo esc_html($heading); ?></h2>
+                <h2><?php echo wp_kses_post($heading); ?></h2>
             </div>
             <?php if ($show_button && $button_text) : ?>
                 <a class="sb-btn sb-events__button" href="<?php echo esc_url($button_url); ?>"><?php echo esc_html($button_text); ?></a>

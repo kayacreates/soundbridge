@@ -1,5 +1,5 @@
 import ServerSideRender from '@wordpress/server-side-render';
-import { InspectorControls } from '@wordpress/block-editor';
+import { InspectorControls, RichText } from '@wordpress/block-editor';
 import { PanelBody, TextControl, ToggleControl } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
@@ -8,7 +8,8 @@ export default function Edit({ attributes, setAttributes }) {
             <InspectorControls>
                 <PanelBody title="Events settings">
                     <TextControl label="Eyebrow" value={attributes.eyebrow} onChange={(value) => setAttributes({ eyebrow: value })} />
-                    <TextControl label="Heading" value={attributes.heading} onChange={(value) => setAttributes({ heading: value })} />
+                    <p className="sb-editor-field-label">Heading</p>
+                    <RichText tagName="div" className="sb-editor-rich-heading" value={attributes.heading} placeholder="Section heading" onChange={(value) => setAttributes({ heading: value })} />
                     <TextControl label="Number of events" type="number" min={1} value={attributes.count} onChange={(value) => setAttributes({ count: Math.max(1, parseInt(value || '1', 10)) })} />
                     <ToggleControl label="Show events button" checked={attributes.showButton} onChange={(value) => setAttributes({ showButton: value })} />
                     {attributes.showButton && (

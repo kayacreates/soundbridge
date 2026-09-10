@@ -9,10 +9,16 @@ export default function save({ attributes }) {
         imageAlt,
         secondaryImageUrl,
         secondaryImageAlt,
+        mediaOverlayType = 'image',
+        overlayStatValue,
+        overlayStatLabel,
         metrics = [],
         showButton,
         buttonLabel,
         buttonUrl,
+        showSecondaryButton,
+        secondaryButtonLabel,
+        secondaryButtonUrl,
         reverse,
         background,
     } = attributes;
@@ -24,7 +30,13 @@ export default function save({ attributes }) {
             <div className={gridClass}>
                 <div className="sb-about__media">
                     {imageUrl && <div className="sb-about__image--primary"><img src={imageUrl} alt={imageAlt} loading="lazy" /></div>}
-                    {secondaryImageUrl && <div className="sb-about__image--secondary"><img src={secondaryImageUrl} alt={secondaryImageAlt} loading="lazy" /></div>}
+                    {mediaOverlayType === 'image' && secondaryImageUrl && <div className="sb-about__image--secondary"><img src={secondaryImageUrl} alt={secondaryImageAlt} loading="lazy" /></div>}
+                    {mediaOverlayType === 'stat' && (
+                        <div className="sb-about__overlay-stat">
+                            <RichText.Content tagName="strong" value={overlayStatValue} />
+                            <RichText.Content tagName="span" value={overlayStatLabel} />
+                        </div>
+                    )}
                 </div>
                 <div className="sb-about__content">
                     {eyebrow && <RichText.Content tagName="p" className="sb-about__badge" value={eyebrow} />}
@@ -42,7 +54,13 @@ export default function save({ attributes }) {
                             ))}
                         </div>
                     )}
-                    {showButton && <a className="sb-btn sb-btn--outline sb-about__button" href={buttonUrl}>{buttonLabel}</a>}
+                    {showButton && !showSecondaryButton && <a className="sb-btn sb-btn--outline sb-about__button" href={buttonUrl}>{buttonLabel}</a>}
+                    {showButton && showSecondaryButton && (
+                        <div className="sb-about__buttons">
+                            <a className="sb-btn sb-btn--outline sb-about__button" href={buttonUrl}>{buttonLabel}</a>
+                            <a className="sb-btn sb-about__button" href={secondaryButtonUrl}>{secondaryButtonLabel}</a>
+                        </div>
+                    )}
                 </div>
             </div>
         </section>
