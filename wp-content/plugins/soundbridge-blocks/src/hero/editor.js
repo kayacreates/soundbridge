@@ -86,7 +86,7 @@ export default function Edit({ attributes, setAttributes }) {
         <>
             <InspectorControls>
                 <PanelBody title="Hero settings">
-                    <SelectControl label="Hero style" value={heroStyle || 'home'} options={[{ label: 'Home page', value: 'home' }, { label: 'Inner page', value: 'inner' }]} onChange={(value) => setAttributes({ heroStyle: value })} />
+                    <SelectControl label="Hero style" value={heroStyle || 'inner'} options={[{ label: 'Home page', value: 'home' }, { label: 'Inner page', value: 'inner' }]} onChange={(value) => setAttributes({ heroStyle: value })} />
                     <ToggleControl label="Show breadcrumbs" checked={showBreadcrumbs} onChange={(value) => setAttributes({ showBreadcrumbs: value })} />
                     {showBreadcrumbs && (
                         <>

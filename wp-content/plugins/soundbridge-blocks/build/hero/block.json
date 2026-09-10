@@ -19,11 +19,11 @@
         "home",
         "inner"
       ],
-      "default": "home"
+      "default": "inner"
     },
     "showBreadcrumbs": {
       "type": "boolean",
-      "default": false
+      "default": true
     },
     "breadcrumbHomeLabel": {
       "type": "string",
@@ -60,7 +60,7 @@
     },
     "showStats": {
       "type": "boolean",
-      "default": true
+      "default": false
     },
     "stats": {
       "type": "array",
