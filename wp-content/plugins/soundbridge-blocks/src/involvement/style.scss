@@ -1,0 +1,20 @@
+@use "../shared/heading-highlight";
+@use "../shared/section-background";
+
+.sb-involvement {
+  &__tabs { display: flex; overflow-x: auto; margin: -24px 0 48px; border-bottom: 1px solid var(--border); }
+  &__tabs button,
+  &__tabs > span { display: flex; gap: 8px; align-items: center; padding: 18px 22px; color: var(--muted); font-size: 0.875rem; font-weight: 600; white-space: nowrap; background: transparent; border: 0; border-bottom: 2px solid transparent; }
+  &__tabs button { cursor: pointer; }
+  &__tabs .is-active { color: var(--blue); border-bottom-color: var(--blue); }
+  &__panel { display: none; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  &__panel.is-active { display: grid; }
+  &__icon { display: block; margin-bottom: 18px; font-size: 3.5rem; }
+  &__body { margin: 16px 0 28px; color: var(--muted); line-height: 1.8; }
+  &__details { padding: 36px; color: var(--ink); background: var(--white); border: 1px solid var(--border); border-radius: 18px; box-shadow: 0 4px 20px rgba(29, 64, 128, 0.08); }
+  &__details h3 { margin-bottom: 20px; color: var(--ink); font-size: 1.2rem; }
+  &__details ul { display: flex; flex-direction: column; gap: 10px; padding: 0; margin: 0; list-style: none; }
+  &__details li { position: relative; padding: 12px 14px 12px 46px; color: var(--muted); background: var(--section); border: 1px solid var(--border); border-radius: 10px; }
+  &__details li::before { position: absolute; top: 10px; left: 12px; display: grid; width: 24px; height: 24px; color: var(--white); font-size: 0.7rem; place-items: center; background: var(--blue); border-radius: 50%; content: "✓"; }
+}
+@media (max-width: 760px) { .sb-involvement__panel { grid-template-columns: 1fr; gap: 36px; } }

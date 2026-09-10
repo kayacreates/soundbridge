@@ -1,0 +1,22 @@
+@use "../shared/heading-highlight";
+@use "../shared/section-background";
+
+.sb-faq-directory {
+  &__search { display: flex; gap: 12px; align-items: center; max-width: 800px; padding: 13px 16px; margin: 0 auto 48px; color: #718096; background: var(--white); border: 1.5px solid var(--border); border-radius: 10px; }
+  &__search input { width: 100%; padding: 0; font: inherit; background: transparent; border: 0; outline: 0; }
+  &__layout { display: grid; grid-template-columns: 220px 1fr; gap: 40px; align-items: start; }
+  &__nav { position: sticky; top: 90px; display: flex; flex-direction: column; gap: 2px; padding: 16px; color: var(--ink); background: var(--section); border: 1px solid var(--border); border-radius: 14px; }
+  &__nav strong { padding: 0 4px 10px; color: #718096; font-size: 0.6875rem; letter-spacing: 0.1em; text-transform: uppercase; }
+  &__nav button,
+  &__nav > span { display: flex; justify-content: space-between; gap: 6px; width: 100%; padding: 9px 12px; color: var(--muted); font-size: 0.8125rem; font-weight: 600; text-align: left; background: transparent; border: 0; border-radius: 8px; }
+  &__nav button { cursor: pointer; }
+  &__nav button.is-active { color: var(--white); background: var(--blue); }
+  &__category { margin-bottom: 48px; }
+  &__category > h2 { display: flex; gap: 10px; align-items: center; margin-bottom: 24px; font-size: 1.5rem; }
+  &__category details { margin-bottom: 10px; overflow: hidden; color: var(--ink); background: var(--white); border: 1px solid var(--border); border-radius: 10px; }
+  &__category summary { padding: 18px 20px; font-weight: 600; cursor: pointer; }
+  &__category details > p { padding: 0 20px 20px; margin: 0; color: var(--muted); line-height: 1.7; }
+  &__results { margin-bottom: 24px; }
+  &__empty { padding: 56px 24px; text-align: center; background: var(--section); border-radius: 16px; }
+}
+@media (max-width: 760px) { .sb-faq-directory__layout { grid-template-columns: 1fr; } .sb-faq-directory__nav { position: static; } }

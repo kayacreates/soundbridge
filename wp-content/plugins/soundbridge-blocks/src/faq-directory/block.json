@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "soundbridge/faq-directory",
+  "title": "FAQ Directory",
+  "category": "soundbridge",
+  "icon": "search",
+  "description": "Searchable and filterable FAQ categories.",
+  "supports": { "align": ["wide", "full"], "html": false, "anchor": true },
+  "attributes": {
+    "background": { "type": "string", "enum": ["white", "pale-blue", "dark-blue"], "default": "white" },
+    "categories": {
+      "type": "array",
+      "default": [
+        { "icon": "🎻", "label": "Programs", "items": [{ "q": "What programs does SoundBridge offer?", "a": "SoundBridge offers ongoing ensemble programs and seasonal music intensives. Visit our Programs page for current opportunities." }, { "q": "What age groups are served?", "a": "Our programs currently serve students ages 5–18, with age ranges varying by program." }, { "q": "Do students need prior music experience?", "a": "Some programs welcome complete beginners, while others require prior instrument experience. Each program page explains its requirements." }] },
+        { "icon": "📝", "label": "Registration", "items": [{ "q": "How do I register for a program?", "a": "Visit the program page and select Register Now, or contact us for the registration form and next steps." }, { "q": "What if a program is full?", "a": "We maintain a waitlist for full programs. Contact us to be added." }] },
+        { "icon": "💛", "label": "Cost & Scholarships", "items": [{ "q": "Are scholarships available?", "a": "Yes. Need-based scholarships are available, and no student is turned away due to cost." }, { "q": "Is there a payment plan option?", "a": "Yes. Contact us to discuss flexible payment options." }] },
+        { "icon": "☀️", "label": "Summer Camp", "items": [{ "q": "What is the Chamber Music Camp?", "a": "It is a five-day summer intensive where string students receive coaching, play in small ensembles, and perform for the community." }, { "q": "Is there a final performance?", "a": "Yes. The week concludes with a performance for families and community members." }] },
+        { "icon": "❓", "label": "General", "items": [{ "q": "What is SoundBridge's mission?", "a": "SoundBridge makes high-quality music education accessible throughout the Saginaw Bay community." }, { "q": "How can I support SoundBridge?", "a": "You can donate, volunteer, partner, sponsor a program, teach, or refer students." }] }
+      ]
+    }
+  },
+  "editorScript": "file:./index.js",
+  "viewScript": "file:./view.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css"
+}

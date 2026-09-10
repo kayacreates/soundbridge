@@ -1,0 +1,27 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "soundbridge/involvement",
+  "title": "Get Involved Pathways",
+  "category": "soundbridge",
+  "icon": "heart",
+  "description": "Interactive ways to donate, volunteer, partner, teach, or sponsor.",
+  "supports": { "align": ["wide", "full"], "html": false, "anchor": true },
+  "attributes": {
+    "background": { "type": "string", "enum": ["white", "pale-blue", "dark-blue"], "default": "pale-blue" },
+    "pathways": {
+      "type": "array",
+      "default": [
+        { "icon": "💛", "label": "Donate", "title": "Fund Access to Music", "body": "Your donation directly supports student scholarships, program materials, and educator stipends. Every dollar keeps SoundBridge accessible to families who need it most.", "buttonLabel": "Make a Donation", "buttonUrl": "mailto:info@saginawbaysoundbridge.com?subject=Donation Inquiry", "listHeading": "What your gift does", "items": ["$25 — Helps offset materials for one student", "$50 — Funds one week of instruction", "$100 — Provides a partial scholarship", "$250 — Sponsors a full camp scholarship"] },
+        { "icon": "🤝", "label": "Volunteer", "title": "Give Your Time", "body": "Help with events, logistics, registration, and community outreach. No music experience is required — just a desire to make a difference.", "buttonLabel": "Sign Up to Volunteer", "buttonUrl": "mailto:info@saginawbaysoundbridge.com?subject=Volunteering Interest", "listHeading": "Volunteer roles", "items": ["Event setup and breakdown", "Registration check-in", "Social media and photography", "Community outreach and tabling"] },
+        { "icon": "🏛️", "label": "Partner", "title": "Organizational Partnership", "body": "Partner organizations help SoundBridge reach more students through venue access, referrals, and co-programming.", "buttonLabel": "Become a Partner", "buttonUrl": "mailto:info@saginawbaysoundbridge.com?subject=Partnership Inquiry", "listHeading": "Partnership benefits", "items": ["Co-branded program opportunities", "Community impact recognition", "Access to events and concerts", "Custom partnership arrangements"] },
+        { "icon": "🎻", "label": "Teach", "title": "Join Our Faculty", "body": "Professional musicians and experienced music educators can help lead SoundBridge programs and workshops.", "buttonLabel": "Apply to Teach", "buttonUrl": "mailto:info@saginawbaysoundbridge.com?subject=Faculty Application", "listHeading": "What we look for", "items": ["Professional performance or teaching background", "Experience with youth or community settings", "Commitment to inclusive music education"] },
+        { "icon": "⭐", "label": "Sponsor", "title": "Sponsor a Program", "body": "Business sponsors provide meaningful, visible community impact tied to programs, events, or scholarships.", "buttonLabel": "Learn About Sponsorship", "buttonUrl": "mailto:info@saginawbaysoundbridge.com?subject=Sponsorship Interest", "listHeading": "Sponsorship tiers", "items": ["Program Sponsor — $500+", "Event Sponsor — $1,000+", "Season Sponsor — $2,500+", "Presenting Sponsor — $5,000+"] }
+      ]
+    }
+  },
+  "editorScript": "file:./index.js",
+  "viewScript": "file:./view.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css"
+}
