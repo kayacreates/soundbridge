@@ -25,6 +25,10 @@
       "type": "string",
       "default": "Founded to make music accessible for every student in the Saginaw Bay community, SoundBridge pairs students with professional educators and real performance opportunities from day one."
     },
+    "secondaryText": {
+      "type": "string",
+      "default": ""
+    },
     "imageId": {
       "type": "number",
       "default": 0

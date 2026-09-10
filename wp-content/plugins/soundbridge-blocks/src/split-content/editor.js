@@ -6,6 +6,7 @@ export default function Edit({ attributes, setAttributes }) {
         eyebrow,
         heading,
         text,
+        secondaryText,
         imageId,
         imageUrl,
         imageAlt,
@@ -116,6 +117,7 @@ export default function Edit({ attributes, setAttributes }) {
                         <RichText tagName="p" className="sb-about__badge" value={eyebrow} placeholder="Since 1999" onChange={(value) => setAttributes({ eyebrow: value })} />
                         <RichText tagName="h2" value={heading} placeholder="About heading" onChange={(value) => setAttributes({ heading: value })} />
                         <RichText tagName="p" className="sb-copy" value={text} placeholder="About introduction" onChange={(value) => setAttributes({ text: value })} />
+                        <RichText tagName="p" className="sb-copy sb-about__secondary-copy" value={secondaryText} placeholder="Add optional secondary text…" onChange={(value) => setAttributes({ secondaryText: value })} />
                         <div className="sb-about__metrics">
                             {metrics.map((metric, index) => (
                                 <div className="sb-about__metric" key={index}>

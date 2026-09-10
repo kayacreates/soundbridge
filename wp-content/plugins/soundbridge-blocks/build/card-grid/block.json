@@ -13,6 +13,33 @@
     "html": false
   },
   "attributes": {
+    "background": {
+      "type": "string",
+      "enum": [
+        "white",
+        "pale-blue",
+        "dark-blue"
+      ],
+      "default": "white"
+    },
+    "mediaStyle": {
+      "type": "string",
+      "enum": [
+        "full",
+        "small",
+        "none"
+      ],
+      "default": "full"
+    },
+    "columns": {
+      "type": "number",
+      "enum": [
+        2,
+        3,
+        4
+      ],
+      "default": 3
+    },
     "textAlignment": {
       "type": "string",
       "enum": [

@@ -1,1 +1,22 @@
 .sb-editor-placeholder{padding:24px;border:1px dashed #b8c8de;background:#f0f4fa;border-radius:12px}.sb-editor-placeholder h2{font-family:Georgia,serif;font-size:28px}.sb-editor-placeholder p{max-width:760px}
+
+.sb-card__choose-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  min-width: 36px;
+  height: 36px;
+  padding: 0;
+  color: var(--blue);
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+
+  .dashicons {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+    line-height: 1;
+  }
+}
