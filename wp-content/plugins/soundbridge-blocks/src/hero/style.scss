@@ -136,6 +136,10 @@
     .sb-btn--outline { color: var(--white); background: transparent; }
   }
 
+  &--inner {
+    .sb-highlight-pale-blue { color: #A8C4F0; }
+  }
+
   &__media {
     position: relative;
     align-self: end;

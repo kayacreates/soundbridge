@@ -1,10 +1,11 @@
 import { RichText } from '@wordpress/block-editor';
 
 export default function save({ attributes }) {
-    const { eyebrow, heading, items = [] } = attributes;
+    const { background = 'white', eyebrow, heading, items = [] } = attributes;
+    const sectionClass = `sb-section alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
 
     return (
-        <section className="sb-section alignfull">
+        <section className={sectionClass}>
             <div className="sb-container sb-narrow">
                 <p className="sb-eyebrow">{eyebrow}</p>
                 <RichText.Content tagName="h2" value={heading} />

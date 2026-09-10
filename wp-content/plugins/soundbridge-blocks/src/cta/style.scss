@@ -1,13 +1,19 @@
 @use "../shared/heading-highlight";
+@use "../shared/section-background";
 
 .sb-cta {
   padding: 88px 0;
-  color: var(--white);
   text-align: center;
-  background: var(--blue);
 
-  h2 { color: var(--white); }
   p { max-width: 650px; margin: 0 auto 24px; opacity: 0.85; }
 
-  .sb-highlight-pale-blue { color: #a8c4f0; }
+  &__buttons { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
+  &__secondary { color: var(--white); background: transparent; border-color: rgba(255, 255, 255, 0.75); }
+  &__secondary:hover { color: var(--blue); background: var(--white); border-color: var(--white); }
+
+  &.sb-block-bg--white,
+  &.sb-block-bg--pale-blue {
+    p { opacity: 1; }
+    .sb-cta__secondary { color: var(--blue); border-color: var(--blue); }
+  }
 }

@@ -1,8 +1,9 @@
-import { RichText } from '@wordpress/block-editor';
-import { Button } from '@wordpress/components';
+import { InspectorControls, RichText } from '@wordpress/block-editor';
+import { Button, PanelBody, SelectControl } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
-    const { items = [] } = attributes;
+    const { background = 'dark-blue', items = [] } = attributes;
+    const sectionClass = `sb-stats alignfull${background !== 'dark-blue' ? ` sb-block-bg--${background}` : ''}`;
     const updateItem = (index, key, value) => {
         const nextItems = items.map((item, itemIndex) =>
             itemIndex === index ? { ...item, [key]: value } : item
@@ -25,7 +26,9 @@ export default function Edit({ attributes, setAttributes }) {
     };
 
     return (
-        <section className="sb-stats alignfull">
+        <>
+        <InspectorControls><PanelBody title="Stats settings"><SelectControl label="Background color" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Pale blue', value: 'pale-blue' }, { label: 'Dark blue', value: 'dark-blue' }]} onChange={(value) => setAttributes({ background: value })} /></PanelBody></InspectorControls>
+        <section className={sectionClass}>
             <div className="sb-container sb-stats__grid">
                 {items.map((item, index) => (
                     <div className="sb-stats__item" key={index}>
@@ -50,5 +53,6 @@ export default function Edit({ attributes, setAttributes }) {
                 Add stat
             </Button>
         </section>
+        </>
     );
 }

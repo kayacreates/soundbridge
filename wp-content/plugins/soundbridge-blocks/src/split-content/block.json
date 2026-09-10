@@ -113,6 +113,7 @@
     },
     "background": {
       "type": "string",
+      "enum": ["white", "blue", "dark-blue"],
       "default": "blue"
     }
   },

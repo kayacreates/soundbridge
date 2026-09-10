@@ -17,7 +17,9 @@
 
 <!-- wp:soundbridge/timeline /-->
 
-<!-- wp:soundbridge/community /-->
+<!-- wp:soundbridge/people /-->
+
+<!-- wp:soundbridge/partners /-->
 
 <!-- wp:soundbridge/testimonials {"eyebrow":"Testimonials","heading":"What our <span class=\"sb-highlight-pale-blue\">community says</span>","items":[{"name":"Leslie Alexander","role":"Parent","body":"SoundBridge gave my daughter something priceless — the confidence to stand on stage and play her heart out.","stars":5},{"name":"Maria Sanchez","role":"Parent","body":"The community here is incredibly warm. We felt welcomed from the first day we walked through the door.","stars":5},{"name":"Ralph Edwards","role":"Community Partner","body":"SoundBridge is building something real — musical community, one student at a time.","stars":5}]} /-->
 

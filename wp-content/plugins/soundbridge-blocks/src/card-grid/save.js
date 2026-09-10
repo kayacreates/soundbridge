@@ -3,7 +3,7 @@ import { RichText } from '@wordpress/block-editor';
 export default function save({ attributes }) {
     const { background = 'white', mediaStyle = 'full', columns = 3, textAlignment, eyebrow, heading, intro, cards = [] } = attributes;
     const contentClass = `sb-card-content has-text-align-${textAlignment || 'left'}`;
-    const sectionClass = `sb-section alignfull${background !== 'white' ? ` sb-card-section--${background}` : ''}`;
+    const sectionClass = `sb-section alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
     const gridClass = `sb-card-grid${columns !== 3 ? ` sb-card-grid--${columns}` : ''}`;
     const iconClass = `sb-card__icon${mediaStyle === 'small' ? ' sb-card__icon--small' : ''}`;
 

@@ -1,4 +1,5 @@
 @use "../shared/heading-highlight";
+@use "../shared/section-background";
 
 .sb-card-content {
   &.has-text-align-left { text-align: left; }
@@ -6,17 +7,6 @@
   &.has-text-align-right { text-align: right; }
   &.has-text-align-center .sb-lead { margin-right: auto; margin-left: auto; }
   &.has-text-align-right .sb-lead { margin-left: auto; }
-}
-
-.sb-card-section--pale-blue { background: var(--blue-pale); }
-
-.sb-card-section--dark-blue {
-  color: var(--white);
-  background: var(--blue-dark);
-
-  .sb-card-content h2 { color: var(--white); }
-  .sb-card-content .sb-eyebrow { color: #a8c4f0; }
-  .sb-card-content .sb-lead { color: rgba(255, 255, 255, 0.78); }
 }
 
 .sb-card-grid {

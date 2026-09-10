@@ -1,0 +1,4 @@
+.sb-people__controls { display: flex; justify-content: flex-end; gap: 4px; margin-bottom: 12px; }
+.sb-people__add { margin-top: 20px; }
+.sb-people .dashicons { width: 20px; height: 20px; font-size: 20px; line-height: 1; }
+.sb-person__image-actions { position: absolute; right: 50%; bottom: 14px; display: flex; gap: 6px; padding: 6px; background: rgba(255, 255, 255, 0.92); border-radius: 8px; box-shadow: var(--shadow); transform: translateX(50%); }

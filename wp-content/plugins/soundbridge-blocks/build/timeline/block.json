@@ -15,6 +15,15 @@
     "anchor": true
   },
   "attributes": {
+    "background": {
+      "type": "string",
+      "enum": [
+        "white",
+        "pale-blue",
+        "dark-blue"
+      ],
+      "default": "white"
+    },
     "eyebrow": {
       "type": "string",
       "default": "Our History"

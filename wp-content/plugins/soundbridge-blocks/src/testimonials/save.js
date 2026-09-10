@@ -11,10 +11,11 @@ const StarRating = ({ rating }) => (
 );
 
 export default function save({ attributes }) {
-    const { eyebrow, heading, items = [] } = attributes;
+    const { background = 'white', eyebrow, heading, items = [] } = attributes;
+    const sectionClass = `sb-testimonials sb-section alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
 
     return (
-        <section className="sb-testimonials sb-section alignfull">
+        <section className={sectionClass}>
             <div className="sb-container">
                 <div className="sb-testimonials__header">
                     {eyebrow && <RichText.Content tagName="p" className="sb-eyebrow" value={eyebrow} />}

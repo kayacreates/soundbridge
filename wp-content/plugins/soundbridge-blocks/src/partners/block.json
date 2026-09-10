@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "soundbridge/partners",
+  "title": "Partners",
+  "category": "soundbridge",
+  "icon": "networking",
+  "description": "Editable community partner list with an optional link.",
+  "supports": { "align": ["wide", "full"], "html": false, "anchor": true },
+  "attributes": {
+    "background": { "type": "string", "enum": ["white", "pale-blue", "dark-blue"], "default": "white" },
+    "eyebrow": { "type": "string", "default": "Community Partners" },
+    "heading": { "type": "string", "default": "Built together with our community." },
+    "partners": { "type": "array", "default": ["Countryside Trinity Church", "Bay City Symphony Orchestra", "Great Lakes String Studio", "Midland Center for the Arts", "Local Schools & Community Centers"] },
+    "showLink": { "type": "boolean", "default": true },
+    "linkIntro": { "type": "string", "default": "Interested in partnering with SoundBridge?" },
+    "linkLabel": { "type": "string", "default": "Learn how →" },
+    "linkUrl": { "type": "string", "default": "/get-involved" }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css"
+}

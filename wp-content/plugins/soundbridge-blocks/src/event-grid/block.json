@@ -13,6 +13,7 @@
     "html": false
   },
   "attributes": {
+    "background": { "type": "string", "enum": ["white", "pale-blue", "dark-blue"], "default": "pale-blue" },
     "eyebrow": {
       "type": "string",
       "default": "News & Events"

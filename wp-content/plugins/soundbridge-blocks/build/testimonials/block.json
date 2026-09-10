@@ -19,6 +19,15 @@
     "html": false
   },
   "attributes": {
+    "background": {
+      "type": "string",
+      "enum": [
+        "white",
+        "pale-blue",
+        "dark-blue"
+      ],
+      "default": "white"
+    },
     "eyebrow": {
       "type": "string",
       "default": "Testimonials"

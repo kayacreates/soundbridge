@@ -1,5 +1,5 @@
-import { RichText } from '@wordpress/block-editor';
-import { Button, SelectControl } from '@wordpress/components';
+import { InspectorControls, RichText } from '@wordpress/block-editor';
+import { Button, PanelBody, SelectControl } from '@wordpress/components';
 
 const StarRating = ({ rating }) => (
     <div className="sb-testimonials__stars" aria-label={`${rating} out of 5 stars`}>
@@ -12,7 +12,8 @@ const StarRating = ({ rating }) => (
 );
 
 export default function Edit({ attributes, setAttributes }) {
-    const { eyebrow, heading, items = [] } = attributes;
+    const { background = 'white', eyebrow, heading, items = [] } = attributes;
+    const sectionClass = `sb-testimonials sb-section alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
     const updateItem = (index, key, value) => {
         setAttributes({
             items: items.map((item, itemIndex) => itemIndex === index ? { ...item, [key]: value } : item),
@@ -31,7 +32,9 @@ export default function Edit({ attributes, setAttributes }) {
     });
 
     return (
-        <section className="sb-testimonials sb-section alignfull">
+        <>
+        <InspectorControls><PanelBody title="Testimonials settings"><SelectControl label="Background color" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Pale blue', value: 'pale-blue' }, { label: 'Dark blue', value: 'dark-blue' }]} onChange={(value) => setAttributes({ background: value })} /></PanelBody></InspectorControls>
+        <section className={sectionClass}>
             <div className="sb-container">
                 <div className="sb-testimonials__header">
                     <RichText tagName="p" className="sb-eyebrow" value={eyebrow} placeholder="Testimonials" onChange={(value) => setAttributes({ eyebrow: value })} />
@@ -64,5 +67,6 @@ export default function Edit({ attributes, setAttributes }) {
                 </Button>
             </div>
         </section>
+        </>
     );
 }

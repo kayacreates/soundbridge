@@ -1,8 +1,9 @@
-import { RichText } from '@wordpress/block-editor';
-import { Button } from '@wordpress/components';
+import { InspectorControls, RichText } from '@wordpress/block-editor';
+import { Button, PanelBody, SelectControl } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
-    const { eyebrow, heading, items = [] } = attributes;
+    const { background = 'white', eyebrow, heading, items = [] } = attributes;
+    const sectionClass = `sb-timeline sb-section alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
     const updateItem = (index, key, value) => setAttributes({ items: items.map((item, itemIndex) => itemIndex === index ? { ...item, [key]: value } : item) });
     const moveItem = (index, direction) => {
         const destination = index + direction;
@@ -13,7 +14,9 @@ export default function Edit({ attributes, setAttributes }) {
     };
 
     return (
-        <section className="sb-timeline sb-section alignfull">
+        <>
+        <InspectorControls><PanelBody title="Timeline settings"><SelectControl label="Background color" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Pale blue', value: 'pale-blue' }, { label: 'Dark blue', value: 'dark-blue' }]} onChange={(value) => setAttributes({ background: value })} /></PanelBody></InspectorControls>
+        <section className={sectionClass}>
             <div className="sb-container sb-narrow">
                 <header className="sb-timeline__header">
                     <RichText tagName="p" className="sb-eyebrow" value={eyebrow} placeholder="Eyebrow" onChange={(value) => setAttributes({ eyebrow: value })} />
@@ -39,5 +42,6 @@ export default function Edit({ attributes, setAttributes }) {
                 <Button variant="secondary" onClick={() => setAttributes({ items: [...items, { year: '', title: '', body: '' }] })}><span className="dashicons dashicons-plus" aria-hidden="true" />Add milestone</Button>
             </div>
         </section>
+        </>
     );
 }

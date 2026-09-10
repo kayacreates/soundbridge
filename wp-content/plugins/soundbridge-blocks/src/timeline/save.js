@@ -1,9 +1,10 @@
 import { RichText } from '@wordpress/block-editor';
 
 export default function save({ attributes }) {
-    const { eyebrow, heading, items = [] } = attributes;
+    const { background = 'white', eyebrow, heading, items = [] } = attributes;
+    const sectionClass = `sb-timeline sb-section alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
     return (
-        <section className="sb-timeline sb-section alignfull">
+        <section className={sectionClass}>
             <div className="sb-container sb-narrow">
                 <header className="sb-timeline__header">
                     {eyebrow && <RichText.Content tagName="p" className="sb-eyebrow" value={eyebrow} />}

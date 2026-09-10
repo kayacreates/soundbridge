@@ -23,7 +23,7 @@ export default function save({ attributes }) {
         reverse,
         background,
     } = attributes;
-    const sectionClass = `sb-about sb-section alignfull${background === 'blue' ? ' sb-section--pale' : ''}`;
+    const sectionClass = `sb-about sb-section alignfull${background === 'blue' ? ' sb-section--pale' : ''}${background === 'dark-blue' ? ' sb-block-bg--dark-blue' : ''}`;
     const gridClass = `sb-container sb-about__grid${reverse ? ' sb-about__grid--reverse' : ''}`;
 
     return (

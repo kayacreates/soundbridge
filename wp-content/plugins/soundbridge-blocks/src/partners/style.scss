@@ -1,0 +1,10 @@
+@use "../shared/heading-highlight";
+@use "../shared/section-background";
+
+.sb-partners {
+  &__header { margin-bottom: 48px; text-align: center; }
+  &__list { display: flex; flex-wrap: wrap; justify-content: center; gap: 16px; }
+  &__partner { padding: 14px 24px; color: var(--muted); font-size: 0.875rem; font-weight: 600; background: var(--section); border: 1px solid var(--border); border-radius: 999px; }
+  &__cta { margin: 24px 0 0; color: #718096; font-size: 0.875rem; text-align: center; }
+  &__link { color: var(--blue); font-weight: 600; text-decoration: none; }
+}

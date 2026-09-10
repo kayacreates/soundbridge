@@ -1,4 +1,5 @@
 @use "../shared/heading-highlight";
+@use "../shared/section-background";
 
 .sb-about {
   &__grid {
@@ -94,7 +95,7 @@
     border-radius: 999px;
   }
 
-  &__content .sb-copy { margin: 20px 0 32px; color: var(--muted); font-size: 1rem; line-height: 1.75; }
+  &__content .sb-copy { margin: 20px 0 32px; font-size: 1rem; line-height: 1.75; }
   &__content .sb-about__secondary-copy { margin-top: -16px; }
   &__metrics { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 28px; }
   &__metric { padding: 20px; background: var(--white); border: 1px solid var(--border); border-radius: 12px; }

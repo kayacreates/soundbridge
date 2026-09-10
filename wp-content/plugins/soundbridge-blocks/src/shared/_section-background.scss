@@ -1,0 +1,65 @@
+.sb-block-bg--white {
+  color: var(--ink);
+  background: var(--white);
+}
+
+.sb-block-bg--pale-blue {
+  color: var(--ink);
+  background: var(--blue-pale);
+}
+
+.sb-block-bg--white,
+.sb-block-bg--pale-blue {
+  h1,
+  h2,
+  h3 { color: var(--ink); }
+
+  p,
+  .sb-lead,
+  .sb-copy { color: var(--muted); }
+
+  .sb-highlight-pale-blue { color: var(--blue); }
+}
+
+.sb-block-bg--dark-blue {
+  color: var(--white);
+  background: var(--blue-dark);
+
+  h1,
+  h2,
+  h3 { color: var(--white); }
+
+  .sb-eyebrow { color: #a8c4f0; }
+  .sb-lead,
+  .sb-copy,
+  p { color: rgba(255, 255, 255, 0.78); }
+
+  .sb-highlight-pale-blue { color: #a8c4f0; }
+}
+
+// Preserve legacy default markup that predates explicit background classes.
+.sb-cta:not(.sb-block-bg--white):not(.sb-block-bg--pale-blue),
+.sb-stats:not(.sb-block-bg--white):not(.sb-block-bg--pale-blue) { color: var(--white); background: var(--blue-dark); }
+.sb-cta:not(.sb-block-bg--white):not(.sb-block-bg--pale-blue) h2 { color: var(--white); }
+.sb-cta:not(.sb-block-bg--white):not(.sb-block-bg--pale-blue) > .sb-container > p { color: rgba(255, 255, 255, 0.78); }
+.sb-cta:not(.sb-block-bg--white):not(.sb-block-bg--pale-blue) .sb-highlight-pale-blue { color: #a8c4f0; }
+
+.sb-people { background: var(--blue-pale); }
+.sb-partners,
+.sb-testimonials,
+.sb-timeline { background: var(--white); }
+
+.sb-people.sb-block-bg--white,
+.sb-partners.sb-block-bg--white,
+.sb-testimonials.sb-block-bg--white,
+.sb-timeline.sb-block-bg--white { background: var(--white); }
+
+.sb-people.sb-block-bg--pale-blue,
+.sb-partners.sb-block-bg--pale-blue,
+.sb-testimonials.sb-block-bg--pale-blue,
+.sb-timeline.sb-block-bg--pale-blue { background: var(--blue-pale); }
+
+.sb-people.sb-block-bg--dark-blue,
+.sb-partners.sb-block-bg--dark-blue,
+.sb-testimonials.sb-block-bg--dark-blue,
+.sb-timeline.sb-block-bg--dark-blue { background: var(--blue-dark); }

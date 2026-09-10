@@ -1,7 +1,7 @@
 @use "../shared/heading-highlight";
+@use "../shared/section-background";
 
 .sb-timeline {
-  background: var(--white);
   &__header { margin-bottom: 56px; text-align: center; }
   &__list { position: relative; }
   &__list::before { position: absolute; top: 0; bottom: 0; left: 24px; width: 2px; background: var(--border); content: ""; }

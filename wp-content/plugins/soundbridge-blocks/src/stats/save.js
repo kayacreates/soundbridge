@@ -1,10 +1,11 @@
 import { RichText } from '@wordpress/block-editor';
 
 export default function save({ attributes }) {
-    const { items = [] } = attributes;
+    const { background = 'dark-blue', items = [] } = attributes;
+    const sectionClass = `sb-stats alignfull${background !== 'dark-blue' ? ` sb-block-bg--${background}` : ''}`;
 
     return (
-        <section className="sb-stats alignfull">
+        <section className={sectionClass}>
             <div className="sb-container sb-stats__grid">
                 {items.map((item, index) => (
                     <div className="sb-stats__item" key={index}>

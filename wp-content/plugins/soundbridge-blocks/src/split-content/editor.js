@@ -26,7 +26,7 @@ export default function Edit({ attributes, setAttributes }) {
         reverse,
         background,
     } = attributes;
-    const sectionClass = `sb-about sb-section alignfull${background === 'blue' ? ' sb-section--pale' : ''}`;
+    const sectionClass = `sb-about sb-section alignfull${background === 'blue' ? ' sb-section--pale' : ''}${background === 'dark-blue' ? ' sb-block-bg--dark-blue' : ''}`;
     const gridClass = `sb-container sb-about__grid${reverse ? ' sb-about__grid--reverse' : ''}`;
     const selectPrimaryImage = (media) => setAttributes({
         imageId: media.id,
@@ -78,7 +78,7 @@ export default function Edit({ attributes, setAttributes }) {
                         ]}
                         onChange={(value) => setAttributes({ reverse: value === 'right' })}
                     />
-                    <SelectControl label="Background" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Pale blue', value: 'blue' }]} onChange={(value) => setAttributes({ background: value })} />
+                    <SelectControl label="Background color" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Pale blue', value: 'blue' }, { label: 'Dark blue', value: 'dark-blue' }]} onChange={(value) => setAttributes({ background: value })} />
                     <SelectControl
                         label="Image overlay"
                         value={mediaOverlayType}

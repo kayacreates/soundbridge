@@ -1,0 +1,85 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "soundbridge/people",
+  "title": "People",
+  "category": "soundbridge",
+  "icon": "groups",
+  "description": "Editable people cards with initials or circular profile images.",
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ],
+    "html": false,
+    "anchor": true
+  },
+  "attributes": {
+    "background": {
+      "type": "string",
+      "enum": [
+        "white",
+        "pale-blue",
+        "dark-blue"
+      ],
+      "default": "pale-blue"
+    },
+    "eyebrow": {
+      "type": "string",
+      "default": "Our People"
+    },
+    "heading": {
+      "type": "string",
+      "default": "The people behind SoundBridge"
+    },
+    "columns": {
+      "type": "number",
+      "enum": [
+        2,
+        3,
+        4
+      ],
+      "default": 4
+    },
+    "avatarStyle": {
+      "type": "string",
+      "enum": [
+        "letter",
+        "image"
+      ],
+      "default": "letter"
+    },
+    "people": {
+      "type": "array",
+      "default": [
+        {
+          "name": "SoundBridge Leadership",
+          "role": "Executive Director",
+          "bio": "Our leadership team is passionate about community music education and committed to making SoundBridge accessible to every family.",
+          "imageId": 0,
+          "imageUrl": "",
+          "imageAlt": ""
+        },
+        {
+          "name": "Faculty & Educators",
+          "role": "Teaching Artists",
+          "bio": "SoundBridge instructors are professional musicians and dedicated educators who bring conservatory-level expertise to every student.",
+          "imageId": 0,
+          "imageUrl": "",
+          "imageAlt": ""
+        },
+        {
+          "name": "Community Partners",
+          "role": "Volunteers & Supporters",
+          "bio": "Our supporters, volunteers, and partner organizations make everything possible.",
+          "imageId": 0,
+          "imageUrl": "",
+          "imageAlt": ""
+        }
+      ]
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css"
+}

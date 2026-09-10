@@ -13,6 +13,7 @@
     "html": false
   },
   "attributes": {
+    "background": { "type": "string", "enum": ["white", "pale-blue", "dark-blue"], "default": "dark-blue" },
     "showButton": {
       "type": "boolean",
       "default": true
@@ -32,6 +33,18 @@
     "buttonUrl": {
       "type": "string",
       "default": "/get-involved"
+    },
+    "showSecondaryButton": {
+      "type": "boolean",
+      "default": false
+    },
+    "secondaryButtonLabel": {
+      "type": "string",
+      "default": "Learn More"
+    },
+    "secondaryButtonUrl": {
+      "type": "string",
+      "default": "/about"
     }
   },
   "editorScript": "file:./index.js",

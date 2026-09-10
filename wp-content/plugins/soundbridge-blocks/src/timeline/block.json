@@ -8,6 +8,7 @@
   "description": "An editable history timeline for milestones.",
   "supports": { "align": ["wide", "full"], "html": false, "anchor": true },
   "attributes": {
+    "background": { "type": "string", "enum": ["white", "pale-blue", "dark-blue"], "default": "white" },
     "eyebrow": { "type": "string", "default": "Our History" },
     "heading": { "type": "string", "default": "Growing with our community." },
     "items": {
