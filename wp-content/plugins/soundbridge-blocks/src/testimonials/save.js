@@ -12,7 +12,7 @@ const StarRating = ({ rating }) => (
 
 export default function save({ attributes }) {
     const { background = 'white', eyebrow, heading, items = [] } = attributes;
-    const sectionClass = `sb-testimonials sb-section alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
+    const sectionClass = `sb-testimonials sb-block-bg alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
 
     return (
         <section className={sectionClass}>

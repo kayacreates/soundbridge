@@ -2,7 +2,7 @@ import { RichText } from '@wordpress/block-editor';
 
 export default function save({ attributes }) {
     const { background = 'dark-blue', items = [] } = attributes;
-    const sectionClass = `sb-stats alignfull${background !== 'dark-blue' ? ` sb-block-bg--${background}` : ''}`;
+    const sectionClass = `sb-stats alignfull sb-block-bg--${background}`;
 
     return (
         <section className={sectionClass}>

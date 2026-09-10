@@ -2,7 +2,7 @@ import { RichText } from '@wordpress/block-editor';
 
 export default function save({ attributes }) {
     const { background = 'white', eyebrow, heading, items = [] } = attributes;
-    const sectionClass = `sb-timeline sb-section alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
+    const sectionClass = `sb-timeline sb-block-bg alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
     return (
         <section className={sectionClass}>
             <div className="sb-container sb-narrow">

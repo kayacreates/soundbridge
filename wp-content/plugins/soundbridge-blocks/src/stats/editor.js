@@ -3,7 +3,7 @@ import { Button, PanelBody, SelectControl } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
     const { background = 'dark-blue', items = [] } = attributes;
-    const sectionClass = `sb-stats alignfull${background !== 'dark-blue' ? ` sb-block-bg--${background}` : ''}`;
+    const sectionClass = `sb-stats alignfull  sb-block-bg--${background}`;
     const updateItem = (index, key, value) => {
         const nextItems = items.map((item, itemIndex) =>
             itemIndex === index ? { ...item, [key]: value } : item
@@ -27,7 +27,7 @@ export default function Edit({ attributes, setAttributes }) {
 
     return (
         <>
-        <InspectorControls><PanelBody title="Stats settings"><SelectControl label="Background color" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Pale blue', value: 'pale-blue' }, { label: 'Dark blue', value: 'dark-blue' }]} onChange={(value) => setAttributes({ background: value })} /></PanelBody></InspectorControls>
+        <InspectorControls><PanelBody title="Stats settings"><SelectControl label="Background color" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Pale blue', value: 'pale-blue' }, { label: 'Blue', value: 'blue' }]} onChange={(value) => setAttributes({ background: value })} /></PanelBody></InspectorControls>
         <section className={sectionClass}>
             <div className="sb-container sb-stats__grid">
                 {items.map((item, index) => (

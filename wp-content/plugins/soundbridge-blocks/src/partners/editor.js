@@ -11,7 +11,7 @@ const moveItem = (items, index, direction) => {
 
 export default function Edit({ attributes, setAttributes }) {
     const { background = 'white', eyebrow, heading, partners = [], showLink, linkIntro, linkLabel, linkUrl } = attributes;
-    const sectionClass = `sb-partners sb-section alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
+    const sectionClass = `sb-partners sb-block-bg alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
     return <>
         <InspectorControls><PanelBody title="Partners settings"><SelectControl label="Background color" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Pale blue', value: 'pale-blue' }, { label: 'Dark blue', value: 'dark-blue' }]} onChange={(value) => setAttributes({ background: value })} /><ToggleControl label="Show partner link" checked={showLink} onChange={(value) => setAttributes({ showLink: value })} />{showLink && <TextControl label="Link URL" value={linkUrl} onChange={(value) => setAttributes({ linkUrl: value })} />}</PanelBody></InspectorControls>
         <section className={sectionClass}><div className="sb-container">

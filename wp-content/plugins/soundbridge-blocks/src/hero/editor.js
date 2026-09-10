@@ -31,7 +31,7 @@ export default function Edit({ attributes, setAttributes }) {
         secondaryUrl,
     } = attributes;
     const isInnerHero = heroStyle === 'inner';
-    const heroClass = `sb-hero alignfull sb-hero--${isInnerHero ? 'inner' : (background || 'white')}`;
+    const heroClass = `sb-hero alignfull sb-hero--${isInnerHero ? 'inner' : 'front'} sb-block-bg--${ background }`;
     const selectImage = (media) => setAttributes({
         imageId: media.id,
         imageUrl: media.url,
@@ -95,7 +95,7 @@ export default function Edit({ attributes, setAttributes }) {
                             <TextControl label="Current page label" value={breadcrumbCurrentLabel} onChange={(value) => setAttributes({ breadcrumbCurrentLabel: value })} />
                         </>
                     )}
-                    {!isInnerHero && <SelectControl label="Background color" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Pale Blue', value: 'pale-blue' }, { label: 'Deep Blue', value: 'deep-blue' }]} onChange={(value) => setAttributes({ background: value })} />}
+                    {!isInnerHero && <SelectControl label="Background color" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Pale Blue', value: 'pale-blue' }, { label: 'Dark Blue', value: 'dark-blue' }]} onChange={(value) => setAttributes({ background: value })} />}
                     <TextControl label="Image alt text" value={imageAlt} onChange={(value) => setAttributes({ imageAlt: value })} />
                     <ToggleControl label="Show registration card" checked={showRegistration} onChange={(value) => setAttributes({ showRegistration: value })} />
                     {showRegistration && <TextControl label="Registration button URL" value={registrationButtonUrl} onChange={(value) => setAttributes({ registrationButtonUrl: value })} />}

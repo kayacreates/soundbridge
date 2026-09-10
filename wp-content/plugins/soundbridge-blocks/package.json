@@ -1,7 +1,9 @@
 {
   "scripts": {
     "start": "wp-scripts start",
-    "build": "wp-scripts build"
+    "build": "wp-scripts build",
+    "build:shared": "sass src/shared/_section-background.scss build/section-background.css --style=compressed --no-source-map",
+    "postbuild": "npm run build:shared"
   },
   "devDependencies": {
     "@wordpress/scripts": "^30.25.0",

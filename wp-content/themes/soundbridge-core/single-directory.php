@@ -1,1 +1,1 @@
-<?php get_header();while(have_posts()):the_post();?><section class="sb-page-hero"><div class="sb-container"><h1><?php the_title(); ?></h1></div></section><article class="sb-container sb-section sb-prose"><?php the_content(); ?></article><?php endwhile;get_footer(); ?>
+<?php get_header();while(have_posts()):the_post();?><section class="sb-page-hero"><div class="sb-container"><h1><?php the_title(); ?></h1></div></section><article class="sb-container sb-block-bg sb-prose"><?php the_content(); ?></article><?php endwhile;get_footer(); ?>

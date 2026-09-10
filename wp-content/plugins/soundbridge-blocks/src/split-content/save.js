@@ -23,7 +23,7 @@ export default function save({ attributes }) {
         reverse,
         background,
     } = attributes;
-    const sectionClass = `sb-about sb-section alignfull${background === 'blue' ? ' sb-section--pale' : ''}${background === 'dark-blue' ? ' sb-block-bg--dark-blue' : ''}`;
+    const sectionClass = `sb-about sb-block-bg alignfull${background === 'blue' ? ' sb-block-bg--pale-blue' : ''}${background === 'dark-blue' ? ' sb-block-bg--dark-blue' : ''}`;
     const gridClass = `sb-container sb-about__grid${reverse ? ' sb-about__grid--reverse' : ''}`;
 
     return (
@@ -40,7 +40,7 @@ export default function save({ attributes }) {
                     )}
                 </div>
                 <div className="sb-about__content">
-                    {eyebrow && <RichText.Content tagName="p" className="sb-about__badge" value={eyebrow} />}
+                    {eyebrow && <RichText.Content tagName="span" className="sb-about__badge" value={eyebrow} />}
                     <RichText.Content tagName="h2" value={heading} />
                     <RichText.Content tagName="p" className="sb-copy" value={text} />
                     {secondaryText && <RichText.Content tagName="p" className="sb-copy sb-about__secondary-copy" value={secondaryText} />}

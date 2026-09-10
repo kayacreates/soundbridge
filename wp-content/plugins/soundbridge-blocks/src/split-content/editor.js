@@ -26,7 +26,7 @@ export default function Edit({ attributes, setAttributes }) {
         reverse,
         background,
     } = attributes;
-    const sectionClass = `sb-about sb-section alignfull${background === 'blue' ? ' sb-section--pale' : ''}${background === 'dark-blue' ? ' sb-block-bg--dark-blue' : ''}`;
+    const sectionClass = `sb-about sb-block-bg alignfull${background === 'blue' ? ' sb-block-bg--pale-blue' : ''}${background === 'dark-blue' ? ' sb-block-bg--dark-blue' : ''}`;
     const gridClass = `sb-container sb-about__grid${reverse ? ' sb-about__grid--reverse' : ''}`;
     const selectPrimaryImage = (media) => setAttributes({
         imageId: media.id,
@@ -114,7 +114,7 @@ export default function Edit({ attributes, setAttributes }) {
                         )}
                     </div>
                     <div className="sb-about__content">
-                        <RichText tagName="p" className="sb-about__badge" value={eyebrow} placeholder="Since 1999" onChange={(value) => setAttributes({ eyebrow: value })} />
+                        <RichText tagName="span" className="sb-about__badge" value={eyebrow} placeholder="Since 1999" onChange={(value) => setAttributes({ eyebrow: value })} />
                         <RichText tagName="h2" value={heading} placeholder="About heading" onChange={(value) => setAttributes({ heading: value })} />
                         <RichText tagName="p" className="sb-copy" value={text} placeholder="About introduction" onChange={(value) => setAttributes({ text: value })} />
                         <RichText tagName="p" className="sb-copy sb-about__secondary-copy" value={secondaryText} placeholder="Add optional secondary text…" onChange={(value) => setAttributes({ secondaryText: value })} />

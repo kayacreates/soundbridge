@@ -1,7 +1,7 @@
 <?php
 /** @var array $attributes Block attributes. */
 $background    = $attributes['background'] ?? 'white';
-$section_class = 'sb-contact sb-section alignfull' . ($background !== 'white' ? ' sb-block-bg--' . $background : '');
+$section_class = 'sb-contact sb-block-bg alignfull' . ($background !== 'white' ? ' sb-block-bg--' . $background : '');
 $status        = isset($_GET['sb_contact']) ? sanitize_key(wp_unslash($_GET['sb_contact'])) : '';
 $subjects      = ['General Inquiry', 'Program Registration', 'Scholarship Application', 'Volunteering', 'Donation / Giving', 'Partnership Inquiry', 'Faculty / Teaching', 'Sponsorship', 'Media / Press', 'Other'];
 $quick_links   = is_array($attributes['quickLinks'] ?? null) ? $attributes['quickLinks'] : [];

@@ -29,7 +29,7 @@ export default function save({ attributes }) {
         secondaryUrl,
     } = attributes;
     const isInnerHero = heroStyle === 'inner';
-    const heroClass = `sb-hero alignfull sb-hero--${isInnerHero ? 'inner' : (background || 'white')}`;
+    const heroClass = `sb-hero alignfull sb-hero--${isInnerHero ? 'inner' : 'front'} sb-block-bg--${ background }`;
     const heroCopy = (
         <>
             <p className="sb-eyebrow">{eyebrow}</p>

@@ -3,7 +3,7 @@ import { Button, PanelBody, SelectControl } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
     const { background = 'white', eyebrow, heading, items = [] } = attributes;
-    const sectionClass = `sb-section alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
+    const sectionClass = `sb-block-bg alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
     const updateItem = (index, key, value) => {
         const nextItems = items.map((item, itemIndex) =>
             itemIndex === index ? { ...item, [key]: value } : item

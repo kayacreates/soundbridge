@@ -4,7 +4,7 @@ import { PanelBody, SelectControl, Button } from '@wordpress/components';
 export default function Edit({ attributes, setAttributes }) {
     const { background = 'white', mediaStyle = 'full', columns = 3, textAlignment, eyebrow, heading, intro, cards = [] } = attributes;
     const contentClass = `sb-card-content has-text-align-${textAlignment || 'left'}`;
-    const sectionClass = `sb-section alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
+    const sectionClass = `sb-block-bg alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
     const gridClass = `sb-card-grid${columns !== 3 ? ` sb-card-grid--${columns}` : ''}`;
     const iconClass = `sb-card__icon${mediaStyle === 'small' ? ' sb-card__icon--small' : ''}`;
     const updateCard = (index, key, value) => {

@@ -1,5 +1,4 @@
 @use "../shared/heading-highlight";
-@use "../shared/section-background";
 
 .sb-involvement {
   &__tabs { display: flex; overflow-x: auto; margin: -24px 0 48px; border-bottom: 1px solid var(--border); }

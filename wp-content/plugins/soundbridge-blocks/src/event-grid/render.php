@@ -29,7 +29,7 @@ $show_button = $attributes['showButton'] ?? true;
 $button_text = $attributes['buttonLabel'] ?? 'See All Events →';
 $button_url  = $attributes['buttonUrl'] ?? '/events';
 $background  = $attributes['background'] ?? 'pale-blue';
-$section_class = 'sb-events sb-section alignfull ' . ($background === 'pale-blue' ? 'sb-section--pale' : 'sb-block-bg--' . $background);
+$section_class = 'sb-events sb-block-bg alignfull sb-block-bg--' . $background;
 ?>
 <section <?php echo get_block_wrapper_attributes(['class' => $section_class]); ?>>
     <div class="sb-container">

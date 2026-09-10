@@ -42,7 +42,7 @@
       "enum": [
         "white",
         "pale-blue",
-        "deep-blue"
+        "dark-blue"
       ],
       "default": "white"
     },

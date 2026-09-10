@@ -13,7 +13,7 @@
     "html": false
   },
   "attributes": {
-    "background": { "type": "string", "enum": ["white", "pale-blue", "dark-blue"], "default": "dark-blue" },
+    "background": { "type": "string", "enum": ["white", "pale-blue", "blue"], "default": "blue" },
     "items": {
       "type": "array",
       "default": [

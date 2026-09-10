@@ -13,7 +13,7 @@ const StarRating = ({ rating }) => (
 
 export default function Edit({ attributes, setAttributes }) {
     const { background = 'white', eyebrow, heading, items = [] } = attributes;
-    const sectionClass = `sb-testimonials sb-section alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
+    const sectionClass = `sb-testimonials sb-block-bg alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
     const updateItem = (index, key, value) => {
         setAttributes({
             items: items.map((item, itemIndex) => itemIndex === index ? { ...item, [key]: value } : item),

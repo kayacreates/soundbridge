@@ -2,6 +2,7 @@
   --blue: #1d4080;
   --blue-dark: #0e2650;
   --blue-pale: #e8eef8;
+  --blue-light: #a8c4f0;
   --section: #f0f4fa;
   --ink: #0f1923;
   --muted: #556070;
@@ -21,7 +22,7 @@ body {
   color: var(--ink);
   font-family: Inter, system-ui, sans-serif;
   line-height: 1.65;
-  background: #fff;
+  background: var(--white);
 }
 img {
   max-width: 100%;
@@ -41,11 +42,9 @@ h3 {
 }
 h1 {
   font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 400;
 }
 h2 {
   font-size: clamp(2rem, 4vw, 3rem);
-  font-weight: 400;
 }
 h3 {
   font-size: 1.35rem;
@@ -107,7 +106,6 @@ h3 {
   margin: 0 0 12px;
 }
 .sb-lead {
-  font-size: 1.15rem;
   color: var(--muted);
   max-width: 720px;
 }
@@ -115,7 +113,7 @@ h3 {
   display: inline-block;
   padding: 12px 26px;
   background: var(--blue);
-  color: #fff;
+  color: var(--white);
   border: 1.5px solid var(--blue);
   border-radius: 8px;
   text-decoration: none;
@@ -126,15 +124,9 @@ h3 {
   color: var(--blue);
 }
 .sb-btn--light {
-  background: #fff;
+  background: var(--white);
   color: var(--blue);
-  border-color: #fff;
-}
-.sb-section {
-  padding: 88px 0;
-}
-.sb-section--pale {
-  background: var(--section);
+  border-color: var(--white);
 }
 .sb-list-grid {
   display: grid;
@@ -143,14 +135,12 @@ h3 {
   margin-top: 34px;
 }
 .sb-list-card {
-  background: #fff;
+  padding: 28px;
+  background: var(--white);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
   box-shadow: 0 1px 0 rgba(14, 38, 80, 0.02);
-}
-.sb-list-card {
-  padding: 28px;
 }
 .sb-list-card p {
   color: var(--muted);
@@ -192,7 +182,7 @@ h3 {
 }
 .sb-detail-hero {
   padding: 120px 0 64px;
-  color: #fff;
+  color: var(--white);
   background: linear-gradient(
       90deg,
       rgba(14, 38, 80, 0.95),
@@ -204,7 +194,7 @@ h3 {
 }
 .sb-detail-hero h1,
 .sb-detail-hero .sb-lead {
-  color: #fff;
+  color: var(--white);
 }
 .sb-detail-hero .sb-eyebrow {
   color: #dbe7ff;
@@ -264,7 +254,7 @@ h3 {
   padding: 64px 0 24px;
 }
 .sb-footer a {
-  color: #fff;
+  color: var(--white);
 }
 .sb-footer__grid {
   display: grid;
@@ -283,7 +273,7 @@ h3 {
   font-size: 0.84rem;
 }
 .sb-logo--light {
-  color: #fff;
+  color: var(--white);
 }
 @media (max-width: 800px) {
   .sb-menu-toggle {
@@ -295,7 +285,7 @@ h3 {
     top: 76px;
     left: 0;
     right: 0;
-    background: #fff;
+    background: var(--white);
     border-bottom: 1px solid var(--border);
     padding: 20px 24px;
   }
@@ -318,9 +308,6 @@ h3 {
   }
   .sb-sidebar {
     position: static;
-  }
-  .sb-section {
-    padding: 64px 0;
   }
   .sb-info-grid {
     grid-template-columns: 1fr;

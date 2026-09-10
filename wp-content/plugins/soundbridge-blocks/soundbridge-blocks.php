@@ -37,12 +37,23 @@ function soundbridge_blocks_register_blocks(): void
 }
 add_action('init', 'soundbridge_blocks_register_blocks');
 
-/** Load WordPress Dashicons wherever block assets are rendered, including the editor iframe. */
-function soundbridge_blocks_enqueue_dashicons(): void
+/** Load assets shared by every SoundBridge block, including inside the editor iframe. */
+function soundbridge_blocks_enqueue_shared_assets(): void
 {
     wp_enqueue_style('dashicons');
+
+    $background_stylesheet = SOUNDBRIDGE_BLOCKS_DIR . 'build/section-background.css';
+
+    if (file_exists($background_stylesheet)) {
+        wp_enqueue_style(
+            'soundbridge-block-backgrounds',
+            plugins_url('build/section-background.css', __FILE__),
+            [],
+            (string) filemtime($background_stylesheet)
+        );
+    }
 }
-add_action('enqueue_block_assets', 'soundbridge_blocks_enqueue_dashicons');
+add_action('enqueue_block_assets', 'soundbridge_blocks_enqueue_shared_assets');
 
 /** Add a dedicated block-inserter category. */
 function soundbridge_blocks_category(array $categories): array

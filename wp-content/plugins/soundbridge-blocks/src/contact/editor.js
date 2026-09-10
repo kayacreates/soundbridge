@@ -3,7 +3,7 @@ import { Button, PanelBody, SelectControl, TextControl, TextareaControl } from '
 
 export default function Edit({ attributes, setAttributes }) {
     const { background = 'white', eyebrow, heading, email, websiteLabel, websiteUrl, venue, responseText, submitLabel, quickLinks = [] } = attributes;
-    const sectionClass = `sb-contact sb-section alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
+    const sectionClass = `sb-contact sb-block-bg alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
     const updateLink = (index, key, value) => setAttributes({ quickLinks: quickLinks.map((link, linkIndex) => linkIndex === index ? { ...link, [key]: value } : link) });
 
     return <>

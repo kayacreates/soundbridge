@@ -5,7 +5,7 @@ const formatName = 'soundbridge/pale-blue-highlight';
 const highlightIcon = (
     <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true">
         <path d="M5 4h2v5h6V4h2v12h-2v-5H7v5H5z" fill="currentColor" />
-        <path d="M3 16h14v2H3z" fill="#a8c4f0" />
+        <path d="M3 16h14v2H3z" fill="var(--blue-light)" />
     </svg>
 );
 
