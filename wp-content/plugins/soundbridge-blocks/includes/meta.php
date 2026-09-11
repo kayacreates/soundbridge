@@ -40,7 +40,7 @@ function soundbridge_register_meta() {
     ));
 
     $fields = array(
-        'event' => array('event_date', 'event_time', 'location', 'cost', 'audience', 'registration_url'),
+        'event' => array('event_date', 'event_time', 'location', 'address', 'cost', 'audience', 'registration_label'),
         'directory' => array('specialty', 'location', 'contact', 'instrument'),
     );
     foreach ($fields as $type => $keys) {
@@ -55,6 +55,16 @@ function soundbridge_register_meta() {
     register_post_meta('directory', 'sb_description', array(
         'show_in_rest' => true, 'single' => true, 'type' => 'string',
         'sanitize_callback' => 'sanitize_textarea_field',
+        'auth_callback' => static fn() => current_user_can('edit_posts'),
+    ));
+    register_post_meta('event', 'sb_description', array(
+        'show_in_rest' => true, 'single' => true, 'type' => 'string',
+        'sanitize_callback' => 'sanitize_textarea_field',
+        'auth_callback' => static fn() => current_user_can('edit_posts'),
+    ));
+    register_post_meta('event', 'sb_registration_url', array(
+        'show_in_rest' => true, 'single' => true, 'type' => 'string',
+        'sanitize_callback' => 'esc_url_raw',
         'auth_callback' => static fn() => current_user_can('edit_posts'),
     ));
 }
@@ -283,3 +293,72 @@ function soundbridge_save_directory_meta($post_id) {
     }
 }
 add_action('save_post_directory', 'soundbridge_save_directory_meta');
+
+/** Add the structured Event Details editor. */
+function soundbridge_add_event_meta_box() {
+    add_meta_box('soundbridge-event-details', __('Event Details', 'soundbridge-blocks'), 'soundbridge_render_event_meta_box', 'event', 'normal', 'high');
+}
+add_action('add_meta_boxes_event', 'soundbridge_add_event_meta_box');
+
+function soundbridge_event_field($post_id, $key, $label, $type = 'text', $placeholder = '') {
+    $value = get_post_meta($post_id, 'sb_' . $key, true);
+    ?>
+    <label class="sb-event-field">
+        <strong><?php echo esc_html($label); ?></strong>
+        <input type="<?php echo esc_attr($type); ?>" name="sb_<?php echo esc_attr($key); ?>" value="<?php echo esc_attr($value); ?>" placeholder="<?php echo esc_attr($placeholder); ?>">
+    </label>
+    <?php
+}
+
+function soundbridge_render_event_meta_box($post) {
+    wp_nonce_field('soundbridge_save_event_meta', 'soundbridge_event_nonce');
+    ?>
+    <style>
+        .sb-event-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+        .sb-event-fields h3 { grid-column: 1 / -1; margin: 16px 0 -4px; padding-bottom: 8px; border-bottom: 1px solid #dcdcde; }
+        .sb-event-field { display: flex; flex-direction: column; gap: 6px; }
+        .sb-event-field--wide { grid-column: 1 / -1; }
+        .sb-event-field input,
+        .sb-event-field textarea { width: 100%; }
+        .sb-event-field .description { color: #646970; }
+        @media (max-width: 782px) { .sb-event-fields { grid-template-columns: 1fr; } .sb-event-field--wide { grid-column: auto; } }
+    </style>
+    <div class="sb-event-fields">
+        <h3><?php esc_html_e('Event overview', 'soundbridge-blocks'); ?></h3>
+        <?php soundbridge_event_field($post->ID, 'event_date', 'Date', 'date'); ?>
+        <?php soundbridge_event_field($post->ID, 'event_time', 'Time', 'text', '5:30 PM – 7:00 PM'); ?>
+        <label class="sb-event-field sb-event-field--wide">
+            <strong><?php esc_html_e('Description', 'soundbridge-blocks'); ?></strong>
+            <span class="description"><?php esc_html_e('Used on the event archive card and the About This Event section.', 'soundbridge-blocks'); ?></span>
+            <textarea name="sb_description" rows="6" placeholder="Describe the event and what attendees can expect."><?php echo esc_textarea(get_post_meta($post->ID, 'sb_description', true)); ?></textarea>
+        </label>
+
+        <h3><?php esc_html_e('Venue and attendance', 'soundbridge-blocks'); ?></h3>
+        <?php soundbridge_event_field($post->ID, 'location', 'Venue name', 'text', 'Countryside Trinity Church'); ?>
+        <?php soundbridge_event_field($post->ID, 'address', 'Venue address', 'text', '8600 Gratiot Road, Saginaw, MI 48609'); ?>
+        <?php soundbridge_event_field($post->ID, 'cost', 'Admission / cost', 'text', 'Free — open to the public'); ?>
+        <?php soundbridge_event_field($post->ID, 'audience', 'Audience', 'text', 'Everyone welcome'); ?>
+
+        <h3><?php esc_html_e('Primary action', 'soundbridge-blocks'); ?></h3>
+        <?php soundbridge_event_field($post->ID, 'registration_label', 'Button label', 'text', 'Register / Get Tickets'); ?>
+        <?php soundbridge_event_field($post->ID, 'registration_url', 'Button URL', 'url'); ?>
+    </div>
+    <?php
+}
+
+function soundbridge_save_event_meta($post_id) {
+    if (!isset($_POST['soundbridge_event_nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['soundbridge_event_nonce'])), 'soundbridge_save_event_meta')) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+
+    if (isset($_POST['sb_description'])) {
+        update_post_meta($post_id, 'sb_description', sanitize_textarea_field(wp_unslash($_POST['sb_description'])));
+    }
+    foreach (array('event_date', 'event_time', 'location', 'address', 'cost', 'audience', 'registration_label') as $key) {
+        if (isset($_POST['sb_' . $key])) update_post_meta($post_id, 'sb_' . $key, sanitize_text_field(wp_unslash($_POST['sb_' . $key])));
+    }
+    if (isset($_POST['sb_registration_url'])) {
+        update_post_meta($post_id, 'sb_registration_url', esc_url_raw(wp_unslash($_POST['sb_registration_url'])));
+    }
+}
+add_action('save_post_event', 'soundbridge_save_event_meta');

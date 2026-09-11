@@ -11,7 +11,7 @@ function soundbridge_register_post_types(){
     'rewrite'=>['slug'=>$slug==='directory'?'music-directory':$slug.'s'],
     'supports'=>$slug==='program'
       ? ['title','excerpt','thumbnail','revisions']
-      : ($slug==='directory'
+      : (in_array($slug, ['directory', 'event'], true)
         ? ['title','thumbnail','revisions']
         : ['title','editor','excerpt','thumbnail','revisions','custom-fields'])
   ]); }
@@ -21,8 +21,8 @@ function soundbridge_register_post_types(){
 }
 add_action('init','soundbridge_register_post_types');
 
-/** Programs and directory listings use structured fields instead of the block editor. */
+/** Programs, events, and directory listings use structured fields instead of the block editor. */
 function soundbridge_disable_structured_post_block_editor($use_block_editor, $post_type){
-  return in_array($post_type, ['program', 'directory'], true) ? false : $use_block_editor;
+  return in_array($post_type, ['program', 'event', 'directory'], true) ? false : $use_block_editor;
 }
 add_filter('use_block_editor_for_post_type','soundbridge_disable_structured_post_block_editor',10,2);
