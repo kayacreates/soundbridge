@@ -19,13 +19,7 @@ $fluent_form_id = absint($attributes['fluentFormId'] ?? 0);
       <?php endif; ?>
       <?php if ($fluent_form_id && shortcode_exists('fluentform')) : ?>
         <div class="sb-contact__form sb-contact__form--fluent">
-          <?php
-          add_filter('fluentform/rendering_field_data_submit', 'soundbridge_prepare_contact_submit_button');
-          add_filter('fluentform/rendering_field_data_custom_submit_button', 'soundbridge_prepare_contact_submit_button');
-          echo do_shortcode('[fluentform id="' . $fluent_form_id . '"]'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Fluent Forms owns and escapes its shortcode output.
-          remove_filter('fluentform/rendering_field_data_submit', 'soundbridge_prepare_contact_submit_button');
-          remove_filter('fluentform/rendering_field_data_custom_submit_button', 'soundbridge_prepare_contact_submit_button');
-          ?>
+          <?php echo do_shortcode('[fluentform id="' . $fluent_form_id . '"]'); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Fluent Forms owns and escapes its shortcode output. ?>
         </div>
       <?php else : ?>
         <form class="sb-contact__form" method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">

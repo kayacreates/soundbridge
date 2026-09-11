@@ -1,4 +1,3 @@
-
 .sb-contact {
   &__grid { display: grid; grid-template-columns: 3fr 2fr; gap: 60px; align-items: start; }
   &__grid > * { min-width: 0; }
@@ -22,14 +21,13 @@
   &__form--fluent .ff-btn-submit,
   &__form--fluent form .ff-btn-submit:not(.ff_btn_no_style),
   &__form--fluent .ff-default .ff_btn_style.ff-btn-submit,
-  &__form--fluent .ff-default .ff-btn-submit.ff-btn-primary:not(.ff_btn_no_style) { display: inline-flex; gap: 9px; align-items: center; min-height: 0; padding: 12px 26px; color: var(--white); font: 600 1rem/1.65 Inter, sans-serif; text-decoration: none; background-color: var(--blue); border: 1.5px solid var(--blue); border-radius: 8px; box-shadow: none; opacity: 1; transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease; }
+  &__form--fluent .ff-default .ff-btn-submit.ff-btn-primary:not(.ff_btn_no_style) { display: inline-block; min-height: 0; padding: 12px 26px; color: var(--white); font: 600 1rem/1.65 Inter, sans-serif; text-decoration: none; background-color: var(--blue); border: 1.5px solid var(--blue); border-radius: 8px; box-shadow: none; opacity: 1; transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease; }
   &__form--fluent .ff-btn-submit:hover,
   &__form--fluent .ff-btn-submit:focus,
   &__form--fluent form .ff-btn-submit:not(.ff_btn_no_style):hover,
   &__form--fluent form .ff-btn-submit:not(.ff_btn_no_style):focus,
   &__form--fluent .ff-default .ff_btn_style.ff-btn-submit:hover,
   &__form--fluent .ff-default .ff_btn_style.ff-btn-submit:focus { color: var(--white); background-color: var(--blue-dark); border-color: var(--blue-dark); opacity: 1; }
-  &__form--fluent .ff-btn-submit::after { font: 600 1em/1 Inter, sans-serif; content: "→"; }
   &__form--fluent .ff-el-is-error .ff-el-form-control { border-color: #b42318; }
   &__form--fluent .error.text-danger { color: #b42318; font-size: 0.75rem; }
   &__form--fluent .ff-message-success { padding: 18px 20px; color: #1a6b2e; background: #e6f4ea; border: 1px solid #b8e0c0; border-radius: 8px; box-shadow: none; }
