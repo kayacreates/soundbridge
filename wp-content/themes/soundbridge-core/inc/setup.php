@@ -14,6 +14,16 @@ function soundbridge_assets(){
     $single_script = get_template_directory() . '/assets/js/single.js';
     wp_enqueue_script('soundbridge-single-program',get_template_directory_uri().'/assets/js/single.js',[],filemtime($single_script),true);
   }
+  if (is_post_type_archive('program')) {
+    $program_grid_stylesheet = WP_PLUGIN_DIR . '/soundbridge-blocks/build/program-grid/style-index.css';
+    $archive_stylesheet = get_template_directory() . '/assets/css/archive-program.css';
+    $archive_dependencies = ['soundbridge-site'];
+    if (file_exists($program_grid_stylesheet)) {
+      wp_enqueue_style('soundbridge-program-grid',plugins_url('build/program-grid/style-index.css', WP_PLUGIN_DIR . '/soundbridge-blocks/soundbridge-blocks.php'),['soundbridge-site'],filemtime($program_grid_stylesheet));
+      $archive_dependencies[] = 'soundbridge-program-grid';
+    }
+    wp_enqueue_style('soundbridge-program-archive',get_template_directory_uri().'/assets/css/archive-program.css',$archive_dependencies,filemtime($archive_stylesheet));
+  }
   wp_enqueue_script('soundbridge-site',get_template_directory_uri().'/assets/js/site.js',[],wp_get_theme()->get('Version'),true);
 }
 add_action('wp_enqueue_scripts','soundbridge_assets');

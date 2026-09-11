@@ -1,0 +1,10 @@
+const path = require('path');
+const defaultConfig = require('@wordpress/scripts/config/webpack.config');
+
+module.exports = {
+    ...defaultConfig,
+    entry: async () => ({
+        ...(await defaultConfig.entry()),
+        'program-archive-settings/index': path.resolve(process.cwd(), 'src/program-archive-settings/index.js'),
+    }),
+};
