@@ -52,6 +52,11 @@ function soundbridge_register_meta() {
             ));
         }
     }
+    register_post_meta('directory', 'sb_description', array(
+        'show_in_rest' => true, 'single' => true, 'type' => 'string',
+        'sanitize_callback' => 'sanitize_textarea_field',
+        'auth_callback' => static fn() => current_user_can('edit_posts'),
+    ));
 }
 add_action('init', 'soundbridge_register_meta');
 
@@ -213,3 +218,68 @@ function soundbridge_save_program_meta($post_id) {
     update_post_meta($post_id, 'sb_scholarship', isset($_POST['sb_scholarship']) && '1' === $_POST['sb_scholarship'] ? '1' : '0');
 }
 add_action('save_post_program', 'soundbridge_save_program_meta');
+
+/** Add the structured Directory Details editor. */
+function soundbridge_add_directory_meta_box() {
+    add_meta_box(
+        'soundbridge-directory-details',
+        __('Directory Details', 'soundbridge-blocks'),
+        'soundbridge_render_directory_meta_box',
+        'directory',
+        'normal',
+        'high'
+    );
+}
+add_action('add_meta_boxes_directory', 'soundbridge_add_directory_meta_box');
+
+function soundbridge_directory_field($post_id, $key, $label, $placeholder = '') {
+    $value = get_post_meta($post_id, 'sb_' . $key, true);
+    ?>
+    <label class="sb-directory-field">
+        <strong><?php echo esc_html($label); ?></strong>
+        <input type="text" name="sb_<?php echo esc_attr($key); ?>" value="<?php echo esc_attr($value); ?>" placeholder="<?php echo esc_attr($placeholder); ?>">
+    </label>
+    <?php
+}
+
+function soundbridge_render_directory_meta_box($post) {
+    wp_nonce_field('soundbridge_save_directory_meta', 'soundbridge_directory_nonce');
+    ?>
+    <style>
+        .sb-directory-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+        .sb-directory-field { display: flex; flex-direction: column; gap: 6px; }
+        .sb-directory-field--wide { grid-column: 1 / -1; }
+        .sb-directory-field input,
+        .sb-directory-field textarea { width: 100%; }
+        .sb-directory-field .description { color: #646970; }
+        @media (max-width: 782px) { .sb-directory-fields { grid-template-columns: 1fr; } .sb-directory-field--wide { grid-column: auto; } }
+    </style>
+    <div class="sb-directory-fields">
+        <label class="sb-directory-field sb-directory-field--wide">
+            <strong><?php esc_html_e('Description', 'soundbridge-blocks'); ?></strong>
+            <span class="description"><?php esc_html_e('A short overview shown on the directory card.', 'soundbridge-blocks'); ?></span>
+            <textarea name="sb_description" rows="5" placeholder="Describe this teacher, organization, performer, venue, or store."><?php echo esc_textarea(get_post_meta($post->ID, 'sb_description', true)); ?></textarea>
+        </label>
+        <?php soundbridge_directory_field($post->ID, 'specialty', 'Specialty', 'Private lessons, youth programs, performance space…'); ?>
+        <?php soundbridge_directory_field($post->ID, 'instrument', 'Instrument or area', 'Piano, strings, all instruments…'); ?>
+        <?php soundbridge_directory_field($post->ID, 'location', 'Location', 'Saginaw, MI'); ?>
+        <?php soundbridge_directory_field($post->ID, 'contact', 'Contact information', 'Website, email, phone, or “Contact via SoundBridge”'); ?>
+    </div>
+    <?php
+}
+
+function soundbridge_save_directory_meta($post_id) {
+    if (!isset($_POST['soundbridge_directory_nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['soundbridge_directory_nonce'])), 'soundbridge_save_directory_meta')) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+
+    if (isset($_POST['sb_description'])) {
+        update_post_meta($post_id, 'sb_description', sanitize_textarea_field(wp_unslash($_POST['sb_description'])));
+    }
+    foreach (array('specialty', 'instrument', 'location', 'contact') as $key) {
+        if (isset($_POST['sb_' . $key])) {
+            update_post_meta($post_id, 'sb_' . $key, sanitize_text_field(wp_unslash($_POST['sb_' . $key])));
+        }
+    }
+}
+add_action('save_post_directory', 'soundbridge_save_directory_meta');

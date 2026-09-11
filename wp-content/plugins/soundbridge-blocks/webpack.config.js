@@ -6,5 +6,6 @@ module.exports = {
     entry: async () => ({
         ...(await defaultConfig.entry()),
         'program-archive-settings/index': path.resolve(process.cwd(), 'src/program-archive-settings/index.js'),
+        'directory-archive-settings/index': path.resolve(process.cwd(), 'src/directory-archive-settings/index.js'),
     }),
 };
