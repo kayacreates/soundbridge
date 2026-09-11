@@ -36,11 +36,14 @@
   background: var(--blue);
 
   .sb-highlight { color: var(--blue-light); }
+
+  .sb-btn { color: var(--blue); }
 }
 
 .sb-block-bg--dark-blue {
   color: var(--white);
   background: var(--blue-dark);
+  .sb-btn { color: var(--blue-dark); }
 }
 
 .sb-block-bg--blue,
@@ -55,7 +58,14 @@
   p { color: rgba(255, 255, 255, 0.78); }
 
   .sb-highlight { color: var(--blue-light); }
+  .sb-btn {
+    background: var(--white); border-color: var(--white);
 
+    &:focus, &:hover {
+      background: rgba(225, 225, 225, 0.95);
+      border-color: rgba(225, 225, 225, 0.95);
+    }
+  }
   .sb-btn--outline {
     color: white; border-color: white; background: rgba(225, 225, 225, 0.1);
 

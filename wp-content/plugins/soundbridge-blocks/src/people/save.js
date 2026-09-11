@@ -2,7 +2,7 @@ import { RichText } from '@wordpress/block-editor';
 
 export default function save({ attributes }) {
     const { background = 'pale-blue', eyebrow, heading, columns = 4, avatarStyle = 'letter', people = [] } = attributes;
-    const sectionClass = `sb-people sb-block-bg alignfull${background !== 'pale-blue' ? ` sb-block-bg--${background}` : ''}`;
+    const sectionClass = `sb-people sb-block-bg alignfull sb-block-bg--${background}`;
     return (
         <section className={sectionClass}>
             <div className="sb-container">

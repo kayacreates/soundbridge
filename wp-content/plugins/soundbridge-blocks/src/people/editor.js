@@ -13,7 +13,7 @@ export default function Edit({ attributes, setAttributes }) {
     const { background = 'pale-blue', eyebrow, heading, columns = 4, avatarStyle = 'letter', people = [] } = attributes;
     const updatePerson = (index, values) => setAttributes({ people: people.map((person, personIndex) => personIndex === index ? { ...person, ...values } : person) });
     const gridClass = `sb-people__grid sb-people__grid--${columns}`;
-    const sectionClass = `sb-people sb-block-bg alignfull${background !== 'pale-blue' ? ` sb-block-bg--${background}` : ''}`;
+    const sectionClass = `sb-people sb-block-bg alignfull sb-block-bg--${background}`;
 
     return (
         <>
