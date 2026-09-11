@@ -1,4 +1,4 @@
-import { InspectorControls, MediaUpload, MediaUploadCheck, RichText } from '@wordpress/block-editor';
+import { InspectorControls, MediaUpload, MediaUploadCheck, RichText, URLInput } from '@wordpress/block-editor';
 import { Button, PanelBody, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
@@ -6,7 +6,6 @@ export default function Edit({ attributes, setAttributes }) {
         eyebrow,
         heading,
         text,
-        secondaryText,
         imageId,
         imageUrl,
         imageAlt,
@@ -94,9 +93,9 @@ export default function Edit({ attributes, setAttributes }) {
                     <ToggleControl label="Show buttons" checked={showButton} onChange={(value) => setAttributes({ showButton: value })} />
                     {showButton && (
                         <>
-                            <TextControl label="Primary button URL" value={buttonUrl} onChange={(value) => setAttributes({ buttonUrl: value })} />
+                            <div><p className="sb-editor-field-label">Primary button link</p><URLInput value={buttonUrl} onChange={(value) => setAttributes({ buttonUrl: value })} /></div>
                             <ToggleControl label="Show secondary button" checked={showSecondaryButton} onChange={(value) => setAttributes({ showSecondaryButton: value })} />
-                            {showSecondaryButton && <TextControl label="Secondary button URL" value={secondaryButtonUrl} onChange={(value) => setAttributes({ secondaryButtonUrl: value })} />}
+                            {showSecondaryButton && <div><p className="sb-editor-field-label">Secondary button link</p><URLInput value={secondaryButtonUrl} onChange={(value) => setAttributes({ secondaryButtonUrl: value })} /></div>}
                         </>
                     )}
                 </PanelBody>
@@ -114,10 +113,9 @@ export default function Edit({ attributes, setAttributes }) {
                         )}
                     </div>
                     <div className="sb-about__content">
-                        <RichText tagName="span" className="sb-about__badge" value={eyebrow} placeholder="Since 1999" onChange={(value) => setAttributes({ eyebrow: value })} />
+                        <RichText tagName="span" className="sb-badge" value={eyebrow} placeholder="Since 1999" onChange={(value) => setAttributes({ eyebrow: value })} />
                         <RichText tagName="h2" value={heading} placeholder="About heading" onChange={(value) => setAttributes({ heading: value })} />
                         <RichText tagName="p" className="sb-copy" value={text} placeholder="About introduction" onChange={(value) => setAttributes({ text: value })} />
-                        <RichText tagName="p" className="sb-copy sb-about__secondary-copy" value={secondaryText} placeholder="Add optional secondary text…" onChange={(value) => setAttributes({ secondaryText: value })} />
                         <div className="sb-about__metrics">
                             {metrics.map((metric, index) => (
                                 <div className="sb-about__metric" key={index}>

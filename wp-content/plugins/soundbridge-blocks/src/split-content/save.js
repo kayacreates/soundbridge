@@ -5,7 +5,6 @@ export default function save({ attributes }) {
         eyebrow,
         heading,
         text,
-        secondaryText,
         imageUrl,
         imageAlt,
         secondaryImageUrl,
@@ -40,10 +39,9 @@ export default function save({ attributes }) {
                     )}
                 </div>
                 <div className="sb-about__content">
-                    {eyebrow && <RichText.Content tagName="span" className="sb-about__badge" value={eyebrow} />}
+                    {eyebrow && <RichText.Content tagName="span" className="sb-badge" value={eyebrow} />}
                     <RichText.Content tagName="h2" value={heading} />
                     <RichText.Content tagName="p" className="sb-copy" value={text} />
-                    {secondaryText && <RichText.Content tagName="p" className="sb-copy sb-about__secondary-copy" value={secondaryText} />}
                     {metrics.length > 0 && (
                         <div className="sb-about__metrics">
                             {metrics.map((metric, index) => (

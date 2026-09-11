@@ -8,6 +8,10 @@
 .sb-block-bg--pale-blue {
   color: var(--ink);
   background: var(--blue-pale);
+
+  .sb-btn--outline:focus, .sb-btn--outline:hover {
+    color: var(--blue-pale);
+  }
 }
 
 .sb-block-bg--white,
@@ -20,18 +24,23 @@
   .sb-lead,
   .sb-copy { color: var(--muted); }
 
-  .sb-highlight-pale-blue { color: var(--blue); }
+  .sb-highlight { color: var(--blue); }
 }
 
 .sb-block-bg--blue {
   color: var(--white);
   background: var(--blue);
+
+  .sb-highlight { color: var(--blue-light); }
 }
 
 .sb-block-bg--dark-blue {
   color: var(--white);
   background: var(--blue-dark);
+}
 
+.sb-block-bg--blue,
+.sb-block-bg--dark-blue {
   h1,
   h2,
   h3 { color: var(--white); }
@@ -41,9 +50,16 @@
   .sb-copy,
   p { color: rgba(255, 255, 255, 0.78); }
 
-  .sb-highlight-pale-blue { color: var(--blue-light); }
+  .sb-highlight { color: var(--blue-light); }
 
-  .sb-btn--outline { color: white; border-color: white; background: rgba(225, 225, 225, 0.1); }
+  .sb-btn--outline {
+    color: white; border-color: white; background: rgba(225, 225, 225, 0.1);
+
+    &:focus, &:hover {
+      border-color: var(--white);
+      background: rgba(225, 225, 225, 0.2);
+    }
+  }
 }
 
 @media (max-width: 800px) {

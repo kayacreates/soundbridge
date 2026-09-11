@@ -7,7 +7,7 @@
  * Inserter: true
  */
 ?>
-<!-- wp:soundbridge/hero {"heroStyle":"inner","showBreadcrumbs":true,"breadcrumbCurrentLabel":"Get Involved","eyebrow":"Take Action","heading":"Get Involved with <span class=\"sb-highlight-pale-blue\">SoundBridge</span>","text":"There are many ways to support music education in the Saginaw Bay community — donate, volunteer, partner, teach, or sponsor. Every contribution makes a difference.","showStats":false,"showRegistration":false,"showPrimaryButton":false,"showSecondaryButton":false} /-->
+<!-- wp:soundbridge/hero {"heroStyle":"inner","showBreadcrumbs":true,"breadcrumbCurrentLabel":"Get Involved","eyebrow":"Take Action","heading":"Get Involved with <span class=\"sb-highlight\">SoundBridge</span>","text":"There are many ways to support music education in the Saginaw Bay community — donate, volunteer, partner, teach, or sponsor. Every contribution makes a difference.","showStats":false,"showRegistration":false,"showPrimaryButton":false,"showSecondaryButton":false} /-->
 
 <!-- wp:soundbridge/involvement /-->
 

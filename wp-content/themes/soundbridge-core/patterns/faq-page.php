@@ -7,7 +7,7 @@
  * Inserter: true
  */
 ?>
-<!-- wp:soundbridge/hero {"heroStyle":"inner","showBreadcrumbs":true,"breadcrumbCurrentLabel":"FAQ","eyebrow":"Help Center","heading":"Frequently Asked <span class=\"sb-highlight-pale-blue\">Questions</span>","text":"Find answers about our programs, registration, costs, scholarships, and more. Can't find what you need? Contact us — we're happy to help.","showStats":false,"showRegistration":false,"showPrimaryButton":false,"showSecondaryButton":false} /-->
+<!-- wp:soundbridge/hero {"heroStyle":"inner","showBreadcrumbs":true,"breadcrumbCurrentLabel":"FAQ","eyebrow":"Help Center","heading":"Frequently Asked <span class=\"sb-highlight\">Questions</span>","text":"Find answers about our programs, registration, costs, scholarships, and more. Can't find what you need? Contact us — we're happy to help.","showStats":false,"showRegistration":false,"showPrimaryButton":false,"showSecondaryButton":false} /-->
 
 <!-- wp:soundbridge/faq-directory /-->
 

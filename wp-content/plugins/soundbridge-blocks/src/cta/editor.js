@@ -1,21 +1,21 @@
-import { InspectorControls, RichText } from '@wordpress/block-editor';
-import { PanelBody, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
+import { InspectorControls, RichText, URLInput } from '@wordpress/block-editor';
+import { PanelBody, SelectControl, ToggleControl } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
     const { background = 'dark-blue', showButton, heading, text, buttonLabel, buttonUrl, showSecondaryButton, secondaryButtonLabel, secondaryButtonUrl } = attributes;
-    const sectionClass = `sb-cta alignfull${background !== 'dark-blue' ? ` sb-block-bg--${background}` : ''}`;
+    const sectionClass = `sb-cta alignfull sb-block-bg--${background}`;
 
     return (
         <>
             <InspectorControls>
                 <PanelBody title="Button settings">
-                    <SelectControl label="Background color" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Pale blue', value: 'pale-blue' }, { label: 'Dark blue', value: 'dark-blue' }]} onChange={(value) => setAttributes({ background: value })} />
+                    <SelectControl label="Background color" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Pale blue', value: 'pale-blue' }, { label: 'Bue', value: 'blue' }]} onChange={(value) => setAttributes({ background: value })} />
                     <ToggleControl label="Show buttons" checked={showButton} onChange={(value) => setAttributes({ showButton: value })} />
                     {showButton && (
                         <>
-                            <TextControl label="Primary button URL" value={buttonUrl} onChange={(value) => setAttributes({ buttonUrl: value })} />
+                            <div><p className="sb-editor-field-label">Primary button link</p><URLInput value={buttonUrl} onChange={(value) => setAttributes({ buttonUrl: value })} /></div>
                             <ToggleControl label="Show secondary button" checked={showSecondaryButton} onChange={(value) => setAttributes({ showSecondaryButton: value })} />
-                            {showSecondaryButton && <TextControl label="Secondary button URL" value={secondaryButtonUrl} onChange={(value) => setAttributes({ secondaryButtonUrl: value })} />}
+                            {showSecondaryButton && <div><p className="sb-editor-field-label">Secondary button link</p><URLInput value={secondaryButtonUrl} onChange={(value) => setAttributes({ secondaryButtonUrl: value })} /></div>}
                         </>
                     )}
                 </PanelBody>
@@ -27,7 +27,7 @@ export default function Edit({ attributes, setAttributes }) {
                     {showButton && (
                         <div className="sb-cta__buttons">
                             <RichText tagName="span" className="sb-btn sb-btn--light" value={buttonLabel} placeholder="Primary button label" onChange={(value) => setAttributes({ buttonLabel: value })} />
-                            {showSecondaryButton && <RichText tagName="span" className="sb-btn sb-cta__secondary" value={secondaryButtonLabel} placeholder="Secondary button label" onChange={(value) => setAttributes({ secondaryButtonLabel: value })} />}
+                            {showSecondaryButton && <RichText tagName="span" className="sb-btn sb-btn--outline" value={secondaryButtonLabel} placeholder="Secondary button label" onChange={(value) => setAttributes({ secondaryButtonLabel: value })} />}
                         </div>
                     )}
                 </div>

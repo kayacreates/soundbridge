@@ -18,9 +18,9 @@
       "enum": [
         "white",
         "pale-blue",
-        "dark-blue"
+        "blue"
       ],
-      "default": "dark-blue"
+      "default": "blue"
     },
     "showButton": {
       "type": "boolean",

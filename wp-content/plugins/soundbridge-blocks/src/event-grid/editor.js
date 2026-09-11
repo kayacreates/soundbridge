@@ -1,5 +1,5 @@
 import ServerSideRender from '@wordpress/server-side-render';
-import { InspectorControls, RichText } from '@wordpress/block-editor';
+import { InspectorControls, RichText, URLInput } from '@wordpress/block-editor';
 import { PanelBody, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
@@ -16,7 +16,7 @@ export default function Edit({ attributes, setAttributes }) {
                     {attributes.showButton && (
                         <>
                             <TextControl label="Button label" value={attributes.buttonLabel} onChange={(value) => setAttributes({ buttonLabel: value })} />
-                            <TextControl label="Button URL" value={attributes.buttonUrl} onChange={(value) => setAttributes({ buttonUrl: value })} />
+                            <div><p className="sb-editor-field-label">Button link</p><URLInput value={attributes.buttonUrl} onChange={(value) => setAttributes({ buttonUrl: value })} /></div>
                         </>
                     )}
                 </PanelBody>

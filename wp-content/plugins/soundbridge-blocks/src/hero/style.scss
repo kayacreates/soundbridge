@@ -132,8 +132,14 @@
     .sb-hero__stat strong { color: var(--blue-light); }
     .sb-hero__stats { border-color: rgba(255, 255, 255, 0.22); }
     .sb-hero__stat span { color: rgba(255, 255, 255, 0.78); }
-    .sb-btn { color: var(--blue-dark); background: var(--white); border-color: var(--white); }
-    .sb-btn--outline { color: var(--white); background: transparent; }
+    .sb-btn { color: var(--blue-dark); background: var(--white); border-color: var(--white);
+      &:hover, &:focus { background: rgba(255, 255, 255, 0.9); }
+    }
+    .sb-btn--outline {
+      color: var(--white); background: rgba(255, 255, 255, 0.1); 
+      
+      &:hover, &:focus { background: rgba(255, 255, 255, 0.2); }
+    }
   }
 
   &--front {
@@ -212,6 +218,14 @@
     text-decoration: none;
     background: var(--blue);
     border-radius: 6px;
+    transition:
+      color 0.15s ease,
+      background-color 0.15s ease,
+      border-color 0.15s ease;
+    &:hover, &:focus {
+      background-color: var(--blue-dark);
+      border-color: var(--blue-dark);
+    }
   }
 }
 

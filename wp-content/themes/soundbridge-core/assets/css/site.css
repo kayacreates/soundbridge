@@ -38,6 +38,7 @@ h3 {
   font-family: Fraunces, Georgia, serif;
   line-height: 1.12;
   margin-top: 0;
+  margin-bottom: 14px;
   font-weight: 400;
 }
 h1 {
@@ -48,6 +49,11 @@ h2 {
 }
 h3 {
   font-size: 1.35rem;
+}
+
+p {
+  margin-block-start: 0;
+  margin-block-end: 0;
 }
 .sb-container {
   width: min(1200px, calc(100% - 48px));
@@ -105,6 +111,18 @@ h3 {
   color: var(--blue);
   margin: 0 0 12px;
 }
+.sb-badge {
+  display: inline-block;
+  margin: 0 0 24px;
+  padding: 5px 14px;
+  font-size: 0.69rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  background-color: var(--blue-dark);
+  color: var(--white);
+}
 .sb-lead {
   color: var(--muted);
   max-width: 720px;
@@ -118,16 +136,35 @@ h3 {
   border-radius: 8px;
   text-decoration: none;
   font-weight: 600;
+  transition:
+    color 0.15s ease,
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+.sb-btn:hover, .sb-btn:focus {
+  background-color: var(--blue-dark);
+  border-color: var(--blue-dark);
 }
 .sb-btn--outline {
   background: transparent;
   color: var(--blue);
+  border-color: var(--blue);
+}
+.sb-btn--outline:focus, .sb-btn--outline:hover {
+  background: var(--blue);
+  color: var(--white);
+  border-color: var(--blue);
 }
 .sb-btn--light {
   background: var(--white);
   color: var(--blue);
   border-color: var(--white);
 }
+.sb-btn--light:focus, .sb-btn--light:hover {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(255, 255, 255, 0.9);
+}
+
 .sb-list-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

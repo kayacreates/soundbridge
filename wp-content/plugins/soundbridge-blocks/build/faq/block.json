@@ -30,6 +30,30 @@
       "type": "string",
       "default": "Frequently asked questions"
     },
+    "imageId": {
+      "type": "number",
+      "default": 0
+    },
+    "imageUrl": {
+      "type": "string",
+      "default": ""
+    },
+    "imageAlt": {
+      "type": "string",
+      "default": ""
+    },
+    "showButton": {
+      "type": "boolean",
+      "default": true
+    },
+    "buttonLabel": {
+      "type": "string",
+      "default": "View All FAQs →"
+    },
+    "buttonUrl": {
+      "type": "string",
+      "default": "/faq"
+    },
     "items": {
       "type": "array",
       "default": [

@@ -13,7 +13,7 @@ if (!globalThis.soundbridgePaleBlueHighlightRegistered) {
     registerFormatType(formatName, {
         title: 'Blue highlight',
         tagName: 'span',
-        className: 'sb-highlight-pale-blue',
+        className: 'sb-highlight',
         edit: ({ isActive, onChange, onFocus, value }) => (
             <RichTextToolbarButton
                 name="unknown"

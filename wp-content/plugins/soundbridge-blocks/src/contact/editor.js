@@ -1,4 +1,4 @@
-import { InspectorControls, RichText } from '@wordpress/block-editor';
+import { InspectorControls, RichText, URLInput } from '@wordpress/block-editor';
 import { Button, PanelBody, SelectControl, TextControl, TextareaControl } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
@@ -12,11 +12,11 @@ export default function Edit({ attributes, setAttributes }) {
                 <SelectControl label="Background color" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Pale blue', value: 'pale-blue' }, { label: 'Dark blue', value: 'dark-blue' }]} onChange={(value) => setAttributes({ background: value })} />
                 <TextControl label="Contact email" value={email} onChange={(value) => setAttributes({ email: value })} />
                 <TextControl label="Website label" value={websiteLabel} onChange={(value) => setAttributes({ websiteLabel: value })} />
-                <TextControl label="Website URL" value={websiteUrl} onChange={(value) => setAttributes({ websiteUrl: value })} />
+                <div><p className="sb-editor-field-label">Website link</p><URLInput value={websiteUrl} onChange={(value) => setAttributes({ websiteUrl: value })} /></div>
                 <TextareaControl label="Primary venue" value={venue} onChange={(value) => setAttributes({ venue: value })} />
             </PanelBody>
             <PanelBody title="Quick links" initialOpen={false}>
-                {quickLinks.map((link, index) => <div className="sb-contact__link-control" key={index}><TextControl label={`Link ${index + 1} label`} value={link.label} onChange={(value) => updateLink(index, 'label', value)} /><TextControl label="URL" value={link.url} onChange={(value) => updateLink(index, 'url', value)} /><Button isDestructive variant="link" onClick={() => setAttributes({ quickLinks: quickLinks.filter((_, linkIndex) => linkIndex !== index) })}>Remove link</Button></div>)}
+                {quickLinks.map((link, index) => <div className="sb-contact__link-control" key={index}><TextControl label={`Link ${index + 1} label`} value={link.label} onChange={(value) => updateLink(index, 'label', value)} /><div><p className="sb-editor-field-label">Link destination</p><URLInput value={link.url} onChange={(value) => updateLink(index, 'url', value)} /></div><Button isDestructive variant="link" onClick={() => setAttributes({ quickLinks: quickLinks.filter((_, linkIndex) => linkIndex !== index) })}>Remove link</Button></div>)}
                 <Button variant="secondary" onClick={() => setAttributes({ quickLinks: [...quickLinks, { label: '', url: '' }] })}>Add quick link</Button>
             </PanelBody>
         </InspectorControls>

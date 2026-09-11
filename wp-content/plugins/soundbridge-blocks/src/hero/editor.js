@@ -1,4 +1,4 @@
-import { InspectorControls, MediaUpload, MediaUploadCheck, RichText } from '@wordpress/block-editor';
+import { InspectorControls, MediaUpload, MediaUploadCheck, RichText, URLInput } from '@wordpress/block-editor';
 import { Button, PanelBody, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
@@ -91,19 +91,19 @@ export default function Edit({ attributes, setAttributes }) {
                     {showBreadcrumbs && (
                         <>
                             <TextControl label="Home label" value={breadcrumbHomeLabel} onChange={(value) => setAttributes({ breadcrumbHomeLabel: value })} />
-                            <TextControl label="Home URL" value={breadcrumbHomeUrl} onChange={(value) => setAttributes({ breadcrumbHomeUrl: value })} />
+                            <div><p className="sb-editor-field-label">Home link</p><URLInput value={breadcrumbHomeUrl} onChange={(value) => setAttributes({ breadcrumbHomeUrl: value })} /></div>
                             <TextControl label="Current page label" value={breadcrumbCurrentLabel} onChange={(value) => setAttributes({ breadcrumbCurrentLabel: value })} />
                         </>
                     )}
                     {!isInnerHero && <SelectControl label="Background color" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Pale Blue', value: 'pale-blue' }, { label: 'Dark Blue', value: 'dark-blue' }]} onChange={(value) => setAttributes({ background: value })} />}
                     <TextControl label="Image alt text" value={imageAlt} onChange={(value) => setAttributes({ imageAlt: value })} />
                     <ToggleControl label="Show registration card" checked={showRegistration} onChange={(value) => setAttributes({ showRegistration: value })} />
-                    {showRegistration && <TextControl label="Registration button URL" value={registrationButtonUrl} onChange={(value) => setAttributes({ registrationButtonUrl: value })} />}
+                    {showRegistration && <div><p className="sb-editor-field-label">Registration button link</p><URLInput value={registrationButtonUrl} onChange={(value) => setAttributes({ registrationButtonUrl: value })} /></div>}
                     <ToggleControl label="Show hero stats" checked={showStats} onChange={(value) => setAttributes({ showStats: value })} />
                     <ToggleControl label="Show primary button" checked={showPrimaryButton} onChange={(value) => setAttributes({ showPrimaryButton: value })} />
-                    {showPrimaryButton && <TextControl label="Primary URL" value={primaryUrl} onChange={(value) => setAttributes({ primaryUrl: value })} />}
+                    {showPrimaryButton && <div><p className="sb-editor-field-label">Primary button link</p><URLInput value={primaryUrl} onChange={(value) => setAttributes({ primaryUrl: value })} /></div>}
                     <ToggleControl label="Show secondary button" checked={showSecondaryButton} onChange={(value) => setAttributes({ showSecondaryButton: value })} />
-                    {showSecondaryButton && <TextControl label="Secondary URL" value={secondaryUrl} onChange={(value) => setAttributes({ secondaryUrl: value })} />}
+                    {showSecondaryButton && <div><p className="sb-editor-field-label">Secondary button link</p><URLInput value={secondaryUrl} onChange={(value) => setAttributes({ secondaryUrl: value })} /></div>}
                 </PanelBody>
             </InspectorControls>
             <section className={heroClass}>
