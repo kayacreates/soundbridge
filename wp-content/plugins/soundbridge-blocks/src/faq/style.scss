@@ -85,7 +85,7 @@
   details[open] &__chevron { margin-top: 4px; transform: rotate(225deg); }
 
   &__answer { padding: 20px 18px; }
-  &__answer p { margin: 0; color: var(--muted); font-size: 0.875rem; line-height: 1.7; }
+  &__answer p { margin: 0; color: var(--muted) !important; font-size: 0.875rem; line-height: 1.7; }
   &__button { display: inline-flex; margin-top: 24px; padding: 10px 22px; font-size: 0.8125rem; }
   &__button:hover { background: var(--blue-pale); }
   &__remove { margin: 0 20px 14px; }

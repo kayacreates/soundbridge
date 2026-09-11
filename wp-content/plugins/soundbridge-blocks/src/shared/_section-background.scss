@@ -8,10 +8,6 @@
 .sb-block-bg--pale-blue {
   color: var(--ink);
   background: var(--blue-pale);
-
-  .sb-btn--outline:focus, .sb-btn--outline:hover {
-    color: var(--blue-pale);
-  }
 }
 
 .sb-block-bg--white,
@@ -57,6 +53,7 @@
 
     &:focus, &:hover {
       border-color: var(--white);
+      color: var(--white);
       background: rgba(225, 225, 225, 0.2);
     }
   }

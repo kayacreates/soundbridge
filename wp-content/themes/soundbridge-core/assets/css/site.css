@@ -151,8 +151,8 @@ p {
   border-color: var(--blue);
 }
 .sb-btn--outline:focus, .sb-btn--outline:hover {
-  background: var(--blue);
-  color: var(--white);
+  background-color: rgba(29, 64, 128, 0.1);
+  color: var(--blue);
   border-color: var(--blue);
 }
 .sb-btn--light {

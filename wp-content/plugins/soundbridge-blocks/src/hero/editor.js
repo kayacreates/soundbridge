@@ -95,7 +95,7 @@ export default function Edit({ attributes, setAttributes }) {
                             <TextControl label="Current page label" value={breadcrumbCurrentLabel} onChange={(value) => setAttributes({ breadcrumbCurrentLabel: value })} />
                         </>
                     )}
-                    {!isInnerHero && <SelectControl label="Background color" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Pale Blue', value: 'pale-blue' }, { label: 'Dark Blue', value: 'dark-blue' }]} onChange={(value) => setAttributes({ background: value })} />}
+                    {!isInnerHero && <SelectControl label="Background color" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Dark Blue', value: 'dark-blue' }]} onChange={(value) => setAttributes({ background: value })} />}
                     <TextControl label="Image alt text" value={imageAlt} onChange={(value) => setAttributes({ imageAlt: value })} />
                     <ToggleControl label="Show registration card" checked={showRegistration} onChange={(value) => setAttributes({ showRegistration: value })} />
                     {showRegistration && <div><p className="sb-editor-field-label">Registration button link</p><URLInput value={registrationButtonUrl} onChange={(value) => setAttributes({ registrationButtonUrl: value })} /></div>}

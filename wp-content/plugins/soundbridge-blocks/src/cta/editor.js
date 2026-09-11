@@ -9,7 +9,7 @@ export default function Edit({ attributes, setAttributes }) {
         <>
             <InspectorControls>
                 <PanelBody title="Button settings">
-                    <SelectControl label="Background color" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Pale blue', value: 'pale-blue' }, { label: 'Bue', value: 'blue' }]} onChange={(value) => setAttributes({ background: value })} />
+                    <SelectControl label="Background color" value={background} options={[{ label: 'Pale blue', value: 'pale-blue' }, { label: 'Blue', value: 'blue' }]} onChange={(value) => setAttributes({ background: value })} />
                     <ToggleControl label="Show buttons" checked={showButton} onChange={(value) => setAttributes({ showButton: value })} />
                     {showButton && (
                         <>
@@ -26,7 +26,7 @@ export default function Edit({ attributes, setAttributes }) {
                     <RichText tagName="p" value={text} placeholder="CTA text" onChange={(value) => setAttributes({ text: value })} />
                     {showButton && (
                         <div className="sb-cta__buttons">
-                            <RichText tagName="span" className="sb-btn sb-btn--light" value={buttonLabel} placeholder="Primary button label" onChange={(value) => setAttributes({ buttonLabel: value })} />
+                            <RichText tagName="span" className="sb-bt" value={buttonLabel} placeholder="Primary button label" onChange={(value) => setAttributes({ buttonLabel: value })} />
                             {showSecondaryButton && <RichText tagName="span" className="sb-btn sb-btn--outline" value={secondaryButtonLabel} placeholder="Secondary button label" onChange={(value) => setAttributes({ secondaryButtonLabel: value })} />}
                         </div>
                     )}
