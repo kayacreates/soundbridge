@@ -92,6 +92,10 @@
       "type": "boolean",
       "default": false
     },
+    "registrationProgramId": {
+      "type": "integer",
+      "default": 0
+    },
     "registrationStatus": {
       "type": "string",
       "default": "Registration Open"

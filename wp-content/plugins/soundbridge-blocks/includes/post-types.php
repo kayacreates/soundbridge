@@ -7,7 +7,7 @@ function soundbridge_register_post_types(){
   ];
   foreach($types as $slug=>$v){ register_post_type($slug,[
     'labels'=>['name'=>$v[0],'singular_name'=>$v[1],'add_new_item'=>'Add New '.$v[1],'edit_item'=>'Edit '.$v[1]],
-    'public'=>true,'show_in_rest'=>true,'menu_icon'=>$v[2],'has_archive'=>true,
+    'public'=>true,'show_in_rest'=>true,'show_in_nav_menus'=>true,'menu_icon'=>$v[2],'has_archive'=>true,
     'rewrite'=>['slug'=>$slug==='directory'?'music-directory':$slug.'s'],
     'supports'=>$slug==='program'
       ? ['title','excerpt','thumbnail','revisions']

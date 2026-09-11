@@ -1,6 +1,7 @@
 <?php
 function soundbridge_setup() {
   add_theme_support('title-tag'); add_theme_support('post-thumbnails'); add_theme_support('align-wide');
+  add_theme_support('custom-logo', ['height'=>96,'width'=>275,'flex-height'=>true,'flex-width'=>true]);
   add_theme_support('editor-styles'); add_editor_style('assets/css/site.css');
   register_nav_menus(['primary'=>'Primary Navigation','footer'=>'Footer Navigation']);
 }

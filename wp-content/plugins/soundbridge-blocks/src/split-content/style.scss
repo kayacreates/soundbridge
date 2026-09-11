@@ -98,6 +98,16 @@
   &__buttons { display: flex; flex-wrap: wrap; gap: 12px; }
 }
 
+.sb-about.sb-block-bg--pale-blue {
+  .sb-about__image--secondary,
+  .sb-about__overlay-stat { border-color: var(--blue-pale); }
+}
+
+.sb-about.sb-block-bg--blue {
+  .sb-about__image--secondary,
+  .sb-about__overlay-stat { border-color: var(--blue); }
+}
+
 @media (max-width: 800px) {
   .sb-about {
     &__grid { grid-template-columns: 1fr; gap: 48px; }

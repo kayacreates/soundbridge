@@ -1,1 +1,23 @@
-document.addEventListener('DOMContentLoaded',()=>{const b=document.querySelector('.sb-menu-toggle'),n=document.querySelector('.sb-nav');if(b&&n)b.addEventListener('click',()=>{const open=b.getAttribute('aria-expanded')==='true';b.setAttribute('aria-expanded',String(!open));n.classList.toggle('is-open');});});
+document.addEventListener('DOMContentLoaded', () => {
+  const toggle = document.querySelector('.sb-menu-toggle');
+  const menu = document.querySelector('.sb-mobile-menu');
+  if (!toggle || !menu) return;
+
+  const setOpen = (open) => {
+    toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    menu.hidden = !open;
+  };
+
+  toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+  menu.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => setOpen(false)));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+      setOpen(false);
+      toggle.focus();
+    }
+  });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 800) setOpen(false);
+  });
+});

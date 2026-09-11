@@ -1,5 +1,8 @@
 import { InspectorControls, MediaUpload, MediaUploadCheck, RichText, URLInput } from '@wordpress/block-editor';
-import { Button, PanelBody, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
+import { Button, Notice, PanelBody, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
+import apiFetch from '@wordpress/api-fetch';
+import { useEffect, useState } from '@wordpress/element';
+import { decodeEntities } from '@wordpress/html-entities';
 
 export default function Edit({ attributes, setAttributes }) {
     const {
@@ -18,6 +21,7 @@ export default function Edit({ attributes, setAttributes }) {
         imageUrl,
         imageAlt,
         showRegistration,
+        registrationProgramId = 0,
         registrationStatus,
         registrationTitle,
         registrationDetails,
@@ -30,6 +34,8 @@ export default function Edit({ attributes, setAttributes }) {
         secondaryLabel,
         secondaryUrl,
     } = attributes;
+    const [programs, setPrograms] = useState([]);
+    const [programsError, setProgramsError] = useState('');
     const isInnerHero = heroStyle === 'inner';
     const heroClass = `sb-hero alignfull sb-hero--${isInnerHero ? 'inner' : 'front sb-block-bg--' + background} `;
     const selectImage = (media) => setAttributes({
@@ -38,6 +44,31 @@ export default function Edit({ attributes, setAttributes }) {
         imageAlt: media.alt || media.title || '',
     });
     const removeImage = () => setAttributes({ imageId: 0, imageUrl: '', imageAlt: '' });
+    useEffect(() => {
+        apiFetch({ path: '/wp/v2/program?per_page=100&status=publish' })
+            .then(setPrograms)
+            .catch((error) => setProgramsError(error.message || 'Unable to load Programs.'));
+    }, []);
+    const selectProgram = (value) => {
+        const programId = Number(value);
+        const program = programs.find((item) => item.id === programId);
+        if (!program) {
+            setAttributes({ registrationProgramId: 0 });
+            return;
+        }
+
+        const meta = program.meta || {};
+        const details = [meta.sb_schedule, meta.sb_location].filter(Boolean).join(' · ');
+        const statusLabels = { open: 'Registration Open', 'coming-soon': 'Coming Soon', closed: 'Registration Closed' };
+        setAttributes({
+            registrationProgramId: programId,
+            registrationStatus: statusLabels[meta.sb_status] || 'Registration Open',
+            registrationTitle: decodeEntities(program.title?.rendered || ''),
+            registrationDetails: details,
+            registrationButtonLabel: meta.sb_registration_label || 'Register Now',
+            registrationButtonUrl: meta.sb_registration_url || program.link || '',
+        });
+    };
     const updateStat = (index, key, value) => {
         const nextStats = stats.map((stat, statIndex) =>
             statIndex === index ? { ...stat, [key]: value } : stat
@@ -98,7 +129,11 @@ export default function Edit({ attributes, setAttributes }) {
                     {!isInnerHero && <SelectControl label="Background color" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Dark Blue', value: 'dark-blue' }]} onChange={(value) => setAttributes({ background: value })} />}
                     <TextControl label="Image alt text" value={imageAlt} onChange={(value) => setAttributes({ imageAlt: value })} />
                     <ToggleControl label="Show registration card" checked={showRegistration} onChange={(value) => setAttributes({ showRegistration: value })} />
-                    {showRegistration && <div><p className="sb-editor-field-label">Registration button link</p><URLInput value={registrationButtonUrl} onChange={(value) => setAttributes({ registrationButtonUrl: value })} /></div>}
+                    {showRegistration && <>
+                        <SelectControl label="Featured program" help="Selecting a program fills the registration card." value={String(registrationProgramId)} options={[{ label: 'Choose a program', value: '0' }, ...programs.map((program) => ({ label: decodeEntities(program.title?.rendered || `Program #${program.id}`), value: String(program.id) }))]} onChange={selectProgram} />
+                        {programsError && <Notice status="warning" isDismissible={false}>{programsError}</Notice>}
+                        <div><p className="sb-editor-field-label">Registration button link</p><URLInput value={registrationButtonUrl} onChange={(value) => setAttributes({ registrationButtonUrl: value })} /></div>
+                    </>}
                     <ToggleControl label="Show hero stats" checked={showStats} onChange={(value) => setAttributes({ showStats: value })} />
                     <ToggleControl label="Show primary button" checked={showPrimaryButton} onChange={(value) => setAttributes({ showPrimaryButton: value })} />
                     {showPrimaryButton && <div><p className="sb-editor-field-label">Primary button link</p><URLInput value={primaryUrl} onChange={(value) => setAttributes({ primaryUrl: value })} /></div>}
