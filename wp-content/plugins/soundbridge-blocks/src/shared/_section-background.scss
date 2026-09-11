@@ -1,3 +1,11 @@
+.sb-highlight {
+  padding: 0;
+  color: var(--blue);
+  border-radius: 0.12em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
 .sb-block-bg { padding: 88px 0; }
 
 .sb-block-bg--white {
@@ -16,7 +24,7 @@
   h2,
   h3 { color: var(--ink); }
 
-  p,
+  p:not(.sb-eyebrow),
   .sb-lead,
   .sb-copy { color: var(--muted); }
 

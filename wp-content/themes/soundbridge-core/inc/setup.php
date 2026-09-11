@@ -6,7 +6,7 @@ function soundbridge_setup() {
 }
 add_action('after_setup_theme','soundbridge_setup');
 function soundbridge_assets(){
-  wp_enqueue_style('soundbridge-fonts','https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600;700&display=swap',[],null);
+  wp_enqueue_style('soundbridge-fonts','https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap',[],null);
   wp_enqueue_style('soundbridge-site',get_template_directory_uri().'/assets/css/site.css',[],wp_get_theme()->get('Version'));
   if (is_singular('program')) {
     $single_stylesheet = get_template_directory() . '/assets/css/single.css';

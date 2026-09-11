@@ -14,9 +14,29 @@
   },
   "attributes": {
     "background": { "type": "string", "enum": ["white", "pale-blue", "dark-blue"], "default": "pale-blue" },
+    "eyebrow": {
+      "type": "string",
+      "default": "Our Programs"
+    },
     "heading": {
       "type": "string",
-      "default": "Programs"
+      "default": "Find a Program That Fits Your Musician"
+    },
+    "showViewAll": {
+      "type": "boolean",
+      "default": true
+    },
+    "viewAllLabel": {
+      "type": "string",
+      "default": "View All Programs →"
+    },
+    "viewAllUrl": {
+      "type": "string",
+      "default": "/programs"
+    },
+    "editorPreview": {
+      "type": "boolean",
+      "default": false
     },
     "count": {
       "type": "number",
