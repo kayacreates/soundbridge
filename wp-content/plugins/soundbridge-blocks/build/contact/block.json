@@ -52,6 +52,10 @@
       "type": "string",
       "default": "We typically respond within 1 business day."
     },
+    "fluentFormId": {
+      "type": "integer",
+      "default": 0
+    },
     "submitLabel": {
       "type": "string",
       "default": "Send Message →"

@@ -147,6 +147,12 @@
     }
   }
 
+  &--inner {
+    .sb-highlight {
+      color: var(--blue-light);
+    }
+  }
+
   &__media {
     position: relative;
     align-self: end;

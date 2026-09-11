@@ -16,6 +16,7 @@
     "websiteUrl": { "type": "string", "default": "https://saginawbaysoundbridge.com" },
     "venue": { "type": "string", "default": "Countryside Trinity Church\n8600 Gratiot Road, Saginaw, MI 48609" },
     "responseText": { "type": "string", "default": "We typically respond within 1 business day." },
+    "fluentFormId": { "type": "integer", "default": 0 },
     "submitLabel": { "type": "string", "default": "Send Message →" },
     "quickLinks": {
       "type": "array",

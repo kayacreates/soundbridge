@@ -31,7 +31,7 @@ export default function Edit({ attributes, setAttributes }) {
         secondaryUrl,
     } = attributes;
     const isInnerHero = heroStyle === 'inner';
-    const heroClass = `sb-hero alignfull sb-hero--${isInnerHero ? 'inner' : 'front'} sb-block-bg--${ background }`;
+    const heroClass = `sb-hero alignfull sb-hero--${isInnerHero ? 'inner' : 'front sb-block-bg--' + background} `;
     const selectImage = (media) => setAttributes({
         imageId: media.id,
         imageUrl: media.url,

@@ -1,6 +1,7 @@
 
 .sb-contact {
   &__grid { display: grid; grid-template-columns: 3fr 2fr; gap: 60px; align-items: start; }
+  &__grid > * { min-width: 0; }
   &__form { display: flex; flex-direction: column; gap: 20px; margin-top: 32px; }
   &__row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
   &__form label { display: flex; flex-direction: column; gap: 6px; color: var(--ink); font-size: 0.75rem; font-weight: 700; }
@@ -10,6 +11,34 @@
   &__form textarea { width: 100%; padding: 11px 14px; color: var(--ink); font: 400 0.875rem/1.5 Inter, sans-serif; background: var(--white); border: 1.5px solid var(--border); border-radius: 8px; }
   &__form textarea { min-height: 140px; resize: vertical; }
   &__form .sb-btn { align-self: flex-start; }
+  &__form--fluent { display: block; }
+  &__form--fluent .fluentform { width: 100%; }
+  &__form--fluent .ff-el-group { margin-bottom: 20px; }
+  &__form--fluent .ff-el-input--label { margin-bottom: 6px; }
+  &__form--fluent .ff-el-input--label label { color: var(--ink); font-size: 0.75rem; font-weight: 700; line-height: 1.4; }
+  &__form--fluent .ff-el-form-control { width: 100%; min-height: 46px; padding: 11px 14px; color: var(--ink); font: 400 0.875rem/1.5 Inter, sans-serif; background-color: var(--white); border: 1.5px solid var(--border); border-radius: 8px; box-shadow: none; }
+  &__form--fluent .ff-el-form-control:focus { background-color: var(--white); border-color: var(--blue); box-shadow: 0 0 0 3px rgba(29, 79, 145, 0.12); outline: none; }
+  &__form--fluent textarea.ff-el-form-control { min-height: 140px; resize: vertical; }
+  &__form--fluent .ff-btn-submit,
+  &__form--fluent form .ff-btn-submit:not(.ff_btn_no_style),
+  &__form--fluent .ff-default .ff_btn_style.ff-btn-submit,
+  &__form--fluent .ff-default .ff-btn-submit.ff-btn-primary:not(.ff_btn_no_style) { display: inline-flex; gap: 9px; align-items: center; min-height: 0; padding: 12px 26px; color: var(--white); font: 600 1rem/1.65 Inter, sans-serif; text-decoration: none; background-color: var(--blue); border: 1.5px solid var(--blue); border-radius: 8px; box-shadow: none; opacity: 1; transition: color 0.15s ease, background-color 0.15s ease, border-color 0.15s ease; }
+  &__form--fluent .ff-btn-submit:hover,
+  &__form--fluent .ff-btn-submit:focus,
+  &__form--fluent form .ff-btn-submit:not(.ff_btn_no_style):hover,
+  &__form--fluent form .ff-btn-submit:not(.ff_btn_no_style):focus,
+  &__form--fluent .ff-default .ff_btn_style.ff-btn-submit:hover,
+  &__form--fluent .ff-default .ff_btn_style.ff-btn-submit:focus { color: var(--white); background-color: var(--blue-dark); border-color: var(--blue-dark); opacity: 1; }
+  &__form--fluent .ff-btn-submit::after { font: 600 1em/1 Inter, sans-serif; content: "→"; }
+  &__form--fluent .ff-el-is-error .ff-el-form-control { border-color: #b42318; }
+  &__form--fluent .error.text-danger { color: #b42318; font-size: 0.75rem; }
+  &__form--fluent .ff-message-success { padding: 18px 20px; color: #1a6b2e; background: #e6f4ea; border: 1px solid #b8e0c0; border-radius: 8px; box-shadow: none; }
+  &__fluent-preview { align-items: center; padding: 42px 24px; text-align: center; background: var(--section); border: 1px dashed var(--blue-light); border-radius: 12px; }
+  &__fluent-preview .dashicons { width: 36px; height: 36px; color: var(--blue); font-size: 36px; }
+  &__fluent-preview strong { color: var(--ink); font-size: 1rem; }
+  &__fluent-preview p { margin: 0; color: var(--muted); font-size: 0.8125rem; }
+  &__forms-loading { display: flex; gap: 6px; align-items: center; margin-bottom: 16px; color: var(--muted); }
+  &__forms-loading .components-spinner { margin: 0; }
   &__honeypot { position: absolute !important; left: -9999px !important; }
   &__sidebar { display: flex; flex-direction: column; gap: 20px; }
   &__info,
@@ -34,5 +63,5 @@
   &__notice--error { background: #fff1f0; border: 1px solid #f4b8b2; }
 }
 
-@media (max-width: 800px) { .sb-contact__grid { grid-template-columns: 1fr; gap: 48px; } }
+@media (max-width: 680px) { .sb-contact__grid { grid-template-columns: 1fr; gap: 48px; } }
 @media (max-width: 560px) { .sb-contact__row { grid-template-columns: 1fr; } }
