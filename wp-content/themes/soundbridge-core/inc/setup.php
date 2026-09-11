@@ -30,6 +30,12 @@ function soundbridge_assets(){
     wp_enqueue_style('soundbridge-directory-archive',get_template_directory_uri().'/assets/css/archive-directory.css',['soundbridge-site'],filemtime($directory_stylesheet));
     wp_enqueue_script('soundbridge-directory-archive',get_template_directory_uri().'/assets/js/archive-directory.js',[],filemtime($directory_script),true);
   }
+  if (is_post_type_archive('event')) {
+    $event_stylesheet = get_template_directory() . '/assets/css/archive-event.css';
+    $event_script = get_template_directory() . '/assets/js/archive-event.js';
+    wp_enqueue_style('soundbridge-event-archive',get_template_directory_uri().'/assets/css/archive-event.css',['soundbridge-site'],filemtime($event_stylesheet));
+    wp_enqueue_script('soundbridge-event-archive',get_template_directory_uri().'/assets/js/archive-event.js',[],filemtime($event_script),true);
+  }
   wp_enqueue_script('soundbridge-site',get_template_directory_uri().'/assets/js/site.js',[],wp_get_theme()->get('Version'),true);
 }
 add_action('wp_enqueue_scripts','soundbridge_assets');

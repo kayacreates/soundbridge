@@ -18,6 +18,7 @@ require_once SOUNDBRIDGE_BLOCKS_DIR . 'includes/meta.php';
 require_once SOUNDBRIDGE_BLOCKS_DIR . 'includes/contact-form.php';
 require_once SOUNDBRIDGE_BLOCKS_DIR . 'includes/program-archive-settings.php';
 require_once SOUNDBRIDGE_BLOCKS_DIR . 'includes/directory-archive-settings.php';
+require_once SOUNDBRIDGE_BLOCKS_DIR . 'includes/event-archive-settings.php';
 require_once SOUNDBRIDGE_BLOCKS_DIR . 'includes/fluent-forms.php';
 
 /** Register every compiled SoundBridge block that has block metadata. */

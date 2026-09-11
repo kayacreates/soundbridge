@@ -7,5 +7,6 @@ module.exports = {
         ...(await defaultConfig.entry()),
         'program-archive-settings/index': path.resolve(process.cwd(), 'src/program-archive-settings/index.js'),
         'directory-archive-settings/index': path.resolve(process.cwd(), 'src/directory-archive-settings/index.js'),
+        'event-archive-settings/index': path.resolve(process.cwd(), 'src/event-archive-settings/index.js'),
     }),
 };

@@ -1,0 +1,5 @@
+@use "../program-archive-settings/style";
+
+.sb-event-archive-editor__callout { text-align: center; }
+.sb-event-archive-editor__callout > div:first-child { flex-basis: 100%; }
+.sb-event-archive-editor__callout .sb-admin-btn { margin: 0 auto; }
