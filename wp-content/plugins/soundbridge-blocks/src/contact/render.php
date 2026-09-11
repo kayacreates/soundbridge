@@ -34,7 +34,21 @@ $fluent_form_id = absint($attributes['fluentFormId'] ?? 0);
       <?php endif; ?>
     </div>
     <aside class="sb-contact__sidebar">
-      <div class="sb-contact__info"><h3>Contact Information</h3><div><strong>Email</strong><a href="mailto:<?php echo esc_attr($attributes['email'] ?? ''); ?>"><?php echo esc_html($attributes['email'] ?? ''); ?></a></div><div><strong>Website</strong><a href="<?php echo esc_url($attributes['websiteUrl'] ?? ''); ?>"><?php echo esc_html($attributes['websiteLabel'] ?? ''); ?></a></div><div><strong>Primary Venue</strong><span><?php echo nl2br(esc_html($attributes['venue'] ?? '')); ?></span></div></div>
+      <div class="sb-contact__info">
+        <h3>Contact Information</h3>
+        <div class="sb-contact__info-row">
+          <svg class="sb-contact__info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <div><strong>Email</strong><a href="mailto:<?php echo esc_attr($attributes['email'] ?? ''); ?>"><?php echo esc_html($attributes['email'] ?? ''); ?></a></div>
+        </div>
+        <div class="sb-contact__info-row">
+          <svg class="sb-contact__info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20"/></svg>
+          <div><strong>Website</strong><a href="<?php echo esc_url($attributes['websiteUrl'] ?? ''); ?>"><?php echo esc_html($attributes['websiteLabel'] ?? ''); ?></a></div>
+        </div>
+        <div class="sb-contact__info-row">
+          <svg class="sb-contact__info-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 5-5.5 10.5-7.4 12.3a.83.83 0 0 1-1.2 0C9.5 20.5 4 15 4 10a8 8 0 1 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>
+          <div><strong>Primary Venue</strong><span><?php echo nl2br(esc_html($attributes['venue'] ?? '')); ?></span></div>
+        </div>
+      </div>
       <div class="sb-contact__response"><h3>Response Time</h3><p>⚡ <?php echo esc_html($attributes['responseText'] ?? ''); ?></p></div>
       <div class="sb-contact__quick-links"><h3>Quick Links</h3><?php foreach ($quick_links as $link) : ?><a href="<?php echo esc_url($link['url'] ?? ''); ?>">→ <?php echo esc_html($link['label'] ?? ''); ?></a><?php endforeach; ?></div>
     </aside>
