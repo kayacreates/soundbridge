@@ -229,13 +229,6 @@
   }
 }
 
-.sb-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-top: 28px;
-}
-
 @media (max-width: 800px) {
   .sb-hero {
     &__grid { grid-template-columns: 1fr; padding-top: 48px; }

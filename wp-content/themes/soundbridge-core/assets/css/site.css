@@ -1,5 +1,6 @@
 :root {
   --blue: #1d4080;
+  --blue-rgb: 29, 64, 128;
   --blue-dark: #0e2650;
   --blue-pale: #e8eef8;
   --blue-light: #a8c4f0;
@@ -54,6 +55,9 @@ h3 {
 p {
   margin-block-start: 0;
   margin-block-end: 0;
+}
+strong {
+  font-weight: 600;
 }
 .sb-container {
   width: min(1200px, calc(100% - 48px));
@@ -127,6 +131,12 @@ p {
   color: var(--muted);
   max-width: 720px;
 }
+.sb-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
 .sb-btn {
   display: inline-block;
   padding: 12px 26px;
@@ -151,7 +161,7 @@ p {
   border-color: var(--blue);
 }
 .sb-btn--outline:focus, .sb-btn--outline:hover {
-  background-color: rgba(29, 64, 128, 0.1);
+  background-color: rgba(var(--blue-rgb), 0.2);
   color: var(--blue);
   border-color: var(--blue);
 }
@@ -209,7 +219,7 @@ p {
   padding: 28px;
 }
 .sb-text-link {
-  font-weight: 700;
+  font-weight: 600;
   text-decoration: none;
 }
 .sb-page-hero {

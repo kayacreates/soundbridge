@@ -9,10 +9,18 @@ function soundbridge_register_post_types(){
     'labels'=>['name'=>$v[0],'singular_name'=>$v[1],'add_new_item'=>'Add New '.$v[1],'edit_item'=>'Edit '.$v[1]],
     'public'=>true,'show_in_rest'=>true,'menu_icon'=>$v[2],'has_archive'=>true,
     'rewrite'=>['slug'=>$slug==='directory'?'music-directory':$slug.'s'],
-    'supports'=>['title','editor','excerpt','thumbnail','revisions','custom-fields']
+    'supports'=>$slug==='program'
+      ? ['title','excerpt','thumbnail','revisions']
+      : ['title','editor','excerpt','thumbnail','revisions','custom-fields']
   ]); }
   register_taxonomy('program_type','program',['label'=>'Program Types','public'=>true,'show_in_rest'=>true,'hierarchical'=>true]);
   register_taxonomy('event_type','event',['label'=>'Event Types','public'=>true,'show_in_rest'=>true,'hierarchical'=>true]);
   register_taxonomy('directory_category','directory',['label'=>'Directory Categories','public'=>true,'show_in_rest'=>true,'hierarchical'=>true]);
 }
 add_action('init','soundbridge_register_post_types');
+
+/** Programs use structured fields instead of the block editor. */
+function soundbridge_disable_program_block_editor($use_block_editor, $post_type){
+  return $post_type==='program' ? false : $use_block_editor;
+}
+add_filter('use_block_editor_for_post_type','soundbridge_disable_program_block_editor',10,2);
