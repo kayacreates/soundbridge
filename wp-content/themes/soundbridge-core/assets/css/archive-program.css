@@ -38,7 +38,7 @@
 .sb-program-archive__callout-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .sb-program-archive__callout-actions .sb-btn { padding: 10px 20px; font-size: 0.8125rem; }
 
-.sb-program-archive-cta { padding: 56px 24px; color: var(--white); background: var(--blue-dark); }
+.sb-program-archive-cta { padding: 56px 24px; color: var(--white); background: var(--blue); }
 .sb-program-archive-cta .sb-container { display: flex; gap: 32px; align-items: center; justify-content: space-between; }
 .sb-program-archive-cta .sb-eyebrow { color: var(--blue-light); }
 .sb-program-archive-cta h2 { margin-bottom: 8px; color: var(--white); }

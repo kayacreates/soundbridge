@@ -2,7 +2,7 @@
 /** Register post metadata used by SoundBridge content types. */
 function soundbridge_register_meta() {
     $program_text_fields = array(
-        'tagline', 'age', 'level', 'instrument', 'schedule', 'session_length',
+        'tagline', 'structure', 'schedule', 'session_length',
         'location', 'location_detail', 'cost', 'status',
         'registration_label', 'scholarship_label', 'gallery_ids',
     );
@@ -116,6 +116,16 @@ function soundbridge_render_program_meta_box($post) {
     </style>
     <div class="sb-program-fields">
         <h3><?php esc_html_e('Hero and status', 'soundbridge-blocks'); ?></h3>
+        <label class="sb-program-field">
+            <strong><?php esc_html_e('Program structure', 'soundbridge-blocks'); ?></strong>
+            <?php $structure = get_post_meta($post->ID, 'sb_structure', true) ?: 'standalone'; ?>
+            <select name="sb_structure">
+                <option value="standalone" <?php selected($structure, 'standalone'); ?>>Standalone program</option>
+                <option value="group" <?php selected($structure, 'group'); ?>>Program group</option>
+                <option value="option" <?php selected($structure, 'option'); ?>>Program option</option>
+            </select>
+            <span class="description"><?php esc_html_e('Use Parent in Page Attributes to place an option under a program group.', 'soundbridge-blocks'); ?></span>
+        </label>
         <?php soundbridge_program_text_field($post->ID, 'tagline', 'Tagline'); ?>
         <label class="sb-program-field">
             <strong><?php esc_html_e('Status', 'soundbridge-blocks'); ?></strong>
@@ -135,9 +145,6 @@ function soundbridge_render_program_meta_box($post) {
         </label>
 
         <h3><?php esc_html_e('Program overview', 'soundbridge-blocks'); ?></h3>
-        <?php soundbridge_program_text_field($post->ID, 'age', 'Age range'); ?>
-        <?php soundbridge_program_text_field($post->ID, 'level', 'Experience level'); ?>
-        <?php soundbridge_program_text_field($post->ID, 'instrument', 'Instrument(s)'); ?>
         <?php soundbridge_program_text_field($post->ID, 'schedule', 'Schedule summary'); ?>
         <?php soundbridge_program_text_field($post->ID, 'session_length', 'Session length'); ?>
         <?php soundbridge_program_text_field($post->ID, 'location', 'Location'); ?>
@@ -216,7 +223,7 @@ function soundbridge_save_program_meta($post_id) {
 
     $textarea_fields = array('about', 'learn', 'schedule_details', 'faculty', 'cost_detail', 'scholarship_detail', 'what_to_bring', 'gallery_urls', 'testimonials', 'faq');
     $url_fields = array('registration_url', 'scholarship_url', 'question_url', 'youtube_url');
-    $text_fields = array('tagline', 'age', 'level', 'instrument', 'schedule', 'session_length', 'location', 'location_detail', 'cost', 'status', 'registration_label', 'scholarship_label');
+    $text_fields = array('tagline', 'structure', 'schedule', 'session_length', 'location', 'location_detail', 'cost', 'status', 'registration_label', 'scholarship_label');
 
     foreach ($textarea_fields as $key) if (isset($_POST['sb_' . $key])) update_post_meta($post_id, 'sb_' . $key, sanitize_textarea_field(wp_unslash($_POST['sb_' . $key])));
     foreach ($url_fields as $key) if (isset($_POST['sb_' . $key])) update_post_meta($post_id, 'sb_' . $key, esc_url_raw(wp_unslash($_POST['sb_' . $key])));

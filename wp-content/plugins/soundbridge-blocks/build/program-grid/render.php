@@ -1,8 +1,11 @@
 <?php
-$programs = new WP_Query(array(
+$program_query = array(
     'post_type'      => 'program',
     'posts_per_page' => (int) ($attributes['count'] ?? 6),
-));
+    'orderby'        => array('menu_order' => 'ASC', 'title' => 'ASC'),
+);
+if (empty($attributes['includeChildPrograms'])) $program_query['post_parent'] = 0;
+$programs = new WP_Query($program_query);
 $background = $attributes['background'] ?? 'pale-blue';
 $section_class = 'sb-program-grid-section sb-block-bg alignfull sb-block-bg--' . $background;
 $is_editor_preview = !empty($attributes['editorPreview']);
@@ -36,12 +39,18 @@ $status_labels = array(
                     $terms = get_the_terms($program_id, 'program_type');
                     $program_type = $terms && !is_wp_error($terms) ? $terms[0]->name : 'Program';
                     $description = get_post_meta($program_id, 'sb_about', true) ?: get_post_meta($program_id, 'sb_tagline', true) ?: get_the_excerpt();
+                    $program_term_value = static function ($taxonomy) use ($program_id) {
+                        $names = function_exists('soundbridge_get_program_term_names')
+                            ? soundbridge_get_program_term_names($program_id, $taxonomy)
+                            : wp_get_post_terms($program_id, $taxonomy, array('fields' => 'names'));
+                        return !is_wp_error($names) && $names ? implode(', ', $names) : '';
+                    };
                     $details = array(
-                        'Age'        => get_post_meta($program_id, 'sb_age', true),
-                        'Level'      => get_post_meta($program_id, 'sb_level', true),
-                        'Instrument' => get_post_meta($program_id, 'sb_instrument', true),
-                        'Schedule'   => get_post_meta($program_id, 'sb_schedule', true),
-                        'Location'   => get_post_meta($program_id, 'sb_location', true),
+                        'Age'        => function_exists('soundbridge_get_program_age_label') ? soundbridge_get_program_age_label($program_id) : $program_term_value('program_age'),
+                        'Level'      => function_exists('soundbridge_get_program_level_label') ? soundbridge_get_program_level_label($program_id) : $program_term_value('program_level'),
+                        'Instrument' => $program_term_value('program_instrument'),
+                        'Schedule'   => function_exists('soundbridge_get_program_meta') ? soundbridge_get_program_meta($program_id, 'schedule') : get_post_meta($program_id, 'sb_schedule', true),
+                        'Location'   => function_exists('soundbridge_get_program_meta') ? soundbridge_get_program_meta($program_id, 'location') : get_post_meta($program_id, 'sb_location', true),
                     );
                     ?>
                     <article class="sb-program-card">

@@ -5,7 +5,9 @@ while (have_posts()) :
     the_post();
 
     $post_id = get_the_ID();
-    $meta = static fn($key) => get_post_meta($post_id, 'sb_' . $key, true);
+    $meta = static fn($key) => function_exists('soundbridge_get_program_meta')
+        ? soundbridge_get_program_meta($post_id, $key)
+        : get_post_meta($post_id, 'sb_' . $key, true);
     $lines = static fn($value) => array_values(array_filter(array_map('trim', preg_split('/\R/', (string) $value))));
     $rows = static function ($value, $columns) use ($lines) {
         return array_map(static function ($line) use ($columns) {
@@ -36,22 +38,41 @@ while (have_posts()) :
     $bring_items = $lines($meta('what_to_bring'));
     $program_types = get_the_terms($post_id, 'program_type');
     $program_type = $program_types && !is_wp_error($program_types) ? $program_types[0]->name : 'Program';
+    $program_term_value = static function ($taxonomy) use ($post_id) {
+        $names = function_exists('soundbridge_get_program_term_names')
+            ? soundbridge_get_program_term_names($post_id, $taxonomy)
+            : wp_get_post_terms($post_id, $taxonomy, array('fields' => 'names'));
+        return !is_wp_error($names) && $names ? implode(', ', $names) : '';
+    };
+    $program_age_label = function_exists('soundbridge_get_program_age_label') ? soundbridge_get_program_age_label($post_id) : $program_term_value('program_age');
+    $program_level = function_exists('soundbridge_get_program_level_label') ? soundbridge_get_program_level_label($post_id) : $program_term_value('program_level');
+    $program_instrument = $program_term_value('program_instrument');
     $info_items = array(
-        array('label' => 'Age Range', 'value' => $meta('age'), 'icon' => '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>'),
-        array('label' => 'Experience', 'value' => $meta('level'), 'icon' => '<circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"/>'),
-        array('label' => 'Instrument', 'value' => $meta('instrument'), 'icon' => '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>'),
+        array('label' => 'Age Range', 'value' => $program_age_label, 'icon' => '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>'),
+        array('label' => 'Experience', 'value' => $program_level, 'icon' => '<circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"/>'),
+        array('label' => 'Instrument', 'value' => $program_instrument, 'icon' => '<path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/>'),
         array('label' => 'Schedule', 'value' => $meta('schedule'), 'icon' => '<rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>'),
         array('label' => 'Location', 'value' => $meta('location'), 'icon' => '<path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="3"/>'),
         array('label' => 'Cost', 'value' => $meta('cost'), 'icon' => '<rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/>'),
     );
     $has_info_items = (bool) array_filter($info_items, static fn($item) => $item['value']);
     $audience_items = array(
-        'Age Range' => $meta('age'), 'Experience Level' => $meta('level'),
-        'Instruments' => $meta('instrument'), 'Location' => $meta('location'),
+        'Age Range' => $program_age_label,
+        'Experience Level' => $program_level,
+        'Instruments' => $program_instrument,
+        'Location' => $meta('location'),
     );
+    $parent_program = $post->post_parent ? get_post($post->post_parent) : null;
+    $child_programs = get_posts(array(
+        'post_type' => 'program',
+        'post_status' => 'publish',
+        'post_parent' => $post_id,
+        'posts_per_page' => -1,
+        'orderby' => array('menu_order' => 'ASC', 'title' => 'ASC'),
+    ));
     ?>
     <nav class="sb-program-breadcrumb" aria-label="Breadcrumb">
-        <div class="sb-container"><a href="<?php echo esc_url(home_url('/')); ?>">Home</a><span>›</span><a href="<?php echo esc_url(get_post_type_archive_link('program')); ?>">Programs</a><span>›</span><span aria-current="page"><?php the_title(); ?></span></div>
+        <div class="sb-container"><a href="<?php echo esc_url(home_url('/')); ?>">Home</a><span>›</span><a href="<?php echo esc_url(get_post_type_archive_link('program')); ?>">Programs</a><?php if ($parent_program) : ?><span>›</span><a href="<?php echo esc_url(get_permalink($parent_program)); ?>"><?php echo esc_html(get_the_title($parent_program)); ?></a><?php endif; ?><span>›</span><span aria-current="page"><?php the_title(); ?></span></div>
     </nav>
 
     <section class="sb-program-hero">
@@ -81,6 +102,27 @@ while (have_posts()) :
         <main class="sb-program-main">
             <?php if ($about || get_the_content()) : ?><section class="sb-program-section"><h2>About the Program</h2><div class="sb-program-copy"><?php echo $about ? wpautop(esc_html($about)) : apply_filters('the_content', get_the_content()); ?></div></section><?php endif; ?>
 
+            <?php if ($child_programs) : ?><section class="sb-program-section sb-program-options"><h2>Choose Your Program</h2><p>Select the option that best fits your musician.</p><div class="sb-program-options__grid">
+                <?php foreach ($child_programs as $child_program) :
+                    $child_id = $child_program->ID;
+                    $child_status = get_post_meta($child_id, 'sb_status', true) ?: 'open';
+                    $child_about = get_post_meta($child_id, 'sb_about', true) ?: get_post_meta($child_id, 'sb_tagline', true);
+                    $child_age = function_exists('soundbridge_get_program_age_label') ? soundbridge_get_program_age_label($child_id) : '';
+                    $child_level = function_exists('soundbridge_get_program_level_label') ? soundbridge_get_program_level_label($child_id) : '';
+                    ?>
+                    <article class="sb-program-option-card">
+                        <?php if (has_post_thumbnail($child_id)) : ?><a class="sb-program-option-card__image" href="<?php echo esc_url(get_permalink($child_id)); ?>"><?php echo get_the_post_thumbnail($child_id, 'large', array('loading' => 'lazy')); ?></a><?php endif; ?>
+                        <div class="sb-program-option-card__content">
+                            <span class="sb-program-status sb-program-status--<?php echo esc_attr($child_status); ?>"><?php echo esc_html($status_labels[$child_status] ?? 'Coming soon'); ?></span>
+                            <h3><a href="<?php echo esc_url(get_permalink($child_id)); ?>"><?php echo esc_html(get_the_title($child_id)); ?></a></h3>
+                            <?php if ($child_age || $child_level) : ?><p class="sb-program-option-card__details"><?php echo esc_html(implode(' · ', array_filter(array($child_age, $child_level)))); ?></p><?php endif; ?>
+                            <?php if ($child_about) : ?><p><?php echo esc_html(wp_trim_words($child_about, 24, '…')); ?></p><?php endif; ?>
+                            <a class="sb-btn sb-btn--outline" href="<?php echo esc_url(get_permalink($child_id)); ?>">View Program</a>
+                        </div>
+                    </article>
+                <?php endforeach; ?>
+            </div></section><?php endif; ?>
+
             <?php if (array_filter($audience_items)) : ?><section class="sb-program-section sb-program-audience"><h2>Who It’s For</h2><div class="sb-program-audience__grid">
                 <?php foreach ($audience_items as $label => $value) : if (!$value) continue; ?><div><span><?php echo esc_html($label); ?></span><strong><?php echo esc_html($value); ?></strong></div><?php endforeach; ?>
             </div></section><?php endif; ?>
@@ -109,7 +151,7 @@ while (have_posts()) :
 
         <aside class="sb-program-sidebar" id="register"><div class="sb-program-sidebar__card">
             <span class="sb-program-status sb-program-status--<?php echo esc_attr($status); ?>"><?php echo esc_html($status_label); ?></span><h3><?php the_title(); ?></h3><p><?php echo esc_html(implode(' · ', array_filter(array($meta('schedule'), $meta('location'))))); ?></p>
-            <?php foreach (array('Age Range' => $meta('age'), 'Level' => $meta('level'), 'Cost' => $meta('cost')) as $label => $value) : if (!$value) continue; ?><div class="sb-program-sidebar__row"><span><?php echo esc_html($label); ?></span><strong><?php echo esc_html($value); ?></strong></div><?php endforeach; ?>
+            <?php foreach (array('Age Range' => $program_age_label, 'Level' => $program_level, 'Cost' => $meta('cost')) as $label => $value) : if (!$value) continue; ?><div class="sb-program-sidebar__row"><span><?php echo esc_html($label); ?></span><strong><?php echo esc_html($value); ?></strong></div><?php endforeach; ?>
             <div class="sb-program-sidebar__actions"><?php if ('open' === $status) : ?><a class="sb-btn" href="<?php echo esc_url($registration_url); ?>"><?php echo esc_html($registration_label); ?></a><?php endif; ?><a class="sb-btn sb-btn--outline" href="<?php echo esc_url($question_url); ?>">Ask a Question</a></div>
             <?php if ($has_scholarship) : ?><div class="sb-program-sidebar__aid"><strong>🎓 Scholarships Available</strong><a href="<?php echo esc_url($scholarship_url); ?>"><?php echo esc_html($scholarship_label); ?></a></div><?php endif; ?>
         </div></aside>

@@ -36,7 +36,7 @@ $section_class = 'sb-events sb-block-bg alignfull sb-block-bg--' . $background;
         <div class="sb-events__header">
             <div>
                 <?php if ($eyebrow) : ?>
-                    <p class="sb-events__eyebrow"><?php echo esc_html($eyebrow); ?></p>
+                    <p class="sb-eyebrow"><?php echo esc_html($eyebrow); ?></p>
                 <?php endif; ?>
                 <h2><?php echo wp_kses_post($heading); ?></h2>
             </div>

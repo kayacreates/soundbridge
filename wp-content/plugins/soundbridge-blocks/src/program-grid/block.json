@@ -41,6 +41,10 @@
     "count": {
       "type": "number",
       "default": 6
+    },
+    "includeChildPrograms": {
+      "type": "boolean",
+      "default": false
     }
   },
   "editorScript": "file:./index.js",

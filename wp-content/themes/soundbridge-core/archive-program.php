@@ -5,37 +5,32 @@ $archive_settings = function_exists('soundbridge_get_program_archive_settings')
     ? soundbridge_get_program_archive_settings()
     : array();
 
-$filter_keys = array('age', 'level', 'instrument');
+$filter_taxonomies = array('age' => 'program_age', 'level' => 'program_level', 'instrument' => 'program_instrument');
 $filters = array();
-foreach ($filter_keys as $filter_key) {
-    $filters[$filter_key] = isset($_GET[$filter_key]) ? sanitize_text_field(wp_unslash($_GET[$filter_key])) : '';
+foreach ($filter_taxonomies as $filter_key => $taxonomy) {
+    $filters[$filter_key] = isset($_GET[$filter_key]) ? sanitize_title(wp_unslash($_GET[$filter_key])) : '';
 }
 $filters['type'] = isset($_GET['type']) ? sanitize_title(wp_unslash($_GET['type'])) : '';
 
-$meta_query = array('relation' => 'AND');
-foreach ($filter_keys as $filter_key) {
+$tax_query = array('relation' => 'AND');
+foreach ($filter_taxonomies as $filter_key => $taxonomy) {
     if ($filters[$filter_key]) {
-        $meta_query[] = array('key' => 'sb_' . $filter_key, 'value' => $filters[$filter_key], 'compare' => 'LIKE');
+        $tax_query[] = array('taxonomy' => $taxonomy, 'field' => 'slug', 'terms' => $filters[$filter_key]);
     }
 }
-
-$query_args = array('post_type' => 'program', 'posts_per_page' => 12, 'paged' => max(1, get_query_var('paged')));
-if (count($meta_query) > 1) $query_args['meta_query'] = $meta_query;
 if ($filters['type']) {
-    $query_args['tax_query'] = array(array('taxonomy' => 'program_type', 'field' => 'slug', 'terms' => $filters['type']));
+    $tax_query[] = array('taxonomy' => 'program_type', 'field' => 'slug', 'terms' => $filters['type']);
 }
+$query_args = array('post_type' => 'program', 'post_parent' => 0, 'posts_per_page' => 12, 'paged' => max(1, get_query_var('paged')));
+if (count($tax_query) > 1) $query_args['tax_query'] = $tax_query;
 $programs = new WP_Query($query_args);
 
-$program_ids = get_posts(array('post_type' => 'program', 'posts_per_page' => -1, 'post_status' => 'publish', 'fields' => 'ids'));
-$filter_options = array_fill_keys($filter_keys, array());
-foreach ($program_ids as $program_id) {
-    foreach ($filter_keys as $filter_key) {
-        $value = get_post_meta($program_id, 'sb_' . $filter_key, true);
-        if ($value) $filter_options[$filter_key][$value] = $value;
-    }
+$program_ids = get_posts(array('post_type' => 'program', 'post_parent' => 0, 'posts_per_page' => -1, 'post_status' => 'publish', 'fields' => 'ids'));
+$filter_options = array();
+foreach ($filter_taxonomies as $filter_key => $taxonomy) {
+    $terms = get_terms(array('taxonomy' => $taxonomy, 'hide_empty' => true));
+    $filter_options[$filter_key] = is_wp_error($terms) ? array() : $terms;
 }
-foreach ($filter_options as &$options) natcasesort($options);
-unset($options);
 
 $program_types = get_terms(array('taxonomy' => 'program_type', 'hide_empty' => true));
 $hero_image = !empty($archive_settings['hero_image_id'])
@@ -73,7 +68,7 @@ $status_labels = array('open' => 'Enrolling now', 'coming-soon' => 'Coming soon'
                 <select name="<?php echo esc_attr($filter_key); ?>">
                     <option value="">All <?php echo esc_html('age' === $filter_key ? 'Ages' : $filter_label . 's'); ?></option>
                     <?php foreach ($filter_options[$filter_key] as $option) : ?>
-                        <option value="<?php echo esc_attr($option); ?>" <?php selected($filters[$filter_key], $option); ?>><?php echo esc_html($option); ?></option>
+                        <option value="<?php echo esc_attr($option->slug); ?>" <?php selected($filters[$filter_key], $option->slug); ?>><?php echo esc_html($option->name); ?></option>
                     <?php endforeach; ?>
                 </select>
             </label>
@@ -105,12 +100,18 @@ $status_labels = array('open' => 'Enrolling now', 'coming-soon' => 'Coming soon'
                     $terms = get_the_terms($program_id, 'program_type');
                     $program_type = $terms && !is_wp_error($terms) ? $terms[0]->name : 'Program';
                     $description = get_post_meta($program_id, 'sb_about', true) ?: get_post_meta($program_id, 'sb_tagline', true) ?: get_the_excerpt();
+                    $program_term_value = static function ($taxonomy) use ($program_id) {
+                        $names = function_exists('soundbridge_get_program_term_names')
+                            ? soundbridge_get_program_term_names($program_id, $taxonomy)
+                            : wp_get_post_terms($program_id, $taxonomy, array('fields' => 'names'));
+                        return !is_wp_error($names) && $names ? implode(', ', $names) : '';
+                    };
                     $details = array(
-                        'Age' => get_post_meta($program_id, 'sb_age', true),
-                        'Level' => get_post_meta($program_id, 'sb_level', true),
-                        'Instrument' => get_post_meta($program_id, 'sb_instrument', true),
-                        'Schedule' => get_post_meta($program_id, 'sb_schedule', true),
-                        'Location' => get_post_meta($program_id, 'sb_location', true),
+                        'Age' => function_exists('soundbridge_get_program_age_label') ? soundbridge_get_program_age_label($program_id) : $program_term_value('program_age'),
+                        'Level' => function_exists('soundbridge_get_program_level_label') ? soundbridge_get_program_level_label($program_id) : $program_term_value('program_level'),
+                        'Instrument' => $program_term_value('program_instrument'),
+                        'Schedule' => function_exists('soundbridge_get_program_meta') ? soundbridge_get_program_meta($program_id, 'schedule') : get_post_meta($program_id, 'sb_schedule', true),
+                        'Location' => function_exists('soundbridge_get_program_meta') ? soundbridge_get_program_meta($program_id, 'location') : get_post_meta($program_id, 'sb_location', true),
                     );
                 ?>
                     <article class="sb-program-card">
