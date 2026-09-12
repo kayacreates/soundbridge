@@ -2,7 +2,7 @@
 function soundbridge_setup() {
   add_theme_support('title-tag'); add_theme_support('post-thumbnails'); add_theme_support('align-wide');
   add_theme_support('custom-logo', ['height'=>96,'width'=>275,'flex-height'=>true,'flex-width'=>true]);
-  add_theme_support('editor-styles'); add_editor_style('assets/css/site.css');
+  add_theme_support('editor-styles'); add_editor_style(['assets/css/site.css','assets/css/core-blocks.css']);
   register_nav_menus([
     'primary'=>'Primary Navigation',
     'footer'=>'Footer Navigation (Legacy)',
@@ -51,6 +51,8 @@ add_action('customize_register','soundbridge_customize_footer');
 function soundbridge_assets(){
   wp_enqueue_style('soundbridge-fonts','https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&family=Inter:wght@400;500;600;700&display=swap',[],null);
   wp_enqueue_style('soundbridge-site',get_template_directory_uri().'/assets/css/site.css',[],wp_get_theme()->get('Version'));
+  $core_blocks_stylesheet=get_template_directory().'/assets/css/core-blocks.css';
+  wp_enqueue_style('soundbridge-core-blocks',get_template_directory_uri().'/assets/css/core-blocks.css',['soundbridge-site'],filemtime($core_blocks_stylesheet));
   if (is_singular('program')) {
     $single_stylesheet = get_template_directory() . '/assets/css/single.css';
     wp_enqueue_style('soundbridge-single-program',get_template_directory_uri().'/assets/css/single.css',['soundbridge-site'],filemtime($single_stylesheet));

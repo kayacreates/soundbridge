@@ -25,6 +25,11 @@
           "name": "Pale Blue"
         },
         {
+          "slug": "blue-light",
+          "color": "#a8c4f0",
+          "name": "Light Blue"
+        },
+        {
           "slug": "blue-section",
           "color": "#f0f4fa",
           "name": "Section Blue"
@@ -57,6 +62,7 @@
       ]
     },
     "typography": {
+      "fluid": true,
       "fontFamilies": [
         {
           "fontFamily": "Inter, system-ui, sans-serif",
@@ -68,6 +74,12 @@
           "slug": "display",
           "name": "Fraunces"
         }
+      ],
+      "fontSizes": [
+        { "slug": "small", "size": "0.8125rem", "name": "Small" },
+        { "slug": "medium", "size": "1rem", "name": "Medium" },
+        { "slug": "large", "size": "1.35rem", "name": "Large" },
+        { "slug": "x-large", "size": "clamp(2rem, 4vw, 3rem)", "name": "Extra Large" }
       ]
     },
     "spacing": {
