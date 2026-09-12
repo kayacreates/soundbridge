@@ -42,8 +42,9 @@ $hero_image = $archive_settings['hero_image_url'] ?? 'https://images.unsplash.co
                 <?php while ($events->have_posts()) : $events->the_post();
                     $post_id = get_the_ID();
                     $event_date = get_post_meta($post_id, 'sb_event_date', true);
-                    $timestamp = $event_date ? strtotime($event_date) : false;
-                    $normalized_date = $timestamp ? wp_date('Y-m-d', $timestamp) : '';
+                    $date_object = $event_date ? DateTimeImmutable::createFromFormat('!Y-m-d', $event_date, wp_timezone()) : false;
+                    $timestamp = $date_object ? $date_object->getTimestamp() : false;
+                    $normalized_date = $date_object ? $date_object->format('Y-m-d') : '';
                     $period = !$normalized_date || $normalized_date >= $today ? 'upcoming' : 'past';
                     $terms = get_the_terms($post_id, 'event_type');
                     $term = $terms && !is_wp_error($terms) ? $terms[0] : null;
