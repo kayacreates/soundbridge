@@ -4,7 +4,7 @@ export default function save({ attributes }) {
     const { background = 'pale-blue', eyebrow, heading, columns = 4, avatarStyle = 'letter', people = [] } = attributes;
     const sectionClass = `sb-people sb-block-bg alignfull sb-block-bg--${background}`;
     return (
-        <section className={sectionClass}>
+        <section id={attributes.anchor || undefined} className={sectionClass}>
             <div className="sb-container">
                 <header className="sb-people__header"><RichText.Content tagName="p" className="sb-eyebrow" value={eyebrow} /><RichText.Content tagName="h2" value={heading} /></header>
                 <div className={`sb-people__grid sb-people__grid--${columns}`}>

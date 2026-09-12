@@ -1,4 +1,4 @@
-import { InspectorControls, RichText } from '@wordpress/block-editor';
+import { InspectorControls, RichText, useBlockProps } from '@wordpress/block-editor';
 import { Button, PanelBody, SelectControl } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
@@ -28,7 +28,7 @@ export default function Edit({ attributes, setAttributes }) {
     return (
         <>
         <InspectorControls><PanelBody title="Stats settings"><SelectControl label="Background color" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Pale blue', value: 'pale-blue' }, { label: 'Blue', value: 'blue' }]} onChange={(value) => setAttributes({ background: value })} /></PanelBody></InspectorControls>
-        <section className={sectionClass}>
+        <section {...useBlockProps({ className: sectionClass })}>
             <div className="sb-container sb-stats__grid">
                 {items.map((item, index) => (
                     <div className="sb-stats__item" key={index}>

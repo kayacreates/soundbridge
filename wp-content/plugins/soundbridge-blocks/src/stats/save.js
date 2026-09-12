@@ -5,7 +5,7 @@ export default function save({ attributes }) {
     const sectionClass = `sb-stats alignfull sb-block-bg--${background}`;
 
     return (
-        <section className={sectionClass}>
+        <section id={attributes.anchor || undefined} className={sectionClass}>
             <div className="sb-container sb-stats__grid">
                 {items.map((item, index) => (
                     <div className="sb-stats__item" key={index}>

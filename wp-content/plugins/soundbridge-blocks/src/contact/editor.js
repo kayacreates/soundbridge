@@ -1,4 +1,4 @@
-import { InspectorControls, RichText, URLInput } from '@wordpress/block-editor';
+import { InspectorControls, RichText, URLInput, useBlockProps } from '@wordpress/block-editor';
 import { Button, Notice, PanelBody, SelectControl, Spinner, TextControl, TextareaControl } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
 import { useEffect, useState } from '@wordpress/element';
@@ -42,7 +42,7 @@ export default function Edit({ attributes, setAttributes }) {
                 <Button variant="secondary" onClick={() => setAttributes({ quickLinks: [...quickLinks, { label: '', url: '' }] })}>Add quick link</Button>
             </PanelBody>
         </InspectorControls>
-        <section className={sectionClass}><div className="sb-container sb-contact__grid">
+        <section {...useBlockProps({ className: sectionClass })}><div className="sb-container sb-contact__grid">
             <div><RichText tagName="p" className="sb-eyebrow" value={eyebrow} placeholder="Eyebrow" onChange={(value) => setAttributes({ eyebrow: value })} /><RichText tagName="h2" value={heading} placeholder="Heading" onChange={(value) => setAttributes({ heading: value })} />
                 {fluentFormId ? <div className="sb-contact__form sb-contact__form--fluent sb-contact__fluent-preview"><span className="dashicons dashicons-feedback" aria-hidden="true" /><strong>{selectedForm?.title || `Fluent Form #${fluentFormId}`}</strong><p>The selected Fluent Form will render here on the website.</p></div> : <div className="sb-contact__form" aria-label="Contact form preview"><div className="sb-contact__row"><label>Full Name *<input disabled placeholder="Your name" /></label><label>Email Address *<input disabled placeholder="you@example.com" /></label></div><label>Subject *<select disabled><option>Select a topic…</option></select></label><label>Message *<textarea disabled rows="6" placeholder="How can we help you?" /></label><RichText tagName="span" className="sb-btn" value={submitLabel} placeholder="Submit label" onChange={(value) => setAttributes({ submitLabel: value })} /></div>}
             </div>

@@ -1,4 +1,4 @@
-import { InspectorControls, MediaUpload, MediaUploadCheck, RichText, URLInput } from '@wordpress/block-editor';
+import { InspectorControls, MediaUpload, MediaUploadCheck, RichText, URLInput, useBlockProps } from '@wordpress/block-editor';
 import { Button, Notice, PanelBody, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
 import { useEffect, useState } from '@wordpress/element';
@@ -141,7 +141,7 @@ export default function Edit({ attributes, setAttributes }) {
                     {showSecondaryButton && <div><p className="sb-editor-field-label">Secondary button link</p><URLInput value={secondaryUrl} onChange={(value) => setAttributes({ secondaryUrl: value })} /></div>}
                 </PanelBody>
             </InspectorControls>
-            <section className={heroClass}>
+            <section {...useBlockProps({ className: heroClass })}>
                 {showBreadcrumbs && (
                     <div className="sb-hero__breadcrumb-bar">
                         <nav className="sb-container sb-hero__breadcrumbs" aria-label="Breadcrumb">

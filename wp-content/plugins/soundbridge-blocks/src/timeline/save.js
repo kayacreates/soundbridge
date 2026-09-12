@@ -4,7 +4,7 @@ export default function save({ attributes }) {
     const { background = 'white', eyebrow, heading, items = [] } = attributes;
     const sectionClass = `sb-timeline sb-block-bg alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
     return (
-        <section className={sectionClass}>
+        <section id={attributes.anchor || undefined} className={sectionClass}>
             <div className="sb-container sb-narrow">
                 <header className="sb-timeline__header">
                     {eyebrow && <RichText.Content tagName="p" className="sb-eyebrow" value={eyebrow} />}

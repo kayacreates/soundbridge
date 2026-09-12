@@ -5,7 +5,7 @@
   &__tabs > span { display: flex; gap: 8px; align-items: center; padding: 18px 22px; color: var(--muted); font-size: 0.875rem; font-weight: 600; white-space: nowrap; background: transparent; border: 0; border-bottom: 2px solid transparent; }
   &__tabs button { cursor: pointer; }
   &__tabs .is-active { color: var(--blue); border-bottom-color: var(--blue); }
-  &__panel { display: none; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  &__panel { display: none; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; scroll-margin-top: 100px; }
   &__panel.is-active { display: grid; }
   &__icon { display: block; margin-bottom: 18px; font-size: 3.5rem; }
   &__body { margin: 16px 0 28px; color: var(--muted); line-height: 1.8; }

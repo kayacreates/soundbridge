@@ -15,7 +15,7 @@ $status_labels = array(
     'closed'      => 'Registration closed',
 );
 ?>
-<?php if (!$is_editor_preview) : ?><section class="<?php echo esc_attr($section_class); ?>"><?php endif; ?>
+<?php if (!$is_editor_preview) : ?><section <?php echo get_block_wrapper_attributes(array('class' => $section_class)); ?>><?php endif; ?>
     <div class="sb-container">
         <?php if (!$is_editor_preview && (!empty($attributes['eyebrow']) || !empty($attributes['heading']) || !empty($attributes['showViewAll']))) : ?>
             <header class="sb-program-grid-section__header">

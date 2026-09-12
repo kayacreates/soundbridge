@@ -10,7 +10,8 @@
       "wide",
       "full"
     ],
-    "html": false
+    "html": false,
+    "anchor": true
   },
   "attributes": {
     "eyebrow": {

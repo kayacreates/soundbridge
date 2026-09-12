@@ -1,4 +1,4 @@
-import { InspectorControls, MediaUpload, MediaUploadCheck, RichText, URLInput } from '@wordpress/block-editor';
+import { InspectorControls, MediaUpload, MediaUploadCheck, RichText, URLInput, useBlockProps } from '@wordpress/block-editor';
 import { Button, PanelBody, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
@@ -100,7 +100,7 @@ export default function Edit({ attributes, setAttributes }) {
                     )}
                 </PanelBody>
             </InspectorControls>
-            <section className={sectionClass}>
+            <section {...useBlockProps({ className: sectionClass })}>
                 <div className={gridClass}>
                     <div className="sb-about__media">
                         {imageEditor(imageUrl, imageAlt, imageId, selectPrimaryImage, () => setAttributes({ imageId: 0, imageUrl: '', imageAlt: '' }), 'sb-about__image--primary', 'Choose main image')}

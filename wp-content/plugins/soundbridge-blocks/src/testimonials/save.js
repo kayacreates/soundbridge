@@ -15,7 +15,7 @@ export default function save({ attributes }) {
     const sectionClass = `sb-testimonials sb-block-bg alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
 
     return (
-        <section className={sectionClass}>
+        <section id={attributes.anchor || undefined} className={sectionClass}>
             <div className="sb-container">
                 <div className="sb-testimonials__header">
                     {eyebrow && <RichText.Content tagName="p" className="sb-eyebrow" value={eyebrow} />}

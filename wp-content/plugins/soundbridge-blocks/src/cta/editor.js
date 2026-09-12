@@ -1,4 +1,4 @@
-import { InspectorControls, RichText, URLInput } from '@wordpress/block-editor';
+import { InspectorControls, RichText, URLInput, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, SelectControl, ToggleControl } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
@@ -20,7 +20,7 @@ export default function Edit({ attributes, setAttributes }) {
                     )}
                 </PanelBody>
             </InspectorControls>
-            <section className={sectionClass}>
+            <section {...useBlockProps({ className: sectionClass })}>
                 <div className="sb-container">
                     <RichText tagName="h2" value={heading} placeholder="CTA heading" onChange={(value) => setAttributes({ heading: value })} />
                     <RichText tagName="p" value={text} placeholder="CTA text" onChange={(value) => setAttributes({ text: value })} />

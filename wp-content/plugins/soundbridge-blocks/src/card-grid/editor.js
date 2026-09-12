@@ -1,4 +1,4 @@
-import { InspectorControls, MediaUpload, MediaUploadCheck, RichText } from '@wordpress/block-editor';
+import { InspectorControls, MediaUpload, MediaUploadCheck, RichText, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, SelectControl, Button } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
@@ -41,7 +41,7 @@ export default function Edit({ attributes, setAttributes }) {
                     <SelectControl label="Text Alignment" value={textAlignment} options={[{ label: 'Left', value: 'left' }, { label: 'Center', value: 'center' }, { label: 'Right', value: 'right' }]} onChange={(value) => setAttributes({ textAlignment: value })} />
                 </PanelBody>
             </InspectorControls>
-            <section className={sectionClass}>
+            <section {...useBlockProps({ className: sectionClass })}>
                 <div className="sb-container">
                     <div className={contentClass}>
                         <RichText tagName="p" className="sb-eyebrow" value={eyebrow} placeholder="Eyebrow" onChange={(value) => setAttributes({ eyebrow: value })} />

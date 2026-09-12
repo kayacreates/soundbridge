@@ -8,7 +8,7 @@ export default function save({ attributes }) {
     const iconClass = `sb-card__icon${mediaStyle === 'small' ? ' sb-card__icon--small' : ''}`;
 
     return (
-        <section className={sectionClass}>
+        <section id={attributes.anchor || undefined} className={sectionClass}>
             <div className="sb-container">
                 <div className={contentClass}>
                     {eyebrow && <p className="sb-eyebrow">{eyebrow}</p>}

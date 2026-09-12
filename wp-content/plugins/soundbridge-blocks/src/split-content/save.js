@@ -26,7 +26,7 @@ export default function save({ attributes }) {
     const gridClass = `sb-container sb-about__grid${reverse ? ' sb-about__grid--reverse' : ''}`;
 
     return (
-        <section className={sectionClass}>
+        <section id={attributes.anchor || undefined} className={sectionClass}>
             <div className={gridClass}>
                 <div className="sb-about__media">
                     {imageUrl && <div className="sb-about__image--primary"><img src={imageUrl} alt={imageAlt} loading="lazy" /></div>}

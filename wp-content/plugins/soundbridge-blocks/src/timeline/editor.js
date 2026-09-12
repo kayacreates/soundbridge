@@ -1,4 +1,4 @@
-import { InspectorControls, RichText } from '@wordpress/block-editor';
+import { InspectorControls, RichText, useBlockProps } from '@wordpress/block-editor';
 import { Button, PanelBody, SelectControl } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
@@ -16,7 +16,7 @@ export default function Edit({ attributes, setAttributes }) {
     return (
         <>
         <InspectorControls><PanelBody title="Timeline settings"><SelectControl label="Background color" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Pale blue', value: 'pale-blue' }, { label: 'Dark blue', value: 'dark-blue' }]} onChange={(value) => setAttributes({ background: value })} /></PanelBody></InspectorControls>
-        <section className={sectionClass}>
+        <section {...useBlockProps({ className: sectionClass })}>
             <div className="sb-container sb-narrow">
                 <header className="sb-timeline__header">
                     <RichText tagName="p" className="sb-eyebrow" value={eyebrow} placeholder="Eyebrow" onChange={(value) => setAttributes({ eyebrow: value })} />

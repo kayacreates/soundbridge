@@ -1,4 +1,4 @@
-import { InspectorControls, MediaUpload, MediaUploadCheck, RichText, URLInput } from '@wordpress/block-editor';
+import { InspectorControls, MediaUpload, MediaUploadCheck, RichText, URLInput, useBlockProps } from '@wordpress/block-editor';
 import { Button, PanelBody, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
@@ -32,7 +32,7 @@ export default function Edit({ attributes, setAttributes }) {
                 {showButton && <div><p className="sb-editor-field-label">Button link</p><URLInput value={buttonUrl} onChange={(value) => setAttributes({ buttonUrl: value })} /></div>}
             </PanelBody>
         </InspectorControls>
-        <section className={sectionClass}>
+        <section {...useBlockProps({ className: sectionClass })}>
             <div className="sb-container sb-faq__grid">
                 <div className="sb-faq__media">
                     {imageUrl && <img src={imageUrl} alt={imageAlt} />}

@@ -1,5 +1,5 @@
 import ServerSideRender from '@wordpress/server-side-render';
-import { InspectorControls, RichText, URLInput } from '@wordpress/block-editor';
+import { InspectorControls, RichText, URLInput, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
@@ -21,7 +21,7 @@ export default function Edit({ attributes, setAttributes }) {
                     )}
                 </PanelBody>
             </InspectorControls>
-            <ServerSideRender block="soundbridge/event-grid" attributes={attributes} />
+            <div {...useBlockProps()}><ServerSideRender block="soundbridge/event-grid" attributes={attributes} /></div>
         </>
     );
 }

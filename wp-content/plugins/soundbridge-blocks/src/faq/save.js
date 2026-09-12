@@ -5,7 +5,7 @@ export default function save({ attributes }) {
     const sectionClass = `sb-faq sb-block-bg alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
 
     return (
-        <section className={sectionClass}>
+        <section id={attributes.anchor || undefined} className={sectionClass}>
             <div className={`sb-container sb-faq__grid${imageUrl ? '' : ' sb-faq__grid--no-image'}`}>
                 {imageUrl && <div className="sb-faq__media">
                     <img src={imageUrl} alt={imageAlt || ''} loading="lazy" />

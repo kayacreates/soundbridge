@@ -1,4 +1,4 @@
-import { InspectorControls, MediaUpload, MediaUploadCheck, RichText } from '@wordpress/block-editor';
+import { InspectorControls, MediaUpload, MediaUploadCheck, RichText, useBlockProps } from '@wordpress/block-editor';
 import { Button, PanelBody, SelectControl, TextControl } from '@wordpress/components';
 
 const moveItem = (items, index, direction) => {
@@ -24,7 +24,7 @@ export default function Edit({ attributes, setAttributes }) {
                     <SelectControl label="Person display" value={avatarStyle} options={[{ label: 'Initial letter', value: 'letter' }, { label: 'Profile image', value: 'image' }]} onChange={(value) => setAttributes({ avatarStyle: value })} />
                 </PanelBody>
             </InspectorControls>
-            <section className={sectionClass}>
+            <section {...useBlockProps({ className: sectionClass })}>
                 <div className="sb-container">
                     <header className="sb-people__header">
                         <RichText tagName="p" className="sb-eyebrow" value={eyebrow} placeholder="Eyebrow" onChange={(value) => setAttributes({ eyebrow: value })} />

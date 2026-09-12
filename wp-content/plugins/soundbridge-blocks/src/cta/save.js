@@ -5,7 +5,7 @@ export default function save({ attributes }) {
     const sectionClass = `sb-cta alignfull sb-block-bg--${background}`;
 
     return (
-        <section className={sectionClass}>
+        <section id={attributes.anchor || undefined} className={sectionClass}>
             <div className="sb-container">
                 <RichText.Content tagName="h2" value={heading} />
                 <RichText.Content tagName="p" value={text} />

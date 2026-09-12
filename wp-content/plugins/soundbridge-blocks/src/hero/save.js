@@ -55,7 +55,7 @@ export default function save({ attributes }) {
     );
 
     return (
-        <section className={heroClass}>
+        <section id={attributes.anchor || undefined} className={heroClass}>
             {showBreadcrumbs && (
                 <div className="sb-hero__breadcrumb-bar">
                     <nav className="sb-container sb-hero__breadcrumbs" aria-label="Breadcrumb">

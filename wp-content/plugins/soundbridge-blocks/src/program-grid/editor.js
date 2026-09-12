@@ -1,5 +1,5 @@
 import ServerSideRender from '@wordpress/server-side-render';
-import { InspectorControls, RichText, URLInput } from '@wordpress/block-editor';
+import { InspectorControls, RichText, URLInput, useBlockProps } from '@wordpress/block-editor';
 import { PanelBody, SelectControl, TextControl, ToggleControl } from '@wordpress/components';
 
 export default function Edit({ attributes, setAttributes }) {
@@ -18,7 +18,7 @@ export default function Edit({ attributes, setAttributes }) {
                     {attributes.showViewAll && <><TextControl label="Button label" value={attributes.viewAllLabel} onChange={(value) => setAttributes({ viewAllLabel: value })} /><p className="sb-editor-field-label">Button link</p><URLInput value={attributes.viewAllUrl} onChange={(value) => setAttributes({ viewAllUrl: value })} /></>}
                 </PanelBody>
             </InspectorControls>
-            <section className={sectionClass}>
+            <section {...useBlockProps({ className: sectionClass })}>
                 <div className="sb-container">
                     <header className="sb-program-grid-section__header">
                         <div>
