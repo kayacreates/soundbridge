@@ -12,17 +12,35 @@ foreach ($filter_taxonomies as $filter_key => $taxonomy) {
 }
 $filters['type'] = isset($_GET['type']) ? sanitize_title(wp_unslash($_GET['type'])) : '';
 
-$tax_query = array('relation' => 'AND');
-foreach ($filter_taxonomies as $filter_key => $taxonomy) {
-    if ($filters[$filter_key]) {
-        $tax_query[] = array('taxonomy' => $taxonomy, 'field' => 'slug', 'terms' => $filters[$filter_key]);
-    }
-}
-if ($filters['type']) {
-    $tax_query[] = array('taxonomy' => 'program_type', 'field' => 'slug', 'terms' => $filters['type']);
-}
 $query_args = array('post_type' => 'program', 'post_parent' => 0, 'posts_per_page' => 12, 'paged' => max(1, get_query_var('paged')));
-if (count($tax_query) > 1) $query_args['tax_query'] = $tax_query;
+$active_taxonomy_filters = array();
+foreach ($filter_taxonomies as $filter_key => $taxonomy) {
+    if ($filters[$filter_key]) $active_taxonomy_filters[$taxonomy] = $filters[$filter_key];
+}
+if ($filters['type']) $active_taxonomy_filters['program_type'] = $filters['type'];
+
+if ($active_taxonomy_filters) {
+    $candidate_ids = get_posts(array('post_type' => 'program', 'post_status' => 'publish', 'posts_per_page' => -1, 'fields' => 'ids'));
+    $matching_parent_ids = array();
+    foreach ($candidate_ids as $candidate_id) {
+        $matches = true;
+        foreach ($active_taxonomy_filters as $taxonomy => $term_slug) {
+            $term_slugs = wp_get_post_terms($candidate_id, $taxonomy, array('fields' => 'slugs'));
+            if ((!$term_slugs || is_wp_error($term_slugs)) && ($parent_id = wp_get_post_parent_id($candidate_id))) {
+                $term_slugs = wp_get_post_terms($parent_id, $taxonomy, array('fields' => 'slugs'));
+            }
+            if (is_wp_error($term_slugs) || !in_array($term_slug, $term_slugs, true)) {
+                $matches = false;
+                break;
+            }
+        }
+        if ($matches) {
+            $ancestors = get_post_ancestors($candidate_id);
+            $matching_parent_ids[] = $ancestors ? (int) end($ancestors) : (int) $candidate_id;
+        }
+    }
+    $query_args['post__in'] = $matching_parent_ids ? array_values(array_unique($matching_parent_ids)) : array(0);
+}
 $programs = new WP_Query($query_args);
 
 $program_ids = get_posts(array('post_type' => 'program', 'post_parent' => 0, 'posts_per_page' => -1, 'post_status' => 'publish', 'fields' => 'ids'));
@@ -60,12 +78,12 @@ $status_labels = array('open' => 'Enrolling now', 'coming-soon' => 'Coming soon'
 </section>
 
 <section class="sb-program-filters" aria-label="Program filters">
-    <form class="sb-container sb-program-filters__form" method="get">
+    <form class="sb-container sb-program-filters__form" method="get" action="<?php echo esc_url(get_post_type_archive_link('program')); ?>">
         <strong>Filter by:</strong>
         <?php foreach (array('age' => 'Age', 'level' => 'Level', 'instrument' => 'Instrument') as $filter_key => $filter_label) : ?>
             <label>
                 <span><?php echo esc_html($filter_label); ?></span>
-                <select name="<?php echo esc_attr($filter_key); ?>">
+                <select name="<?php echo esc_attr($filter_key); ?>" onchange="this.form.requestSubmit()">
                     <option value="">All <?php echo esc_html('age' === $filter_key ? 'Ages' : $filter_label . 's'); ?></option>
                     <?php foreach ($filter_options[$filter_key] as $option) : ?>
                         <option value="<?php echo esc_attr($option->slug); ?>" <?php selected($filters[$filter_key], $option->slug); ?>><?php echo esc_html($option->name); ?></option>
@@ -75,23 +93,23 @@ $status_labels = array('open' => 'Enrolling now', 'coming-soon' => 'Coming soon'
         <?php endforeach; ?>
         <label>
             <span>Type</span>
-            <select name="type">
+            <select name="type" onchange="this.form.requestSubmit()">
                 <option value="">All Types</option>
                 <?php if (!is_wp_error($program_types)) : foreach ($program_types as $program_type) : ?>
                     <option value="<?php echo esc_attr($program_type->slug); ?>" <?php selected($filters['type'], $program_type->slug); ?>><?php echo esc_html($program_type->name); ?></option>
                 <?php endforeach; endif; ?>
             </select>
         </label>
-        <button class="sb-btn sb-program-filters__submit" type="submit">Apply Filters</button>
-        <?php if (array_filter($filters)) : ?><a class="sb-program-filters__clear" href="<?php echo esc_url(get_post_type_archive_link('program')); ?>">Clear filters ×</a><?php endif; ?>
+        <a class="sb-program-filters__clear" href="<?php echo esc_url(get_post_type_archive_link('program')); ?>"<?php echo array_filter($filters) ? '' : ' hidden'; ?>>Clear filters ×</a>
     </form>
 </section>
 
 <section class="sb-program-archive sb-block-bg sb-block-bg--white">
     <div class="sb-container">
-        <p class="sb-program-archive__count"><?php echo esc_html(sprintf(_n('%d program found', '%d programs found', $programs->found_posts, 'soundbridge-core'), $programs->found_posts)); ?></p>
-        <?php if ($programs->have_posts()) : ?>
-            <div class="sb-program-grid">
+        <div class="sb-program-archive__results" aria-live="polite">
+            <p class="sb-program-archive__count"><?php echo esc_html(sprintf(_n('%d program found', '%d programs found', $programs->found_posts, 'soundbridge-core'), $programs->found_posts)); ?></p>
+            <?php if ($programs->have_posts()) : ?>
+                <div class="sb-program-grid">
                 <?php while ($programs->have_posts()) : $programs->the_post();
                     $program_id = get_the_ID();
                     $status = get_post_meta($program_id, 'sb_status', true) ?: 'open';
@@ -138,11 +156,12 @@ $status_labels = array('open' => 'Enrolling now', 'coming-soon' => 'Coming soon'
                         </div>
                     </article>
                 <?php endwhile; ?>
-            </div>
-            <?php echo wp_kses_post(paginate_links(array('total' => $programs->max_num_pages, 'current' => max(1, get_query_var('paged')), 'type' => 'list', 'add_args' => array_filter($filters)))); ?>
-        <?php else : ?>
-            <div class="sb-program-grid__empty"><div aria-hidden="true">♪</div><h2>No programs match your filters</h2><p>Try adjusting your filters or contact us — more programs are coming soon.</p><a class="sb-btn" href="<?php echo esc_url(get_post_type_archive_link('program')); ?>">Clear Filters</a></div>
-        <?php endif; wp_reset_postdata(); ?>
+                </div>
+                <?php echo wp_kses_post(paginate_links(array('total' => $programs->max_num_pages, 'current' => max(1, get_query_var('paged')), 'type' => 'list', 'add_args' => array_filter($filters)))); ?>
+            <?php else : ?>
+                <div class="sb-program-grid__empty"><div aria-hidden="true">♪</div><h2>No programs match your filters</h2><p>Try adjusting your filters or contact us — more programs are coming soon.</p><a class="sb-btn" href="<?php echo esc_url(get_post_type_archive_link('program')); ?>">Clear Filters</a></div>
+            <?php endif; wp_reset_postdata(); ?>
+        </div>
 
         <aside class="sb-program-archive__callout">
             <div>

@@ -28,6 +28,8 @@ function soundbridge_assets(){
       $archive_dependencies[] = 'soundbridge-program-grid';
     }
     wp_enqueue_style('soundbridge-program-archive',get_template_directory_uri().'/assets/css/archive-program.css',$archive_dependencies,filemtime($archive_stylesheet));
+    $archive_script = get_template_directory() . '/assets/js/archive-program.js';
+    wp_enqueue_script('soundbridge-program-archive',get_template_directory_uri().'/assets/js/archive-program.js',[],filemtime($archive_script),true);
   }
   if (is_post_type_archive('directory')) {
     $directory_stylesheet = get_template_directory() . '/assets/css/archive-directory.css';
