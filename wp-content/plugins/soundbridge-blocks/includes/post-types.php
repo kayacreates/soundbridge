@@ -16,6 +16,22 @@ function soundbridge_register_post_types(){
         ? ['title','thumbnail','revisions']
         : ['title','editor','excerpt','thumbnail','revisions','custom-fields'])
   ]); }
+  register_post_type('faculty',[
+    'labels'=>[
+      'name'=>'Faculty',
+      'singular_name'=>'Faculty Member',
+      'add_new_item'=>'Add New Faculty Member',
+      'edit_item'=>'Edit Faculty Member',
+      'all_items'=>'All Faculty',
+    ],
+    'public'=>true,
+    'show_in_rest'=>true,
+    'show_in_nav_menus'=>true,
+    'menu_icon'=>'dashicons-welcome-learn-more',
+    'has_archive'=>'meet-the-faculty',
+    'rewrite'=>['slug'=>'meet-the-faculty','with_front'=>false],
+    'supports'=>['title','editor','excerpt','thumbnail','revisions','page-attributes'],
+  ]);
   register_taxonomy('program_type','program',['label'=>'Program Types','public'=>true,'show_in_rest'=>true,'hierarchical'=>true]);
   register_taxonomy('program_age','program',['labels'=>['name'=>'Program Ages','singular_name'=>'Program Age'],'public'=>true,'show_in_rest'=>true,'hierarchical'=>true,'show_admin_column'=>true,'rewrite'=>['slug'=>'program-age']]);
   register_taxonomy('program_level','program',['labels'=>['name'=>'Program Levels','singular_name'=>'Program Level'],'public'=>true,'show_in_rest'=>true,'hierarchical'=>true,'show_admin_column'=>true,'rewrite'=>['slug'=>'program-level']]);
@@ -62,6 +78,15 @@ function soundbridge_get_program_meta($program_id,$key){
   return $value;
 }
 
+/** Return assigned Faculty IDs, inheriting them from a parent Program when empty. */
+function soundbridge_get_program_faculty_ids($program_id){
+  $value=(string)get_post_meta($program_id,'sb_faculty_ids',true);
+  if(''===trim($value) && ($parent_id=wp_get_post_parent_id($program_id))){
+    $value=(string)get_post_meta($parent_id,'sb_faculty_ids',true);
+  }
+  return array_values(array_filter(array_map('absint',explode(',',$value))));
+}
+
 /** Return Program taxonomy names, inheriting them from the parent when unset. */
 function soundbridge_get_program_term_names($program_id,$taxonomy){
   $names=wp_get_post_terms($program_id,$taxonomy,['fields'=>'names']);
@@ -71,9 +96,9 @@ function soundbridge_get_program_term_names($program_id,$taxonomy){
   return is_wp_error($names) ? [] : $names;
 }
 
-/** Programs, events, and directory listings use structured fields instead of the block editor. */
+/** Structured content types and Faculty profiles do not use the block editor. */
 function soundbridge_disable_structured_post_block_editor($use_block_editor, $post_type){
-  return in_array($post_type, ['program', 'event', 'directory'], true) ? false : $use_block_editor;
+  return in_array($post_type, ['program', 'event', 'directory', 'faculty'], true) ? false : $use_block_editor;
 }
 add_filter('use_block_editor_for_post_type','soundbridge_disable_structured_post_block_editor',10,2);
 
@@ -134,3 +159,27 @@ function soundbridge_migrate_program_filter_taxonomies(){
   update_option('soundbridge_program_taxonomies_migrated_v2',1,false);
 }
 add_action('admin_init','soundbridge_migrate_program_filter_taxonomies');
+
+/** Refresh rewrites once after adding the Faculty content type. */
+function soundbridge_refresh_faculty_rewrites(){
+  if(get_option('soundbridge_faculty_rewrites_v1')) return;
+  flush_rewrite_rules(false);
+  update_option('soundbridge_faculty_rewrites_v1',1,false);
+}
+add_action('admin_init','soundbridge_refresh_faculty_rewrites');
+
+/** Mark the Faculty archive for explicit order, with zero treated as unassigned. */
+function soundbridge_order_faculty_archive($query){
+  if(is_admin() || !$query->is_main_query() || !$query->is_post_type_archive('faculty')) return;
+
+  $query->set('soundbridge_faculty_order',true);
+}
+add_action('pre_get_posts','soundbridge_order_faculty_archive');
+
+function soundbridge_faculty_archive_orderby($orderby,$query){
+  if(!$query->get('soundbridge_faculty_order')) return $orderby;
+
+  global $wpdb;
+  return "CASE WHEN {$wpdb->posts}.menu_order = 0 THEN 1 ELSE 0 END ASC, {$wpdb->posts}.menu_order ASC, {$wpdb->posts}.post_title ASC";
+}
+add_filter('posts_orderby','soundbridge_faculty_archive_orderby',10,2);

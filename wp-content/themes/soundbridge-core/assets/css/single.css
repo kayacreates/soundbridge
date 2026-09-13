@@ -378,6 +378,25 @@
   border: 1px solid var(--border);
   border-radius: 14px;
 }
+.sb-program-faculty__portrait {
+  position: relative;
+  display: block;
+  width: 76px;
+  height: 76px;
+  flex: 0 0 76px;
+  overflow: hidden;
+  border-radius: 50%;
+}
+.sb-program-faculty__portrait img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.sb-program-faculty__portrait .sb-program-avatar {
+  width: 100%;
+  height: 100%;
+}
 .sb-program-avatar {
   display: grid;
   width: 52px;
@@ -395,6 +414,10 @@
   font-family: Inter, sans-serif;
   font-size: 1rem;
   font-weight: 700;
+}
+.sb-program-faculty h3 a {
+  color: inherit;
+  text-decoration: none;
 }
 .sb-program-faculty strong {
   color: var(--blue);

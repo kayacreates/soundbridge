@@ -30,6 +30,14 @@ while (have_posts()) :
     $schedule_items = function_exists('soundbridge_get_program_schedule_items') ? soundbridge_get_program_schedule_items($post_id) : array();
     $schedule_matrix = $schedule_items && function_exists('soundbridge_build_program_schedule_matrix') ? soundbridge_build_program_schedule_matrix($schedule_items) : array();
     $faculty_rows = $rows($meta('faculty'), 3);
+    $faculty_ids = function_exists('soundbridge_get_program_faculty_ids') ? soundbridge_get_program_faculty_ids($post_id) : array();
+    $faculty_members = $faculty_ids ? get_posts(array(
+        'post_type' => 'faculty',
+        'post_status' => 'publish',
+        'post__in' => $faculty_ids,
+        'posts_per_page' => -1,
+        'orderby' => 'post__in',
+    )) : array();
     $gallery_ids = array_filter(array_map('absint', explode(',', (string) $meta('gallery_ids'))));
     $gallery_urls = array_values(array_filter(array_map(static fn($attachment_id) => wp_get_attachment_image_url($attachment_id, 'large'), $gallery_ids)));
     if (!$gallery_urls) $gallery_urls = $lines($meta('gallery_urls'));
@@ -170,7 +178,35 @@ while (have_posts()) :
                 <section class="sb-program-section"><h2>Schedule</h2><div class="sb-program-schedule"><?php foreach ($schedule_rows as [$day, $time, $note]) : ?><div><strong><?php echo esc_html($day); ?></strong><span><?php echo esc_html($time); ?></span><p><?php echo esc_html($note); ?></p></div><?php endforeach; ?></div></section>
             <?php endif; ?>
 
-            <?php if ($faculty_rows) : ?><section class="sb-program-section"><h2>Faculty &amp; Instructors</h2><div class="sb-program-faculty"><?php foreach ($faculty_rows as [$name, $role, $bio]) : ?><article><span class="sb-program-avatar" aria-hidden="true"><?php echo esc_html(substr($name, 0, 1)); ?></span><div><h3><?php echo esc_html($name); ?></h3><strong><?php echo esc_html($role); ?></strong><p><?php echo esc_html($bio); ?></p></div></article><?php endforeach; ?></div></section><?php endif; ?>
+            <?php if ($faculty_members) : ?>
+                <section class="sb-program-section">
+                    <h2>Faculty &amp; Instructors</h2>
+                    <div class="sb-program-faculty">
+                        <?php foreach ($faculty_members as $faculty_member) :
+                            $faculty_role = get_post_meta($faculty_member->ID, 'sb_role', true);
+                            $faculty_intro = $faculty_member->post_excerpt ?: wp_trim_words(wp_strip_all_tags($faculty_member->post_content), 28, '…');
+                            ?>
+                            <article>
+                                <a class="sb-program-faculty__portrait" href="<?php echo esc_url(get_permalink($faculty_member)); ?>" aria-label="<?php echo esc_attr(sprintf('Read %s’s biography', $faculty_member->post_title)); ?>">
+                                    <?php if (has_post_thumbnail($faculty_member)) : ?>
+                                        <?php echo get_the_post_thumbnail($faculty_member, 'medium', array('loading' => 'lazy')); ?>
+                                    <?php else : ?>
+                                        <span class="sb-program-avatar" aria-hidden="true"><?php echo esc_html(substr($faculty_member->post_title, 0, 1)); ?></span>
+                                    <?php endif; ?>
+                                </a>
+                                <div>
+                                    <h3><a href="<?php echo esc_url(get_permalink($faculty_member)); ?>"><?php echo esc_html($faculty_member->post_title); ?></a></h3>
+                                    <?php if ($faculty_role) : ?><strong><?php echo esc_html($faculty_role); ?></strong><?php endif; ?>
+                                    <?php if ($faculty_intro) : ?><p><?php echo esc_html($faculty_intro); ?></p><?php endif; ?>
+                                    <a class="sb-text-link" href="<?php echo esc_url(get_permalink($faculty_member)); ?>">Read full bio →</a>
+                                </div>
+                            </article>
+                        <?php endforeach; ?>
+                    </div>
+                </section>
+            <?php elseif ($faculty_rows) : ?>
+                <section class="sb-program-section"><h2>Faculty &amp; Instructors</h2><div class="sb-program-faculty"><?php foreach ($faculty_rows as [$name, $role, $bio]) : ?><article><span class="sb-program-avatar" aria-hidden="true"><?php echo esc_html(substr($name, 0, 1)); ?></span><div><h3><?php echo esc_html($name); ?></h3><strong><?php echo esc_html($role); ?></strong><p><?php echo esc_html($bio); ?></p></div></article><?php endforeach; ?></div></section>
+            <?php endif; ?>
 
             <?php if ($meta('cost') || $has_scholarship) : ?><section class="sb-program-section"><h2>Pricing &amp; Scholarships</h2><div class="sb-program-pricing">
                 <?php if ($meta('cost')) : ?><div><span>Tuition</span><h3><?php echo esc_html($meta('cost')); ?></h3><p><?php echo esc_html($meta('cost_detail')); ?></p></div><?php endif; ?>

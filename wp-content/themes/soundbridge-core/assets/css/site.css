@@ -518,6 +518,15 @@ strong {
   color: var(--white);
   background: rgba(255, 255, 255, 0.18);
 }
+.sb-footer__socials svg {
+  width: 17px;
+  height: 17px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
 .sb-footer__navigation {
   display: grid;
   grid-template-columns: repeat(4, minmax(110px, 1fr));

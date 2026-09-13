@@ -31,10 +31,10 @@ $footer_uploads = wp_upload_dir();
 $footer_logo_url = get_theme_mod('soundbridge_footer_logo', trailingslashit($footer_uploads['baseurl']) . '2026/09/sblogo_white.png');
 $newsletter_form_id = absint(get_theme_mod('soundbridge_footer_newsletter_form_id', 0));
 $social_links = array(
-    'f' => array('label' => 'Facebook', 'url' => get_theme_mod('soundbridge_facebook_url', '')),
-    'ig' => array('label' => 'Instagram', 'url' => get_theme_mod('soundbridge_instagram_url', '')),
-    'yt' => array('label' => 'YouTube', 'url' => get_theme_mod('soundbridge_youtube_url', '')),
-    'in' => array('label' => 'LinkedIn', 'url' => get_theme_mod('soundbridge_linkedin_url', '')),
+    array('label' => 'Facebook', 'url' => get_theme_mod('soundbridge_facebook_url', ''), 'icon' => '<path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3.5l.5-4h-4V7a1 1 0 0 1 1-1h3Z"/>'),
+    array('label' => 'Instagram', 'url' => get_theme_mod('soundbridge_instagram_url', ''), 'icon' => '<rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.4A4 4 0 1 1 12.6 8 4 4 0 0 1 16 11.4ZM17.5 6.5h.01"/>'),
+    array('label' => 'YouTube', 'url' => get_theme_mod('soundbridge_youtube_url', ''), 'icon' => '<path d="M2.5 7.2A3 3 0 0 1 4.6 5c1.8-.5 5-.5 7.4-.5s5.6 0 7.4.5a3 3 0 0 1 2.1 2.2c.5 1.7.5 3.3.5 4.8s0 3.1-.5 4.8a3 3 0 0 1-2.1 2.2c-1.8.5-5 .5-7.4.5s-5.6 0-7.4-.5a3 3 0 0 1-2.1-2.2C2 15.1 2 13.5 2 12s0-3.1.5-4.8Z"/><path d="m10 9 5 3-5 3Z"/>'),
+    array('label' => 'LinkedIn', 'url' => get_theme_mod('soundbridge_linkedin_url', ''), 'icon' => '<path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6ZM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/>'),
 );
 ?>
 <footer class="sb-footer">
@@ -51,8 +51,8 @@ $social_links = array(
                 <?php if ($footer_description) : ?><p><?php echo esc_html($footer_description); ?></p><?php endif; ?>
                 <?php if (array_filter(array_column($social_links, 'url'))) : ?>
                     <div class="sb-footer__socials">
-                        <?php foreach ($social_links as $short_label => $social) : if (!$social['url']) continue; ?>
-                            <a href="<?php echo esc_url($social['url']); ?>" aria-label="<?php echo esc_attr('Follow SoundBridge on ' . $social['label']); ?>" target="_blank" rel="noopener noreferrer"><?php echo esc_html($short_label); ?></a>
+                        <?php foreach ($social_links as $social) : if (!$social['url']) continue; ?>
+                            <a href="<?php echo esc_url($social['url']); ?>" aria-label="<?php echo esc_attr('Follow SoundBridge on ' . $social['label']); ?>" target="_blank" rel="noopener noreferrer"><svg viewBox="0 0 24 24" aria-hidden="true"><?php echo $social['icon']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></svg></a>
                         <?php endforeach; ?>
                     </div>
                 <?php endif; ?>

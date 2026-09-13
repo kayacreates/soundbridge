@@ -1,0 +1,25 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "soundbridge/faculty-grid",
+  "title": "Faculty Grid",
+  "category": "soundbridge",
+  "icon": "welcome-learn-more",
+  "description": "Display reusable Faculty profiles.",
+  "supports": { "align": ["wide", "full"], "html": false, "anchor": true },
+  "attributes": {
+    "background": { "type": "string", "enum": ["white", "pale-blue", "dark-blue"], "default": "white" },
+    "eyebrow": { "type": "string", "default": "Our Educators" },
+    "heading": { "type": "string", "default": "Meet Our Faculty" },
+    "count": { "type": "number", "default": 4 },
+    "columns": { "type": "number", "enum": [2, 3, 4], "default": 4 },
+    "showViewAll": { "type": "boolean", "default": true },
+    "viewAllLabel": { "type": "string", "default": "Meet All Faculty →" },
+    "viewAllUrl": { "type": "string", "default": "/meet-the-faculty/" },
+    "editorPreview": { "type": "boolean", "default": false }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css",
+  "render": "file:./render.php"
+}

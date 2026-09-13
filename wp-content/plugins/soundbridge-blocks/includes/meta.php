@@ -43,6 +43,31 @@ function soundbridge_register_meta() {
         'sanitize_callback' => 'soundbridge_sanitize_program_schedule_items',
         'auth_callback' => static fn() => current_user_can('edit_posts'),
     ));
+    register_post_meta('program', 'sb_faculty_ids', array(
+        'show_in_rest' => true, 'single' => true, 'type' => 'string',
+        'sanitize_callback' => 'sanitize_text_field',
+        'auth_callback' => static fn() => current_user_can('edit_posts'),
+    ));
+
+    foreach (array('role', 'specialties', 'credentials') as $key) {
+        register_post_meta('faculty', 'sb_' . $key, array(
+            'show_in_rest' => true, 'single' => true, 'type' => 'string',
+            'sanitize_callback' => 'sanitize_text_field',
+            'auth_callback' => static fn() => current_user_can('edit_posts'),
+        ));
+    }
+    foreach (array('website_url', 'youtube_url', 'facebook_url', 'instagram_url') as $key) {
+        register_post_meta('faculty', 'sb_' . $key, array(
+            'show_in_rest' => true, 'single' => true, 'type' => 'string',
+            'sanitize_callback' => 'esc_url_raw',
+            'auth_callback' => static fn() => current_user_can('edit_posts'),
+        ));
+    }
+    register_post_meta('faculty', 'sb_email', array(
+        'show_in_rest' => true, 'single' => true, 'type' => 'string',
+        'sanitize_callback' => 'sanitize_email',
+        'auth_callback' => static fn() => current_user_can('edit_posts'),
+    ));
 
     $fields = array(
         'event' => array('event_date', 'event_time', 'location', 'address', 'cost', 'audience', 'registration_label', 'gallery_ids'),
@@ -110,6 +135,35 @@ function soundbridge_program_textarea_field($post_id, $key, $label, $description
         <?php if ($description) : ?><span class="description"><?php echo esc_html($description); ?></span><?php endif; ?>
         <textarea name="sb_<?php echo esc_attr($key); ?>" rows="5" placeholder="<?php echo esc_attr($placeholder); ?>"><?php echo esc_textarea($value); ?></textarea>
     </label>
+    <?php
+}
+
+function soundbridge_render_program_faculty_field($post_id) {
+    $selected_ids = array_filter(array_map('absint', explode(',', (string) get_post_meta($post_id, 'sb_faculty_ids', true))));
+    $faculty = get_posts(array(
+        'post_type' => 'faculty',
+        'post_status' => 'publish',
+        'posts_per_page' => -1,
+        'orderby' => array('menu_order' => 'ASC', 'title' => 'ASC'),
+    ));
+    ?>
+    <div class="sb-program-field sb-program-field--wide">
+        <strong><?php esc_html_e('Program faculty', 'soundbridge-blocks'); ?></strong>
+        <span class="description"><?php esc_html_e('Select the faculty members who teach this program.', 'soundbridge-blocks'); ?></span>
+        <?php if ($faculty) : ?>
+            <div class="sb-program-faculty-selector">
+                <?php foreach ($faculty as $faculty_member) : ?>
+                    <label>
+                        <input type="checkbox" name="sb_faculty_ids[]" value="<?php echo esc_attr($faculty_member->ID); ?>" <?php checked(in_array($faculty_member->ID, $selected_ids, true)); ?>>
+                        <?php echo get_the_post_thumbnail($faculty_member->ID, 'thumbnail'); ?>
+                        <span><strong><?php echo esc_html($faculty_member->post_title); ?></strong><?php $role = get_post_meta($faculty_member->ID, 'sb_role', true); if ($role) : ?><small><?php echo esc_html($role); ?></small><?php endif; ?></span>
+                    </label>
+                <?php endforeach; ?>
+            </div>
+        <?php else : ?>
+            <p><a href="<?php echo esc_url(admin_url('post-new.php?post_type=faculty')); ?>"><?php esc_html_e('Add your first faculty member', 'soundbridge-blocks'); ?></a></p>
+        <?php endif; ?>
+    </div>
     <?php
 }
 
@@ -187,6 +241,11 @@ function soundbridge_render_program_meta_box($post) {
         .sb-program-field--wide { grid-column: 1 / -1; }
         .sb-program-field input, .sb-program-field select, .sb-program-field textarea { width: 100%; }
         .sb-program-field .description { color: #646970; }
+        .sb-program-faculty-selector { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+        .sb-program-faculty-selector label { display: grid; grid-template-columns: auto 44px 1fr; gap: 10px; align-items: center; padding: 10px; background: #f6f7f7; border: 1px solid #dcdcde; border-radius: 6px; }
+        .sb-program-faculty-selector img { width: 44px; height: 44px; object-fit: cover; border-radius: 50%; }
+        .sb-program-faculty-selector span, .sb-program-faculty-selector small { display: block; }
+        .sb-program-faculty-selector small { margin-top: 2px; color: #646970; }
         @media (max-width: 782px) { .sb-program-fields { grid-template-columns: 1fr; } .sb-program-field--wide { grid-column: auto; } }
     </style>
     <div class="sb-program-fields">
@@ -230,7 +289,11 @@ function soundbridge_render_program_meta_box($post) {
 
         <h3><?php esc_html_e('Schedule and faculty', 'soundbridge-blocks'); ?></h3>
         <?php soundbridge_render_program_schedule_builder($post->ID); ?>
-        <?php soundbridge_program_textarea_field($post->ID, 'faculty', 'Faculty and instructors', 'One person per line: Name | Role | Biography'); ?>
+        <?php soundbridge_render_program_faculty_field($post->ID); ?>
+        <details class="sb-program-field sb-program-field--wide">
+            <summary><strong><?php esc_html_e('Legacy faculty biographies', 'soundbridge-blocks'); ?></strong></summary>
+            <?php soundbridge_program_textarea_field($post->ID, 'faculty', 'Legacy faculty content', 'One person per line: Name | Role | Biography'); ?>
+        </details>
 
         <h3><?php esc_html_e('Pricing and preparation', 'soundbridge-blocks'); ?></h3>
         <?php soundbridge_program_textarea_field($post->ID, 'cost_detail', 'Tuition details'); ?>
@@ -269,6 +332,8 @@ function soundbridge_save_program_meta($post_id) {
     if (isset($_POST['sb_schedule_items'])) {
         update_post_meta($post_id, 'sb_schedule_items', soundbridge_sanitize_program_schedule_items(wp_unslash($_POST['sb_schedule_items'])));
     }
+    $faculty_ids = array_filter(array_map('absint', (array) ($_POST['sb_faculty_ids'] ?? array())));
+    update_post_meta($post_id, 'sb_faculty_ids', implode(',', $faculty_ids));
     if (isset($_POST['sb_gallery_ids'])) {
         $gallery_ids = array_filter(array_map('absint', explode(',', sanitize_text_field(wp_unslash($_POST['sb_gallery_ids'])))));
         update_post_meta($post_id, 'sb_gallery_ids', implode(',', $gallery_ids));
@@ -341,6 +406,52 @@ function soundbridge_save_directory_meta($post_id) {
     }
 }
 add_action('save_post_directory', 'soundbridge_save_directory_meta');
+
+/** Add concise structured details alongside each Faculty biography. */
+function soundbridge_add_faculty_meta_box() {
+    add_meta_box('soundbridge-faculty-details', __('Faculty Details', 'soundbridge-blocks'), 'soundbridge_render_faculty_meta_box', 'faculty', 'side', 'high');
+}
+add_action('add_meta_boxes_faculty', 'soundbridge_add_faculty_meta_box');
+
+function soundbridge_render_faculty_meta_box($post) {
+    wp_nonce_field('soundbridge_save_faculty_meta', 'soundbridge_faculty_nonce');
+    $fields = array(
+        'role' => array('Role / title', 'Camp Director, Violin Instructor…'),
+        'specialties' => array('Instruments / specialties', 'Violin, chamber music, conducting…'),
+        'credentials' => array('Credentials', 'DMA, University and performance experience…'),
+    );
+    foreach ($fields as $key => [$label, $placeholder]) : ?>
+        <p><label><strong><?php echo esc_html($label); ?></strong><input class="widefat" type="text" name="sb_<?php echo esc_attr($key); ?>" value="<?php echo esc_attr(get_post_meta($post->ID, 'sb_' . $key, true)); ?>" placeholder="<?php echo esc_attr($placeholder); ?>"></label></p>
+    <?php endforeach; ?>
+    <?php
+    $url_fields = array(
+        'website_url' => 'Website URL',
+        'youtube_url' => 'YouTube URL',
+        'facebook_url' => 'Facebook URL',
+        'instagram_url' => 'Instagram URL',
+    );
+    foreach ($url_fields as $key => $label) : ?>
+        <p><label><strong><?php echo esc_html($label); ?></strong><input class="widefat" type="url" name="sb_<?php echo esc_attr($key); ?>" value="<?php echo esc_attr(get_post_meta($post->ID, 'sb_' . $key, true)); ?>" placeholder="https://"></label></p>
+    <?php endforeach; ?>
+    <p><label><strong><?php esc_html_e('Email', 'soundbridge-blocks'); ?></strong><input class="widefat" type="email" name="sb_email" value="<?php echo esc_attr(get_post_meta($post->ID, 'sb_email', true)); ?>" placeholder="name@example.com"></label></p>
+    <p class="description"><?php esc_html_e('Use the featured image for the portrait, the excerpt for a short introduction, and the main editor for the full biography.', 'soundbridge-blocks'); ?></p>
+    <?php
+}
+
+function soundbridge_save_faculty_meta($post_id) {
+    if (!isset($_POST['soundbridge_faculty_nonce']) || !wp_verify_nonce(sanitize_text_field(wp_unslash($_POST['soundbridge_faculty_nonce'])), 'soundbridge_save_faculty_meta')) return;
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (!current_user_can('edit_post', $post_id)) return;
+
+    foreach (array('role', 'specialties', 'credentials') as $key) {
+        if (isset($_POST['sb_' . $key])) update_post_meta($post_id, 'sb_' . $key, sanitize_text_field(wp_unslash($_POST['sb_' . $key])));
+    }
+    foreach (array('website_url', 'youtube_url', 'facebook_url', 'instagram_url') as $key) {
+        if (isset($_POST['sb_' . $key])) update_post_meta($post_id, 'sb_' . $key, esc_url_raw(wp_unslash($_POST['sb_' . $key])));
+    }
+    if (isset($_POST['sb_email'])) update_post_meta($post_id, 'sb_email', sanitize_email(wp_unslash($_POST['sb_email'])));
+}
+add_action('save_post_faculty', 'soundbridge_save_faculty_meta');
 
 /** Add the structured Event Details editor. */
 function soundbridge_add_event_meta_box() {
