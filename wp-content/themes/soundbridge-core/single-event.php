@@ -14,6 +14,7 @@ while (have_posts()) : the_post();
     $audience = $meta('audience');
     $description = $meta('description');
     $registration_url = $meta('registration_url');
+    $gallery_ids = array_filter(array_map('absint', explode(',', (string) $meta('gallery_ids'))));
     $registration_label = $meta('registration_label') ?: (stripos($cost, 'free') !== false ? 'Add to Calendar' : 'Register / Get Tickets');
     $terms = get_the_terms($post_id, 'event_type');
     $event_type = $terms && !is_wp_error($terms) ? $terms[0]->name : 'Event';
@@ -65,6 +66,17 @@ while (have_posts()) : the_post();
             </section>
 
             <?php if ($location || $address) : ?><section class="sb-single-event-section sb-single-event-venue"><h2>Venue</h2><div><strong><?php echo esc_html($location); ?></strong><?php if ($address) : ?><p><?php echo esc_html($address); ?></p><?php endif; ?><div class="sb-single-event-map"><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M16 3C10.5 3 6 7.5 6 13c0 7 10 16 10 16s10-9 10-16c0-5.5-4.5-10-10-10z"/><circle cx="16" cy="13" r="3"/></svg><span>Map view coming soon</span><a href="https://maps.google.com/?q=<?php echo rawurlencode($map_query); ?>" target="_blank" rel="noopener noreferrer">Open in Google Maps →</a></div></div></section><?php endif; ?>
+
+            <?php if ($gallery_ids) : ?>
+                <section class="sb-single-event-section">
+                    <h2><?php esc_html_e('Photo Gallery', 'soundbridge-core'); ?></h2>
+                    <div class="sb-single-event-gallery">
+                        <?php foreach ($gallery_ids as $attachment_id) : ?>
+                            <?php echo wp_get_attachment_image($attachment_id, 'large', false, array('loading' => 'lazy')); ?>
+                        <?php endforeach; ?>
+                    </div>
+                </section>
+            <?php endif; ?>
 
             <?php if ($related->have_posts()) : ?><section class="sb-single-event-section sb-related-events"><h2>Related Events</h2><div><?php while ($related->have_posts()) : $related->the_post(); $related_date = get_post_meta(get_the_ID(), 'sb_event_date', true); $related_timestamp = $related_date ? strtotime($related_date) : false; ?><a href="<?php the_permalink(); ?>"><span class="sb-related-events__image"><?php if (has_post_thumbnail()) the_post_thumbnail('medium_large', array('loading' => 'lazy')); ?></span><span class="sb-related-events__content"><strong><?php echo esc_html($related_timestamp ? wp_date('F j, Y', $related_timestamp) : $related_date); ?></strong><span><?php the_title(); ?></span></span></a><?php endwhile; ?></div></section><?php endif; wp_reset_postdata(); ?>
         </main>

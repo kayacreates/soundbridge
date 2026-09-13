@@ -40,7 +40,7 @@ function soundbridge_register_meta() {
     ));
 
     $fields = array(
-        'event' => array('event_date', 'event_time', 'location', 'address', 'cost', 'audience', 'registration_label'),
+        'event' => array('event_date', 'event_time', 'location', 'address', 'cost', 'audience', 'registration_label', 'gallery_ids'),
         'directory' => array('specialty', 'location', 'contact', 'instrument'),
     );
     foreach ($fields as $type => $keys) {
@@ -69,6 +69,17 @@ function soundbridge_register_meta() {
     ));
 }
 add_action('init', 'soundbridge_register_meta');
+
+/** Load the media frame before gallery meta boxes attach their handlers. */
+function soundbridge_enqueue_structured_post_media($hook_suffix) {
+    if (!in_array($hook_suffix, array('post.php', 'post-new.php'), true)) return;
+
+    $screen = get_current_screen();
+    if ($screen && in_array($screen->post_type, array('program', 'event'), true)) {
+        wp_enqueue_media();
+    }
+}
+add_action('admin_enqueue_scripts', 'soundbridge_enqueue_structured_post_media');
 
 /** Add the structured Program Details editor. */
 function soundbridge_add_program_meta_box() {
@@ -190,9 +201,10 @@ function soundbridge_render_program_meta_box($post) {
             const clearButton = document.getElementById('sb-clear-gallery');
             const input = document.getElementById('sb-gallery-ids');
             const preview = document.getElementById('sb-gallery-preview');
-            if (!selectButton || !window.wp?.media) return;
+            if (!selectButton || !clearButton || !input || !preview) return;
 
             selectButton.addEventListener('click', () => {
+                if (!window.wp || !wp.media) return;
                 const frame = wp.media({ title: 'Choose program gallery images', button: { text: 'Use selected images' }, multiple: true });
                 frame.on('open', () => {
                     const selection = frame.state().get('selection');
@@ -318,6 +330,7 @@ function soundbridge_event_field($post_id, $key, $label, $type = 'text', $placeh
 }
 
 function soundbridge_render_event_meta_box($post) {
+    wp_enqueue_media();
     wp_nonce_field('soundbridge_save_event_meta', 'soundbridge_event_nonce');
     ?>
     <style>
@@ -328,6 +341,9 @@ function soundbridge_render_event_meta_box($post) {
         .sb-event-field input,
         .sb-event-field textarea { width: 100%; }
         .sb-event-field .description { color: #646970; }
+        .sb-event-gallery-preview { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin: 4px 0 10px; }
+        .sb-event-gallery-preview img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; }
+        .sb-event-gallery-actions { display: flex; gap: 8px; }
         @media (max-width: 782px) { .sb-event-fields { grid-template-columns: 1fr; } .sb-event-field--wide { grid-column: auto; } }
     </style>
     <div class="sb-event-fields">
@@ -346,10 +362,66 @@ function soundbridge_render_event_meta_box($post) {
         <?php soundbridge_event_field($post->ID, 'cost', 'Admission / cost', 'text', 'Free — open to the public'); ?>
         <?php soundbridge_event_field($post->ID, 'audience', 'Audience', 'text', 'Everyone welcome'); ?>
 
+        <h3><?php esc_html_e('Event gallery', 'soundbridge-blocks'); ?></h3>
+        <?php $gallery_ids = array_filter(array_map('absint', explode(',', (string) get_post_meta($post->ID, 'sb_gallery_ids', true)))); ?>
+        <div class="sb-event-field sb-event-field--wide">
+            <strong><?php esc_html_e('Photo gallery', 'soundbridge-blocks'); ?></strong>
+            <span class="description"><?php esc_html_e('Choose multiple images from the WordPress Media Library. The featured image remains the event hero.', 'soundbridge-blocks'); ?></span>
+            <input type="hidden" id="sb-event-gallery-ids" name="sb_gallery_ids" value="<?php echo esc_attr(implode(',', $gallery_ids)); ?>">
+            <div class="sb-event-gallery-preview" id="sb-event-gallery-preview">
+                <?php foreach ($gallery_ids as $attachment_id) : echo wp_get_attachment_image($attachment_id, 'thumbnail'); endforeach; ?>
+            </div>
+            <div class="sb-event-gallery-actions">
+                <button type="button" class="button" id="sb-event-select-gallery"><?php esc_html_e('Choose gallery images', 'soundbridge-blocks'); ?></button>
+                <button type="button" class="button" id="sb-event-clear-gallery"><?php esc_html_e('Clear gallery', 'soundbridge-blocks'); ?></button>
+            </div>
+        </div>
+
         <h3><?php esc_html_e('Primary action', 'soundbridge-blocks'); ?></h3>
         <?php soundbridge_event_field($post->ID, 'registration_label', 'Button label', 'text', 'Register / Get Tickets'); ?>
         <?php soundbridge_event_field($post->ID, 'registration_url', 'Button URL', 'url'); ?>
     </div>
+    <script>
+        (() => {
+            const selectButton = document.getElementById('sb-event-select-gallery');
+            const clearButton = document.getElementById('sb-event-clear-gallery');
+            const input = document.getElementById('sb-event-gallery-ids');
+            const preview = document.getElementById('sb-event-gallery-preview');
+            if (!selectButton || !clearButton || !input || !preview) return;
+
+            selectButton.addEventListener('click', () => {
+                if (!window.wp || !wp.media) return;
+                const frame = wp.media({
+                    title: 'Choose event gallery images',
+                    button: { text: 'Use selected images' },
+                    library: { type: 'image' },
+                    multiple: true,
+                });
+
+                frame.on('open', () => {
+                    const selection = frame.state().get('selection');
+                    input.value.split(',').filter(Boolean).forEach((id) => {
+                        const attachment = wp.media.attachment(Number(id));
+                        attachment.fetch();
+                        selection.add(attachment);
+                    });
+                });
+
+                frame.on('select', () => {
+                    const images = frame.state().get('selection').toJSON();
+                    input.value = images.map((image) => image.id).join(',');
+                    preview.innerHTML = images.map((image) => `<img src="${image.sizes && image.sizes.thumbnail ? image.sizes.thumbnail.url : image.url}" alt="">`).join('');
+                });
+
+                frame.open();
+            });
+
+            clearButton.addEventListener('click', () => {
+                input.value = '';
+                preview.innerHTML = '';
+            });
+        })();
+    </script>
     <?php
 }
 
@@ -363,6 +435,10 @@ function soundbridge_save_event_meta($post_id) {
     }
     foreach (array('event_date', 'event_time', 'location', 'address', 'cost', 'audience', 'registration_label') as $key) {
         if (isset($_POST['sb_' . $key])) update_post_meta($post_id, 'sb_' . $key, sanitize_text_field(wp_unslash($_POST['sb_' . $key])));
+    }
+    if (isset($_POST['sb_gallery_ids'])) {
+        $gallery_ids = array_filter(array_map('absint', explode(',', sanitize_text_field(wp_unslash($_POST['sb_gallery_ids'])))));
+        update_post_meta($post_id, 'sb_gallery_ids', implode(',', $gallery_ids));
     }
     if (isset($_POST['sb_registration_url'])) {
         update_post_meta($post_id, 'sb_registration_url', esc_url_raw(wp_unslash($_POST['sb_registration_url'])));

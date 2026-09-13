@@ -9,8 +9,8 @@
   margin-block-start: 1.5rem;
 }
 
-.wp-block-button__link,
-.wp-element-button {
+:root .wp-block-button__link,
+:root .wp-element-button {
   padding: 12px 24px;
   color: var(--white);
   font-family: Inter, system-ui, sans-serif;
