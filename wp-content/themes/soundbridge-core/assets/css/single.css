@@ -274,13 +274,96 @@
   font-size: 0.8125rem;
 }
 .sb-program-schedule span {
-  color: #718096;
+  color: var(--muted);
   font-size: 0.75rem;
 }
 .sb-program-schedule p {
   color: var(--muted);
   font-size: 0.875rem;
   line-height: 1.6;
+}
+.sb-program-schedule-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--blue-light);
+  border-radius: 12px;
+  -webkit-overflow-scrolling: touch;
+}
+.sb-program-schedule-table {
+  width: 100%;
+  min-width: 720px;
+  border-spacing: 0;
+  border-collapse: separate;
+  table-layout: fixed;
+}
+.sb-program-schedule-table th,
+.sb-program-schedule-table td {
+  padding: 14px 12px;
+  text-align: center;
+  border-right: 1px solid rgba(var(--blue-rgb), 0.2);
+  border-bottom: 1px solid rgba(var(--blue-rgb), 0.2);
+}
+.sb-program-schedule-table tr > :last-child {
+  border-right: 0;
+}
+.sb-program-schedule-table tbody tr:last-child > * {
+  border-bottom: 0;
+}
+.sb-program-schedule-table thead th {
+  color: var(--blue-dark);
+  font-family: Fraunces, Georgia, serif;
+  font-size: 0.95rem;
+  background: var(--blue-pale);
+}
+.sb-program-schedule-table thead th:first-child {
+  width: 118px;
+  background: var(--white);
+}
+.sb-program-schedule-table tbody th {
+  width: 118px;
+  color: var(--blue-dark);
+  font-size: 0.75rem;
+  line-height: 1.35;
+  background: #D6E2F3;
+}
+.sb-program-schedule-table td {
+  color: var(--ink);
+  font-size: 0.8rem;
+  line-height: 1.4;
+  vertical-align: middle;
+  background: var(--white);
+}
+.sb-program-schedule-table__activity strong,
+.sb-program-schedule-table__activity span {
+  display: block;
+}
+.sb-program-schedule-table__activity span {
+  margin-top: 4px;
+  font-size: 0.72rem;
+}
+.sb-program-schedule-table__activity--orientation {
+  background: #F7E8CF !important;
+}
+.sb-program-schedule-table__activity--coaching {
+  background: #ead6df !important;
+}
+.sb-program-schedule-table__activity--break {
+  background: #FFF4E0 !important;
+}
+.sb-program-schedule-table__activity--workshop {
+  background: #DDDBEE !important;
+}
+.sb-program-schedule-table__activity--theory {
+  background: #F0F4FA !important;
+}
+.sb-program-schedule-table__activity--performance {
+  color: var(--white);
+  background: var(--blue) !important;
+}
+.sb-program-schedule-table__activity--other {
+  background: var(--white) !important;
+}
+.sb-program-schedule-table__empty {
+  background: rgba(var(--blue-rgb), 0.03) !important;
 }
 .sb-program-faculty {
   display: flex;

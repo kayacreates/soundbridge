@@ -38,6 +38,11 @@ function soundbridge_register_meta() {
         'sanitize_callback' => 'rest_sanitize_boolean',
         'auth_callback' => static fn() => current_user_can('edit_posts'),
     ));
+    register_post_meta('program', 'sb_schedule_items', array(
+        'show_in_rest' => true, 'single' => true, 'type' => 'string',
+        'sanitize_callback' => 'soundbridge_sanitize_program_schedule_items',
+        'auth_callback' => static fn() => current_user_can('edit_posts'),
+    ));
 
     $fields = array(
         'event' => array('event_date', 'event_time', 'location', 'address', 'cost', 'audience', 'registration_label', 'gallery_ids'),
@@ -108,9 +113,71 @@ function soundbridge_program_textarea_field($post_id, $key, $label, $description
     <?php
 }
 
+/** Render a reusable multi-image media-library field for structured post editors. */
+function soundbridge_render_gallery_field($post_id, $context, $description) {
+    $gallery_ids = array_filter(array_map('absint', explode(',', (string) get_post_meta($post_id, 'sb_gallery_ids', true))));
+    $field_id = 'sb-' . sanitize_html_class($context) . '-gallery';
+    ?>
+    <div class="sb-media-gallery sb-program-field sb-event-field sb-program-field--wide sb-event-field--wide">
+        <strong><?php esc_html_e('Photo gallery', 'soundbridge-blocks'); ?></strong>
+        <span class="description"><?php echo esc_html($description); ?></span>
+        <input type="hidden" id="<?php echo esc_attr($field_id); ?>-ids" name="sb_gallery_ids" value="<?php echo esc_attr(implode(',', $gallery_ids)); ?>">
+        <div class="sb-media-gallery__preview" id="<?php echo esc_attr($field_id); ?>-preview">
+            <?php foreach ($gallery_ids as $attachment_id) : echo wp_get_attachment_image($attachment_id, 'thumbnail'); endforeach; ?>
+        </div>
+        <div class="sb-media-gallery__actions">
+            <button type="button" class="button" id="<?php echo esc_attr($field_id); ?>-select"><?php esc_html_e('Choose gallery images', 'soundbridge-blocks'); ?></button>
+            <button type="button" class="button" id="<?php echo esc_attr($field_id); ?>-clear"><?php esc_html_e('Clear gallery', 'soundbridge-blocks'); ?></button>
+        </div>
+    </div>
+    <style>
+        .sb-media-gallery__preview { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin: 4px 0 10px; }
+        .sb-media-gallery__preview img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; }
+        .sb-media-gallery__actions { display: flex; gap: 8px; }
+    </style>
+    <script>
+        (() => {
+            const fieldId = <?php echo wp_json_encode($field_id); ?>;
+            const selectButton = document.getElementById(`${fieldId}-select`);
+            const clearButton = document.getElementById(`${fieldId}-clear`);
+            const input = document.getElementById(`${fieldId}-ids`);
+            const preview = document.getElementById(`${fieldId}-preview`);
+            if (!selectButton || !clearButton || !input || !preview) return;
+
+            selectButton.addEventListener('click', () => {
+                if (!window.wp || !wp.media) return;
+                const frame = wp.media({
+                    title: <?php echo wp_json_encode(sprintf(__('Choose %s gallery images', 'soundbridge-blocks'), $context)); ?>,
+                    button: { text: <?php echo wp_json_encode(__('Use selected images', 'soundbridge-blocks')); ?> },
+                    library: { type: 'image' },
+                    multiple: true,
+                });
+                frame.on('open', () => {
+                    const selection = frame.state().get('selection');
+                    input.value.split(',').filter(Boolean).forEach((id) => {
+                        const attachment = wp.media.attachment(Number(id));
+                        attachment.fetch();
+                        selection.add(attachment);
+                    });
+                });
+                frame.on('select', () => {
+                    const images = frame.state().get('selection').toJSON();
+                    input.value = images.map((image) => image.id).join(',');
+                    preview.innerHTML = images.map((image) => `<img src="${image.sizes && image.sizes.thumbnail ? image.sizes.thumbnail.url : image.url}" alt="">`).join('');
+                });
+                frame.open();
+            });
+            clearButton.addEventListener('click', () => {
+                input.value = '';
+                preview.innerHTML = '';
+            });
+        })();
+    </script>
+    <?php
+}
+
 /** Render all fields needed by the single Program template. */
 function soundbridge_render_program_meta_box($post) {
-    wp_enqueue_media();
     wp_nonce_field('soundbridge_save_program_meta', 'soundbridge_program_nonce');
     ?>
     <style>
@@ -120,9 +187,6 @@ function soundbridge_render_program_meta_box($post) {
         .sb-program-field--wide { grid-column: 1 / -1; }
         .sb-program-field input, .sb-program-field select, .sb-program-field textarea { width: 100%; }
         .sb-program-field .description { color: #646970; }
-        .sb-program-gallery-preview { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin: 4px 0 10px; }
-        .sb-program-gallery-preview img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; }
-        .sb-program-gallery-actions { display: flex; gap: 8px; }
         @media (max-width: 782px) { .sb-program-fields { grid-template-columns: 1fr; } .sb-program-field--wide { grid-column: auto; } }
     </style>
     <div class="sb-program-fields">
@@ -165,7 +229,7 @@ function soundbridge_render_program_meta_box($post) {
         <?php soundbridge_program_textarea_field($post->ID, 'learn', 'What students will learn', 'Enter one item per line.'); ?>
 
         <h3><?php esc_html_e('Schedule and faculty', 'soundbridge-blocks'); ?></h3>
-        <?php soundbridge_program_textarea_field($post->ID, 'schedule_details', 'Detailed schedule', 'One row per line: Day | Time | Description'); ?>
+        <?php soundbridge_render_program_schedule_builder($post->ID); ?>
         <?php soundbridge_program_textarea_field($post->ID, 'faculty', 'Faculty and instructors', 'One person per line: Name | Role | Biography'); ?>
 
         <h3><?php esc_html_e('Pricing and preparation', 'soundbridge-blocks'); ?></h3>
@@ -176,16 +240,7 @@ function soundbridge_render_program_meta_box($post) {
         <?php soundbridge_program_textarea_field($post->ID, 'what_to_bring', 'What to bring', 'Enter one item per line.'); ?>
 
         <h3><?php esc_html_e('Media and social proof', 'soundbridge-blocks'); ?></h3>
-        <?php $gallery_ids = array_filter(array_map('absint', explode(',', (string) get_post_meta($post->ID, 'sb_gallery_ids', true)))); ?>
-        <div class="sb-program-field sb-program-field--wide">
-            <strong><?php esc_html_e('Photo gallery', 'soundbridge-blocks'); ?></strong>
-            <span class="description"><?php esc_html_e('Choose multiple images from the WordPress Media Library. The featured image is used as the hero.', 'soundbridge-blocks'); ?></span>
-            <input type="hidden" id="sb-gallery-ids" name="sb_gallery_ids" value="<?php echo esc_attr(implode(',', $gallery_ids)); ?>">
-            <div class="sb-program-gallery-preview" id="sb-gallery-preview">
-                <?php foreach ($gallery_ids as $attachment_id) : echo wp_get_attachment_image($attachment_id, 'thumbnail'); endforeach; ?>
-            </div>
-            <div class="sb-program-gallery-actions"><button type="button" class="button" id="sb-select-gallery">Choose gallery images</button><button type="button" class="button" id="sb-clear-gallery">Clear gallery</button></div>
-        </div>
+        <?php soundbridge_render_gallery_field($post->ID, 'program', __('Choose multiple images from the WordPress Media Library. The featured image is used as the hero.', 'soundbridge-blocks')); ?>
         <?php soundbridge_program_text_field($post->ID, 'youtube_url', 'YouTube video URL', 'url'); ?>
         <?php soundbridge_program_textarea_field($post->ID, 'testimonials', 'Testimonials', 'One testimonial per line: Quote | Name | Role'); ?>
         <?php soundbridge_program_textarea_field($post->ID, 'faq', 'Frequently asked questions', 'One question per line: Question | Answer'); ?>
@@ -195,35 +250,6 @@ function soundbridge_render_program_meta_box($post) {
         <?php soundbridge_program_text_field($post->ID, 'registration_url', 'Registration URL', 'url'); ?>
         <?php soundbridge_program_text_field($post->ID, 'question_url', 'Ask a question URL', 'url'); ?>
     </div>
-    <script>
-        (() => {
-            const selectButton = document.getElementById('sb-select-gallery');
-            const clearButton = document.getElementById('sb-clear-gallery');
-            const input = document.getElementById('sb-gallery-ids');
-            const preview = document.getElementById('sb-gallery-preview');
-            if (!selectButton || !clearButton || !input || !preview) return;
-
-            selectButton.addEventListener('click', () => {
-                if (!window.wp || !wp.media) return;
-                const frame = wp.media({ title: 'Choose program gallery images', button: { text: 'Use selected images' }, multiple: true });
-                frame.on('open', () => {
-                    const selection = frame.state().get('selection');
-                    input.value.split(',').filter(Boolean).forEach((id) => {
-                        const attachment = wp.media.attachment(Number(id));
-                        attachment.fetch();
-                        selection.add(attachment);
-                    });
-                });
-                frame.on('select', () => {
-                    const images = frame.state().get('selection').toJSON();
-                    input.value = images.map((image) => image.id).join(',');
-                    preview.innerHTML = images.map((image) => `<img src="${image.sizes?.thumbnail?.url || image.url}" alt="">`).join('');
-                });
-                frame.open();
-            });
-            clearButton.addEventListener('click', () => { input.value = ''; preview.innerHTML = ''; });
-        })();
-    </script>
     <?php
 }
 
@@ -240,6 +266,9 @@ function soundbridge_save_program_meta($post_id) {
     foreach ($textarea_fields as $key) if (isset($_POST['sb_' . $key])) update_post_meta($post_id, 'sb_' . $key, sanitize_textarea_field(wp_unslash($_POST['sb_' . $key])));
     foreach ($url_fields as $key) if (isset($_POST['sb_' . $key])) update_post_meta($post_id, 'sb_' . $key, esc_url_raw(wp_unslash($_POST['sb_' . $key])));
     foreach ($text_fields as $key) if (isset($_POST['sb_' . $key])) update_post_meta($post_id, 'sb_' . $key, sanitize_text_field(wp_unslash($_POST['sb_' . $key])));
+    if (isset($_POST['sb_schedule_items'])) {
+        update_post_meta($post_id, 'sb_schedule_items', soundbridge_sanitize_program_schedule_items(wp_unslash($_POST['sb_schedule_items'])));
+    }
     if (isset($_POST['sb_gallery_ids'])) {
         $gallery_ids = array_filter(array_map('absint', explode(',', sanitize_text_field(wp_unslash($_POST['sb_gallery_ids'])))));
         update_post_meta($post_id, 'sb_gallery_ids', implode(',', $gallery_ids));
@@ -330,7 +359,6 @@ function soundbridge_event_field($post_id, $key, $label, $type = 'text', $placeh
 }
 
 function soundbridge_render_event_meta_box($post) {
-    wp_enqueue_media();
     wp_nonce_field('soundbridge_save_event_meta', 'soundbridge_event_nonce');
     ?>
     <style>
@@ -341,9 +369,6 @@ function soundbridge_render_event_meta_box($post) {
         .sb-event-field input,
         .sb-event-field textarea { width: 100%; }
         .sb-event-field .description { color: #646970; }
-        .sb-event-gallery-preview { display: grid; grid-template-columns: repeat(auto-fill, minmax(100px, 1fr)); gap: 10px; margin: 4px 0 10px; }
-        .sb-event-gallery-preview img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 4px; }
-        .sb-event-gallery-actions { display: flex; gap: 8px; }
         @media (max-width: 782px) { .sb-event-fields { grid-template-columns: 1fr; } .sb-event-field--wide { grid-column: auto; } }
     </style>
     <div class="sb-event-fields">
@@ -363,65 +388,12 @@ function soundbridge_render_event_meta_box($post) {
         <?php soundbridge_event_field($post->ID, 'audience', 'Audience', 'text', 'Everyone welcome'); ?>
 
         <h3><?php esc_html_e('Event gallery', 'soundbridge-blocks'); ?></h3>
-        <?php $gallery_ids = array_filter(array_map('absint', explode(',', (string) get_post_meta($post->ID, 'sb_gallery_ids', true)))); ?>
-        <div class="sb-event-field sb-event-field--wide">
-            <strong><?php esc_html_e('Photo gallery', 'soundbridge-blocks'); ?></strong>
-            <span class="description"><?php esc_html_e('Choose multiple images from the WordPress Media Library. The featured image remains the event hero.', 'soundbridge-blocks'); ?></span>
-            <input type="hidden" id="sb-event-gallery-ids" name="sb_gallery_ids" value="<?php echo esc_attr(implode(',', $gallery_ids)); ?>">
-            <div class="sb-event-gallery-preview" id="sb-event-gallery-preview">
-                <?php foreach ($gallery_ids as $attachment_id) : echo wp_get_attachment_image($attachment_id, 'thumbnail'); endforeach; ?>
-            </div>
-            <div class="sb-event-gallery-actions">
-                <button type="button" class="button" id="sb-event-select-gallery"><?php esc_html_e('Choose gallery images', 'soundbridge-blocks'); ?></button>
-                <button type="button" class="button" id="sb-event-clear-gallery"><?php esc_html_e('Clear gallery', 'soundbridge-blocks'); ?></button>
-            </div>
-        </div>
+        <?php soundbridge_render_gallery_field($post->ID, 'event', __('Choose multiple images from the WordPress Media Library. The featured image remains the event hero.', 'soundbridge-blocks')); ?>
 
         <h3><?php esc_html_e('Primary action', 'soundbridge-blocks'); ?></h3>
         <?php soundbridge_event_field($post->ID, 'registration_label', 'Button label', 'text', 'Register / Get Tickets'); ?>
         <?php soundbridge_event_field($post->ID, 'registration_url', 'Button URL', 'url'); ?>
     </div>
-    <script>
-        (() => {
-            const selectButton = document.getElementById('sb-event-select-gallery');
-            const clearButton = document.getElementById('sb-event-clear-gallery');
-            const input = document.getElementById('sb-event-gallery-ids');
-            const preview = document.getElementById('sb-event-gallery-preview');
-            if (!selectButton || !clearButton || !input || !preview) return;
-
-            selectButton.addEventListener('click', () => {
-                if (!window.wp || !wp.media) return;
-                const frame = wp.media({
-                    title: 'Choose event gallery images',
-                    button: { text: 'Use selected images' },
-                    library: { type: 'image' },
-                    multiple: true,
-                });
-
-                frame.on('open', () => {
-                    const selection = frame.state().get('selection');
-                    input.value.split(',').filter(Boolean).forEach((id) => {
-                        const attachment = wp.media.attachment(Number(id));
-                        attachment.fetch();
-                        selection.add(attachment);
-                    });
-                });
-
-                frame.on('select', () => {
-                    const images = frame.state().get('selection').toJSON();
-                    input.value = images.map((image) => image.id).join(',');
-                    preview.innerHTML = images.map((image) => `<img src="${image.sizes && image.sizes.thumbnail ? image.sizes.thumbnail.url : image.url}" alt="">`).join('');
-                });
-
-                frame.open();
-            });
-
-            clearButton.addEventListener('click', () => {
-                input.value = '';
-                preview.innerHTML = '';
-            });
-        })();
-    </script>
     <?php
 }
 

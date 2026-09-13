@@ -27,6 +27,8 @@ while (have_posts()) :
     $about = $meta('about');
     $learning_items = $lines($meta('learn'));
     $schedule_rows = $rows($meta('schedule_details'), 3);
+    $schedule_items = function_exists('soundbridge_get_program_schedule_items') ? soundbridge_get_program_schedule_items($post_id) : array();
+    $schedule_matrix = $schedule_items && function_exists('soundbridge_build_program_schedule_matrix') ? soundbridge_build_program_schedule_matrix($schedule_items) : array();
     $faculty_rows = $rows($meta('faculty'), 3);
     $gallery_ids = array_filter(array_map('absint', explode(',', (string) $meta('gallery_ids'))));
     $gallery_urls = array_values(array_filter(array_map(static fn($attachment_id) => wp_get_attachment_image_url($attachment_id, 'large'), $gallery_ids)));
@@ -129,7 +131,44 @@ while (have_posts()) :
 
             <?php if ($learning_items) : ?><section class="sb-program-section"><h2>What Students Will Learn</h2><ol class="sb-program-numbered-list"><?php foreach ($learning_items as $item) : ?><li><?php echo esc_html($item); ?></li><?php endforeach; ?></ol></section><?php endif; ?>
 
-            <?php if ($schedule_rows) : ?><section class="sb-program-section"><h2>Schedule</h2><div class="sb-program-schedule"><?php foreach ($schedule_rows as [$day, $time, $note]) : ?><div><strong><?php echo esc_html($day); ?></strong><span><?php echo esc_html($time); ?></span><p><?php echo esc_html($note); ?></p></div><?php endforeach; ?></div></section><?php endif; ?>
+            <?php if (!empty($schedule_matrix['rows']) && !empty($schedule_matrix['days'])) : ?>
+                <section class="sb-program-section">
+                    <h2>Schedule</h2>
+                    <div class="sb-program-schedule-table-wrap">
+                        <table class="sb-program-schedule-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col"><span class="screen-reader-text"><?php esc_html_e('Time', 'soundbridge-core'); ?></span></th>
+                                    <?php foreach ($schedule_matrix['days'] as $day_label) : ?>
+                                        <th scope="col"><?php echo esc_html($day_label); ?></th>
+                                    <?php endforeach; ?>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($schedule_matrix['rows'] as $schedule_row) : ?>
+                                    <tr>
+                                        <th scope="row"><?php echo esc_html(soundbridge_format_schedule_time($schedule_row['start']) . ' – ' . soundbridge_format_schedule_time($schedule_row['end'])); ?></th>
+                                        <?php foreach ($schedule_matrix['days'] as $day => $day_label) : ?>
+                                            <?php $cell = $schedule_row['cells'][$day] ?? null; ?>
+                                            <?php if (!empty($cell['skip'])) continue; ?>
+                                            <?php if (!empty($cell['item'])) : $schedule_item = $cell['item']; ?>
+                                                <td class="sb-program-schedule-table__activity sb-program-schedule-table__activity--<?php echo esc_attr(sanitize_html_class($schedule_item['type'] ?? 'other')); ?>" rowspan="<?php echo esc_attr($cell['rowspan']); ?>">
+                                                    <strong><?php echo esc_html($schedule_item['title'] ?? ''); ?></strong>
+                                                    <?php if (!empty($schedule_item['detail'])) : ?><span><?php echo esc_html($schedule_item['detail']); ?></span><?php endif; ?>
+                                                </td>
+                                            <?php else : ?>
+                                                <td class="sb-program-schedule-table__empty"></td>
+                                            <?php endif; ?>
+                                        <?php endforeach; ?>
+                                    </tr>
+                                <?php endforeach; ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+            <?php elseif ($schedule_rows) : ?>
+                <section class="sb-program-section"><h2>Schedule</h2><div class="sb-program-schedule"><?php foreach ($schedule_rows as [$day, $time, $note]) : ?><div><strong><?php echo esc_html($day); ?></strong><span><?php echo esc_html($time); ?></span><p><?php echo esc_html($note); ?></p></div><?php endforeach; ?></div></section>
+            <?php endif; ?>
 
             <?php if ($faculty_rows) : ?><section class="sb-program-section"><h2>Faculty &amp; Instructors</h2><div class="sb-program-faculty"><?php foreach ($faculty_rows as [$name, $role, $bio]) : ?><article><span class="sb-program-avatar" aria-hidden="true"><?php echo esc_html(substr($name, 0, 1)); ?></span><div><h3><?php echo esc_html($name); ?></h3><strong><?php echo esc_html($role); ?></strong><p><?php echo esc_html($bio); ?></p></div></article><?php endforeach; ?></div></section><?php endif; ?>
 

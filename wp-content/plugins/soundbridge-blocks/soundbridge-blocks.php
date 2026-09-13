@@ -14,6 +14,7 @@ defined('ABSPATH') || exit;
 define('SOUNDBRIDGE_BLOCKS_DIR', plugin_dir_path(__FILE__));
 
 require_once SOUNDBRIDGE_BLOCKS_DIR . 'includes/post-types.php';
+require_once SOUNDBRIDGE_BLOCKS_DIR . 'includes/program-schedule.php';
 require_once SOUNDBRIDGE_BLOCKS_DIR . 'includes/meta.php';
 require_once SOUNDBRIDGE_BLOCKS_DIR . 'includes/contact-form.php';
 require_once SOUNDBRIDGE_BLOCKS_DIR . 'includes/program-archive-settings.php';
