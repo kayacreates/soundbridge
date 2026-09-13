@@ -15,6 +15,11 @@
   },
   "attributes": {
     "background": { "type": "string", "enum": ["white", "pale-blue", "dark-blue"], "default": "white" },
+    "layoutStyle": {
+      "type": "string",
+      "enum": ["homepage", "simple"],
+      "default": "homepage"
+    },
     "eyebrow": {
       "type": "string",
       "default": "Questions"

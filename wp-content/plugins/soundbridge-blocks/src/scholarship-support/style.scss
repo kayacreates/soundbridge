@@ -1,0 +1,11 @@
+.sb-scholarship-support {
+  padding: 72px 24px;
+  &__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; max-width: 840px; }
+  &__copy { margin: 14px 0 24px; color: var(--muted); font-size: 0.9375rem; line-height: 1.75; }
+}
+.sb-scholarship-gifts { padding: 28px; background: var(--white); border: 1px solid var(--border); border-radius: 16px; }
+.sb-scholarship-gift { position: relative; display: flex; gap: 24px; align-items: center; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid var(--border); }
+.sb-scholarship-gift:last-child { border-bottom: 0; }
+.sb-scholarship-gift strong { color: var(--blue); font-family: Fraunces, Georgia, serif; font-size: 1.3rem; }
+.sb-scholarship-gift > span { max-width: 210px; color: var(--muted); font-size: 0.8125rem; line-height: 1.5; text-align: right; }
+@media (max-width: 700px) { .sb-scholarship-support { padding: 56px 20px; &__grid { grid-template-columns: 1fr; } } }

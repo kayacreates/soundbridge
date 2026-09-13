@@ -4,6 +4,7 @@ import { Button, PanelBody, SelectControl, TextControl, ToggleControl } from '@w
 export default function Edit({ attributes, setAttributes }) {
     const {
         background = 'white',
+        layoutStyle = 'homepage',
         eyebrow,
         heading,
         imageId = 0,
@@ -14,7 +15,9 @@ export default function Edit({ attributes, setAttributes }) {
         buttonUrl,
         items = [],
     } = attributes;
+    const isSimple = layoutStyle === 'simple';
     const sectionClass = `sb-faq sb-block-bg alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
+    const gridClass = `sb-container sb-faq__grid${isSimple ? ' sb-faq__grid--simple' : ''}`;
     const updateItem = (index, key, value) => {
         const nextItems = items.map((item, itemIndex) =>
             itemIndex === index ? { ...item, [key]: value } : item
@@ -26,15 +29,24 @@ export default function Edit({ attributes, setAttributes }) {
         <>
         <InspectorControls>
             <PanelBody title="FAQ settings">
+                <SelectControl
+                    label="FAQ style"
+                    value={layoutStyle}
+                    options={[
+                        { label: 'Homepage — image and FAQ', value: 'homepage' },
+                        { label: 'Simple — centered and narrow', value: 'simple' },
+                    ]}
+                    onChange={(value) => setAttributes({ layoutStyle: value })}
+                />
                 <SelectControl label="Background color" value={background} options={[{ label: 'White', value: 'white' }, { label: 'Pale blue', value: 'pale-blue' }, { label: 'Dark blue', value: 'dark-blue' }]} onChange={(value) => setAttributes({ background: value })} />
-                <TextControl label="Image alt text" value={imageAlt} onChange={(value) => setAttributes({ imageAlt: value })} />
+                {!isSimple && <TextControl label="Image alt text" value={imageAlt} onChange={(value) => setAttributes({ imageAlt: value })} />}
                 <ToggleControl label="Show View All button" checked={showButton} onChange={(value) => setAttributes({ showButton: value })} />
                 {showButton && <div><p className="sb-editor-field-label">Button link</p><URLInput value={buttonUrl} onChange={(value) => setAttributes({ buttonUrl: value })} /></div>}
             </PanelBody>
         </InspectorControls>
         <section {...useBlockProps({ className: sectionClass })}>
-            <div className="sb-container sb-faq__grid">
-                <div className="sb-faq__media">
+            <div className={gridClass}>
+                {!isSimple && <div className="sb-faq__media">
                     {imageUrl && <img src={imageUrl} alt={imageAlt} />}
                     <div className="sb-faq__media-actions">
                         <MediaUploadCheck>
@@ -47,7 +59,7 @@ export default function Edit({ attributes, setAttributes }) {
                         </MediaUploadCheck>
                         {imageUrl && <Button variant="secondary" isDestructive onClick={() => setAttributes({ imageId: 0, imageUrl: '', imageAlt: '' })}>Remove image</Button>}
                     </div>
-                </div>
+                </div>}
                 <div className="sb-faq__content">
                     <RichText tagName="p" className="sb-badge" value={eyebrow} placeholder="Eyebrow" onChange={(value) => setAttributes({ eyebrow: value })} />
                     <RichText tagName="h2" value={heading} placeholder="Heading" onChange={(value) => setAttributes({ heading: value })} />

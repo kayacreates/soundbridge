@@ -41,6 +41,19 @@ function soundbridge_blocks_register_blocks(): void
 }
 add_action('init', 'soundbridge_blocks_register_blocks');
 
+/** Expose SoundBridge typography as styles for compatible core blocks. */
+function soundbridge_blocks_register_core_block_styles(): void
+{
+    register_block_style(
+        'core/paragraph',
+        [
+            'name'  => 'sb-eyebrow',
+            'label' => __('Eyebrow', 'soundbridge-blocks'),
+        ]
+    );
+}
+add_action('init', 'soundbridge_blocks_register_core_block_styles');
+
 /** Load assets shared by every SoundBridge block, including inside the editor iframe. */
 function soundbridge_blocks_enqueue_shared_assets(): void
 {

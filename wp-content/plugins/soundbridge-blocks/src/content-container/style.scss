@@ -1,0 +1,28 @@
+.sb-content-container.sb-block-bg {
+  padding: 80px 24px;
+
+  .sb-content-container__content {
+    width: min(var(--sb-content-container-width, 1200px), calc(100% - 48px));
+    max-width: none;
+
+    p:not(.sb-eyebrow):not(.is-style-sb-eyebrow) {
+      margin-top: 20px;
+      margin-bottom: 24px;
+      color: rgb(55, 72, 85);
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+  }
+}
+
+.sb-content-container.sb-block-bg--dark-blue {
+  .sb-content-container__content p:not(.sb-eyebrow):not(.is-style-sb-eyebrow) {
+    color: rgba(255, 255, 255, 0.85);
+  }
+}
+
+@media (max-width: 700px) {
+  .sb-content-container.sb-block-bg {
+    padding: 56px 20px;
+  }
+}

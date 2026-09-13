@@ -1,0 +1,28 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "soundbridge/content-container",
+  "title": "Content Container",
+  "category": "soundbridge",
+  "icon": "align-center",
+  "description": "A padded section with an adjustable content width that accepts any Gutenberg blocks.",
+  "supports": {
+    "align": ["wide", "full"],
+    "html": false,
+    "anchor": true
+  },
+  "attributes": {
+    "background": {
+      "type": "string",
+      "enum": ["white", "pale-blue", "dark-blue"],
+      "default": "white"
+    },
+    "contentWidth": {
+      "type": "number",
+      "default": 1200
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css"
+}

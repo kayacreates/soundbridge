@@ -23,6 +23,14 @@
       ],
       "default": "white"
     },
+    "layoutStyle": {
+      "type": "string",
+      "enum": [
+        "homepage",
+        "simple"
+      ],
+      "default": "homepage"
+    },
     "eyebrow": {
       "type": "string",
       "default": "Questions"

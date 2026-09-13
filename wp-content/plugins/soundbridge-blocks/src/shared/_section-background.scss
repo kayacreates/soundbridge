@@ -6,6 +6,14 @@
   -webkit-box-decoration-break: clone;
 }
 
+.sb-copy {
+  margin-top: 20px;
+  margin-bottom: 24px;
+  color: rgb(55, 72, 85);
+  font-size: 1rem;
+  line-height: 1.8;
+}
+
 .sb-block-bg { padding: 88px 0; }
 
 .sb-block-bg--white {
@@ -24,9 +32,10 @@
   h2,
   h3 { color: var(--ink); }
 
-  p:not(.sb-eyebrow),
-  .sb-lead,
-  .sb-copy { color: var(--muted); }
+  p:not(.sb-eyebrow):not(.is-style-sb-eyebrow),
+  .sb-lead { color: var(--muted); }
+
+  .sb-copy { color: rgb(55, 72, 85); }
 
   .sb-highlight { color: var(--blue); }
 }
@@ -52,7 +61,8 @@
   h2,
   h3 { color: var(--white); }
 
-  .sb-eyebrow { color: var(--blue-light); }
+  .sb-eyebrow,
+  .is-style-sb-eyebrow { color: var(--blue-light); }
   .sb-lead,
   .sb-copy,
   p { color: rgba(255, 255, 255, 0.85); }

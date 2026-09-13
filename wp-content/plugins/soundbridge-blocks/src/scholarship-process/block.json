@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "soundbridge/scholarship-process",
+  "title": "Scholarship Process",
+  "category": "soundbridge",
+  "icon": "editor-ol",
+  "description": "Editable steps explaining the scholarship process.",
+  "supports": { "align": ["wide", "full"], "html": false, "anchor": true },
+  "attributes": {
+    "background": { "type": "string", "enum": ["white", "pale-blue", "dark-blue"], "default": "pale-blue" },
+    "eyebrow": { "type": "string", "default": "How It Works" },
+    "heading": { "type": "string", "default": "Three simple steps." },
+    "steps": { "type": "array", "default": [
+      { "title": "Check Eligibility", "body": "Scholarships are open to any student enrolling in a SoundBridge program. There is no audition or prior experience required — just a desire to participate." },
+      { "title": "Submit a Simple Application", "body": "Complete our short application form. We ask for basic student information and a brief note about your family’s financial situation." },
+      { "title": "Receive Your Award", "body": "We’ll notify you by email within 5–7 business days. Awards vary based on available funds and family need. No family is turned away due to cost." }
+    ] }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css"
+}

@@ -1,0 +1,3 @@
+.sb-scholarship-gift__controls { position: absolute; top: 0; right: 0; z-index: 1; opacity: 0; transition: opacity 0.15s ease; }
+.sb-scholarship-gift:hover .sb-scholarship-gift__controls, .sb-scholarship-gift:focus-within .sb-scholarship-gift__controls { opacity: 1; }
+.sb-scholarship-support__add { margin-top: 20px; }

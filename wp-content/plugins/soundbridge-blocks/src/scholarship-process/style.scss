@@ -1,0 +1,13 @@
+.sb-scholarship-process {
+  padding: 80px 24px;
+  &__header { margin-bottom: 56px; text-align: center; }
+  &__header .sb-eyebrow { margin-bottom: 10px; }
+  &__steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px; }
+}
+.sb-scholarship-step {
+  position: relative; overflow: hidden; padding: 36px 28px; background: var(--white); border: 1px solid var(--border); border-radius: 18px; box-shadow: 0 2px 12px rgba(var(--blue-rgb), 0.06);
+  &__number { display: grid; width: 44px; height: 44px; margin-bottom: 20px; color: var(--white); font-family: Fraunces, Georgia, serif; font-size: 1.2rem; font-weight: 600; background: var(--blue); border-radius: 50%; place-items: center; }
+  h3 { margin-bottom: 12px; font-weight: 600; }
+  > p:last-child { margin: 0; color: var(--muted); font-size: 0.9375rem; line-height: 1.75; }
+}
+@media (max-width: 700px) { .sb-scholarship-process { padding: 56px 20px; &__header { margin-bottom: 36px; } } }

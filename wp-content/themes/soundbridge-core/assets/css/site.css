@@ -275,7 +275,8 @@ strong {
   font-size: 0.9375rem;
   text-align: center;
 }
-.sb-eyebrow {
+.sb-eyebrow,
+.wp-block-paragraph.is-style-sb-eyebrow {
   text-transform: uppercase;
   letter-spacing: 0.13em;
   font-size: 0.76rem;

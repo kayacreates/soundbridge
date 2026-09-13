@@ -1,0 +1,3 @@
+.sb-scholarship-step__controls { position: absolute; top: 8px; right: 8px; z-index: 1; display: flex; opacity: 0; transition: opacity 0.15s ease; }
+.sb-scholarship-step:hover .sb-scholarship-step__controls, .sb-scholarship-step:focus-within .sb-scholarship-step__controls { opacity: 1; }
+.sb-scholarship-process__add { margin-top: 24px; }

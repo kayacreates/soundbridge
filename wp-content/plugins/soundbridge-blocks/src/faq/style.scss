@@ -9,6 +9,17 @@
 
   &__grid--no-image { display: block; max-width: 760px; }
 
+  &__grid--simple {
+    display: block;
+    max-width: 760px;
+
+    .sb-faq__content > .sb-badge,
+    .sb-faq__content > h2 { text-align: center; }
+
+    .sb-faq__content > .sb-badge { display: table; margin-right: auto; margin-left: auto; }
+    .sb-faq__button { display: flex; width: fit-content; margin-right: auto; margin-left: auto; }
+  }
+
   &__media {
     position: sticky;
     top: 90px;

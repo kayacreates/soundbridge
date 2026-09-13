@@ -119,7 +119,7 @@
     },
     "showPrimaryButton": {
       "type": "boolean",
-      "default": true
+      "default": false
     },
     "primaryLabel": {
       "type": "string",
@@ -131,7 +131,7 @@
     },
     "showSecondaryButton": {
       "type": "boolean",
-      "default": true
+      "default": false
     },
     "secondaryLabel": {
       "type": "string",

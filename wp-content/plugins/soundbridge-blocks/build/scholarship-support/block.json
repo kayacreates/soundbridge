@@ -1,0 +1,76 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "soundbridge/scholarship-support",
+  "title": "Scholarship Support",
+  "category": "soundbridge",
+  "icon": "money-alt",
+  "description": "Scholarship donor callout with editable giving examples.",
+  "supports": {
+    "align": [
+      "wide",
+      "full"
+    ],
+    "html": false,
+    "anchor": true
+  },
+  "attributes": {
+    "background": {
+      "type": "string",
+      "enum": [
+        "white",
+        "pale-blue",
+        "dark-blue"
+      ],
+      "default": "pale-blue"
+    },
+    "eyebrow": {
+      "type": "string",
+      "default": "Support Scholarships"
+    },
+    "heading": {
+      "type": "string",
+      "default": "Help us help more students."
+    },
+    "text": {
+      "type": "string",
+      "default": "Every donation to SoundBridge supports student access. A gift of any size contributes directly to our scholarship fund — helping families who could not otherwise afford to participate."
+    },
+    "showButton": {
+      "type": "boolean",
+      "default": true
+    },
+    "buttonLabel": {
+      "type": "string",
+      "default": "Donate to Scholarships →"
+    },
+    "buttonUrl": {
+      "type": "string",
+      "default": "/get-involved/#donate"
+    },
+    "gifts": {
+      "type": "array",
+      "default": [
+        {
+          "amount": "$25",
+          "description": "Helps one student afford program materials"
+        },
+        {
+          "amount": "$50",
+          "description": "Covers one week of instruction"
+        },
+        {
+          "amount": "$100",
+          "description": "Provides a partial scholarship"
+        },
+        {
+          "amount": "$250",
+          "description": "Sponsors a full program scholarship"
+        }
+      ]
+    }
+  },
+  "editorScript": "file:./index.js",
+  "style": "file:./style-index.css",
+  "editorStyle": "file:./index.css"
+}

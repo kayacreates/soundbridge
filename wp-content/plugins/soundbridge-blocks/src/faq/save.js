@@ -1,13 +1,15 @@
 import { RichText } from '@wordpress/block-editor';
 
 export default function save({ attributes }) {
-    const { background = 'white', eyebrow, heading, imageUrl, imageAlt, showButton = true, buttonLabel, buttonUrl, items = [] } = attributes;
+    const { background = 'white', layoutStyle = 'homepage', eyebrow, heading, imageUrl, imageAlt, showButton = true, buttonLabel, buttonUrl, items = [] } = attributes;
+    const isSimple = layoutStyle === 'simple';
     const sectionClass = `sb-faq sb-block-bg alignfull${background !== 'white' ? ` sb-block-bg--${background}` : ''}`;
+    const gridClass = `sb-container sb-faq__grid${isSimple ? ' sb-faq__grid--simple' : imageUrl ? '' : ' sb-faq__grid--no-image'}`;
 
     return (
         <section id={attributes.anchor || undefined} className={sectionClass}>
-            <div className={`sb-container sb-faq__grid${imageUrl ? '' : ' sb-faq__grid--no-image'}`}>
-                {imageUrl && <div className="sb-faq__media">
+            <div className={gridClass}>
+                {!isSimple && imageUrl && <div className="sb-faq__media">
                     <img src={imageUrl} alt={imageAlt || ''} loading="lazy" />
                 </div>}
                 <div className="sb-faq__content">
