@@ -56,7 +56,7 @@ while (have_posts()) :
     };
     $program_age_label = function_exists('soundbridge_get_program_age_label') ? soundbridge_get_program_age_label($post_id) : $program_term_value('program_age');
     $program_level = function_exists('soundbridge_get_program_level_label') ? soundbridge_get_program_level_label($post_id) : $program_term_value('program_level');
-    $program_instrument = $program_term_value('program_instrument');
+    $program_instrument = function_exists('soundbridge_get_program_instrument_label') ? soundbridge_get_program_instrument_label($post_id) : $program_term_value('program_instrument');
     $info_items = array(
         array('label' => 'Age Range', 'value' => $program_age_label, 'icon' => '<path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>'),
         array('label' => 'Experience', 'value' => $program_level, 'icon' => '<circle cx="12" cy="8" r="6"/><path d="M15.5 13.5 17 22l-5-3-5 3 1.5-8.5"/>'),

@@ -142,6 +142,25 @@ function soundbridge_get_program_level_label($program_id){
   return $lowest===$highest ? $lowest : $lowest.' to '.$highest;
 }
 
+/** Return "All Instruments" when the all option or every instrument is selected. */
+function soundbridge_get_program_instrument_label($program_id){
+  $instruments=soundbridge_get_program_term_names($program_id,'program_instrument');
+  if(!$instruments) return '';
+
+  $normalize=static fn($name)=>strtolower(trim((string)$name));
+  $all_labels=['all','all instrument','all instruments'];
+  $selected=array_map($normalize,$instruments);
+  if(array_intersect($all_labels,$selected)) return 'All Instruments';
+
+  $available=get_terms(['taxonomy'=>'program_instrument','hide_empty'=>false,'fields'=>'names']);
+  if(!is_wp_error($available)){
+    $available=array_values(array_diff(array_map($normalize,$available),$all_labels));
+    if($available && !array_diff($available,$selected)) return 'All Instruments';
+  }
+
+  return implode(', ',$instruments);
+}
+
 /** Move legacy Program filter meta into the matching taxonomies once. */
 function soundbridge_migrate_program_filter_taxonomies(){
   if(get_option('soundbridge_program_taxonomies_migrated_v2')) return;

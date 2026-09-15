@@ -2,16 +2,18 @@
 /** Faculty directory archive. */
 
 get_header();
+$archive_settings = function_exists('soundbridge_get_faculty_archive_settings') ? soundbridge_get_faculty_archive_settings() : array();
+$hero_image = $archive_settings['hero_image_url'] ?? '';
 ?>
 <main id="primary" class="site-main sb-faculty-archive">
     <nav class="sb-faculty-breadcrumbs" aria-label="Breadcrumb">
         <div class="sb-container"><a href="<?php echo esc_url(home_url('/')); ?>">Home</a><span aria-hidden="true">›</span><span aria-current="page">Meet the Faculty</span></div>
     </nav>
-    <header class="sb-faculty-hero">
+    <header class="sb-faculty-hero<?php echo $hero_image ? ' has-background-image' : ''; ?>"<?php if ($hero_image) : ?> style="--sb-faculty-hero-image: url('<?php echo esc_url($hero_image); ?>');"<?php endif; ?>>
         <div class="sb-container">
-            <p class="sb-eyebrow">Our Educators</p>
-            <h1>Meet the Faculty</h1>
-            <p>Experienced musicians and educators helping every student grow in skill, confidence, and creativity.</p>
+            <?php if (!empty($archive_settings['hero_eyebrow'])) : ?><p class="sb-eyebrow"><?php echo wp_kses_post($archive_settings['hero_eyebrow']); ?></p><?php endif; ?>
+            <h1><?php echo wp_kses_post($archive_settings['hero_heading'] ?? 'Meet the'); ?><?php if (!empty($archive_settings['hero_highlight'])) : ?> <em class="sb-highlight"><?php echo wp_kses_post($archive_settings['hero_highlight']); ?></em><?php endif; ?></h1>
+            <?php if (!empty($archive_settings['hero_description'])) : ?><p><?php echo wp_kses_post($archive_settings['hero_description']); ?></p><?php endif; ?>
         </div>
     </header>
     <section class="sb-faculty-directory">
@@ -43,5 +45,17 @@ get_header();
             <?php endif; ?>
         </div>
     </section>
+    <?php if (!empty($archive_settings['callout_heading'])) : ?>
+        <section class="sb-faculty-callout sb-block-bg--pale-blue">
+            <div class="sb-container">
+                <div>
+                    <?php if (!empty($archive_settings['callout_eyebrow'])) : ?><p class="sb-eyebrow"><?php echo wp_kses_post($archive_settings['callout_eyebrow']); ?></p><?php endif; ?>
+                    <h2><?php echo wp_kses_post($archive_settings['callout_heading']); ?></h2>
+                    <?php if (!empty($archive_settings['callout_description'])) : ?><p><?php echo wp_kses_post($archive_settings['callout_description']); ?></p><?php endif; ?>
+                </div>
+                <?php if (!empty($archive_settings['callout_button_label'])) : ?><a class="sb-btn" href="<?php echo esc_url($archive_settings['callout_button_url'] ?? ''); ?>"><?php echo esc_html($archive_settings['callout_button_label']); ?></a><?php endif; ?>
+            </div>
+        </section>
+    <?php endif; ?>
 </main>
 <?php get_footer(); ?>

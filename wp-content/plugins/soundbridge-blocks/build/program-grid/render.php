@@ -48,7 +48,7 @@ $status_labels = array(
                     $details = array(
                         'Age'        => function_exists('soundbridge_get_program_age_label') ? soundbridge_get_program_age_label($program_id) : $program_term_value('program_age'),
                         'Level'      => function_exists('soundbridge_get_program_level_label') ? soundbridge_get_program_level_label($program_id) : $program_term_value('program_level'),
-                        'Instrument' => $program_term_value('program_instrument'),
+                        'Instrument' => function_exists('soundbridge_get_program_instrument_label') ? soundbridge_get_program_instrument_label($program_id) : $program_term_value('program_instrument'),
                         'Schedule'   => function_exists('soundbridge_get_program_meta') ? soundbridge_get_program_meta($program_id, 'schedule') : get_post_meta($program_id, 'sb_schedule', true),
                         'Location'   => function_exists('soundbridge_get_program_meta') ? soundbridge_get_program_meta($program_id, 'location') : get_post_meta($program_id, 'sb_location', true),
                     );
