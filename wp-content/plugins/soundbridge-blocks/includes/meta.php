@@ -68,6 +68,12 @@ function soundbridge_register_meta() {
         'sanitize_callback' => 'sanitize_email',
         'auth_callback' => static fn() => current_user_can('edit_posts'),
     ));
+    register_post_meta('faculty', 'sb_hide_from_directory', array(
+        'show_in_rest' => true, 'single' => true, 'type' => 'boolean',
+        'default' => false,
+        'sanitize_callback' => 'rest_sanitize_boolean',
+        'auth_callback' => static fn() => current_user_can('edit_posts'),
+    ));
 
     $fields = array(
         'event' => array('event_date', 'event_time', 'location', 'address', 'cost', 'audience', 'registration_label', 'gallery_ids'),
@@ -434,6 +440,7 @@ function soundbridge_render_faculty_meta_box($post) {
         <p><label><strong><?php echo esc_html($label); ?></strong><input class="widefat" type="url" name="sb_<?php echo esc_attr($key); ?>" value="<?php echo esc_attr(get_post_meta($post->ID, 'sb_' . $key, true)); ?>" placeholder="https://"></label></p>
     <?php endforeach; ?>
     <p><label><strong><?php esc_html_e('Email', 'soundbridge-blocks'); ?></strong><input class="widefat" type="email" name="sb_email" value="<?php echo esc_attr(get_post_meta($post->ID, 'sb_email', true)); ?>" placeholder="name@example.com"></label></p>
+    <p><label><input type="checkbox" name="sb_hide_from_directory" value="1" <?php checked((bool) get_post_meta($post->ID, 'sb_hide_from_directory', true)); ?>> <strong><?php esc_html_e('Hide from Music Directory', 'soundbridge-blocks'); ?></strong></label></p>
     <p class="description"><?php esc_html_e('Use the featured image for the portrait, the excerpt for a short introduction, and the main editor for the full biography.', 'soundbridge-blocks'); ?></p>
     <?php
 }
@@ -450,6 +457,7 @@ function soundbridge_save_faculty_meta($post_id) {
         if (isset($_POST['sb_' . $key])) update_post_meta($post_id, 'sb_' . $key, esc_url_raw(wp_unslash($_POST['sb_' . $key])));
     }
     if (isset($_POST['sb_email'])) update_post_meta($post_id, 'sb_email', sanitize_email(wp_unslash($_POST['sb_email'])));
+    update_post_meta($post_id, 'sb_hide_from_directory', !empty($_POST['sb_hide_from_directory']));
 }
 add_action('save_post_faculty', 'soundbridge_save_faculty_meta');
 
